@@ -1,0 +1,224 @@
+<style lang='less'>
+@import './styles/custom/index.less';
+@import '../node_modules/kai-ui/src/less/index';
+
+.btn-success {
+  background-color: @uiButton;
+}
+</style>
+
+<script>
+import wepy from 'wepy'
+import 'wepy-async-function'
+import { service } from './config'
+import { setStore } from 'wepy-redux'
+import configStore from './store'
+import http from '@/mixins/http.js'
+
+const store = configStore()
+setStore(store)
+
+export default class extends wepy.app {
+  config = {
+    pages: [
+      'pages/index',
+      'pages/usercenter/index',
+      'pages/cars/sites_index',
+      'pages/cars/itcpay_binding',
+      'pages/cars/cars_verify',
+      'pages/cars/itcpay_tobind',
+      'pages/cars/cars_index',
+      'pages/cars/cars_add',
+      'pages/usercenter/scores',
+      'pages/usercenter/insurances',
+      'pages/cars/site_detail',
+      'pages/qa/ask',
+      'pages/qa/detail',
+      'pages/qa/list',
+      'pages/services/index',
+      'pages/services/web',
+      'pages/cars/itcpay_introduce'
+    ],
+    tabBar: {
+      color: '#999',
+      selectedColor: '#00AE57',
+      borderStyle: 'white',
+      list: [{
+        'pagePath': 'pages/index',
+        'text': '首页',
+        'iconPath': './wximages/logo-1.png',
+        'selectedIconPath': './wximages/logo-1-active.png'
+      }, {
+        'pagePath': 'pages/services/index',
+        'text': '发现',
+        'iconPath': './wximages/logo-2.png',
+        'selectedIconPath': './wximages/logo-2-active.png'
+      }, {
+        'pagePath': 'pages/usercenter/index',
+        'text': '个人中心',
+        'iconPath': './wximages/logo-3.png',
+        'selectedIconPath': './wximages/logo-3-active.png'
+      }]
+    },
+    window: {
+      backgroundColor: '#F3F4F6',
+      backgroundTextStyle: '#fff',
+      navigationBarBackgroundColor: '#03CB65',
+      navigationBarTitleText: 'WeChat',
+      navigationBarTextStyle: 'white',
+      enablePullDownRefresh: false
+    },
+    networkTimeout: {
+      request: 5000,
+      downloadFile: 10000
+    },
+    debug: true,
+    navigateToMiniProgramAppIdList: [
+      'wxbd687630cd02ce1d'
+    ]
+  }
+
+  mixins = [http]
+
+  globalData = {
+    userInfo: {
+      nickName: 'test',
+      avatarUrl: 'test'
+    },
+    token: null
+  }
+
+  constructor () {
+    super()
+    this.use('requestfix')
+  }
+
+  freepayCallbackSuccess(id, $e) {
+    const request = {
+      url: service.freepaynot,
+      method: 'POST',
+      data: {
+        contract_id: id
+      },
+      header: {
+        'Authorization': wx.getStorageSync('token')
+      }
+    }
+
+    wepy.request(Object.assign(request, {
+      success: ({ statusCode, data }) => {
+        if (data.resCode === '0000') {
+          wx.showModal({
+            title: '提示',
+            content: '签约成功',
+            showCancel: false
+          })
+          wx.redirectTo({
+            url: 'itcpay_binding'
+          })
+        } else {
+          wx.showModal({
+            title: '提示',
+            content: data.resMsg,
+            showCancel: false
+          })
+        }
+      },
+      fail: ({ statusCode, data }) => {
+        wx.showModal({
+          title: '提示',
+          content: data.resMsg,
+          showCancel: false
+        })
+      }
+    }))
+  }
+
+  freepayCallbackError($e) {
+    wx.showModal({
+      title: '提示',
+      content: '签约失败',
+      showCancel: false
+    })
+  }
+
+  onShow(res) {
+    console.log(res)
+    if (res.scene === 1038) {
+      const { appId, extraData } = res.referrerInfo
+      if (appId === 'wxbd687630cd02ce1d') {
+        if (typeof extraData === 'undefined') {
+          this.freepayCallbackError()
+          return
+        }
+        if (extraData.return_code === 'SUCCESS') {
+          var contractId = extraData.contract_id
+          this.freepayCallbackSuccess(contractId)
+        } else {
+          this.freepayCallbackError()
+        }
+      }
+    }
+  }
+
+  onLaunch() {
+    const that = this
+    wx.login({
+      success (res) {
+        if (res.code) {
+          const request = {
+            url: service.login,
+            method: 'POST',
+            data: {
+              Logincode: res.code
+            }
+          }
+
+          wepy.request(Object.assign(request, {
+            success: ({ statusCode, data }) => {
+              if (data.resCode === '0000') {
+                that.globalData.token = data.data.token
+                wx.setStorageSync('token', data.data.token)
+              } else {
+                wx.showModal({
+                  title: '提示',
+                  content: '服务器发生错误，请联系管理员',
+                  showCancel: false
+                })
+              }
+            },
+            fail: ({ statusCode, data }) => {
+              console.log('login failed')
+            }
+          }))
+        }
+      }
+    })
+  }
+
+  getUserInfo(cb) {
+    const that = this
+    if (this.globalData.userInfo) {
+      return this.globalData.userInfo
+    }
+    wepy.getUserInfo({
+      success (res) {
+        that.globalData.userInfo = res.userInfo
+        cb && cb(res.userInfo)
+      }
+    })
+  }
+
+  isObject(item) {
+    return typeof item === 'object' && !this.isArray(item)
+  }
+
+  isArray(item) {
+    return Object.prototype.toString.apply(item) === '[object Array]'
+  }
+
+  isUndefined(item) {
+    return typeof item === 'undefined'
+  }
+}
+</script>

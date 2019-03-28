@@ -1,0 +1,61 @@
+<template>
+<view class="container">
+  <view class="title">什么是无感支付？</view>
+  <view class="info">
+    这是一个没有边框的panel
+    这是一个没有边框的panel
+    这是一个没有边框的panel
+    这是一个没有边框的panel
+    这是一个没有边框的panel
+    这是一个没有边框的panel
+    这是一个没有边框的panel
+    这是一个没有边框的panel
+  </view>
+</view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import base from '@/mixins/base.js'
+
+  export default class Index extends wepy.page {
+    config = {
+      navigationBarTitleText: '问题内容'
+    }
+    components = {
+    }
+
+    mixins = [base]
+
+    data = {
+    }
+
+    computed = {
+    }
+
+    methods = {
+    }
+
+    events = {
+    }
+
+    onLoad() {
+    }
+  }
+</script>
+
+<style lang="less">
+page {
+  background: #F3F4F6;
+}
+.title {
+  color: #999;
+  font-size: 10px;
+  margin: 20rpx;
+}
+.info {
+  background: white;
+  padding: 20rpx;
+  font-size: 12px;
+}
+</style>

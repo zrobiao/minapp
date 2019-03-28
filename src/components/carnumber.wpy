@@ -1,0 +1,467 @@
+<template>
+  <view class="carNumber">
+    <view class="field-cell field">
+      <view class="field-cell__hd field-title">车牌号</view>
+      <input @tap="showKeyboard" class="field-input field-cell__bd" disabled="true" placeholder="请输入车牌号" value="{{motors}}"/>
+    </view>
+    <view class="field-cell field">
+      <view class="field-cell__hd field-title">新能源</view>
+      <view class="field-cell__bd">
+        <switch checked="{{nweType}}" bindchange="xnyChange"/>
+      </view>
+    </view>
+    <!-- <text>车牌号</text>
+    <block wx:if="{{motors == '' && cardType == 0 }}">
+      <text style='color: #7D8EA0;' bindtap='showKeyboard'>请输入车牌号</text>
+    </block>
+    <block wx:else>
+      <view class='cards' bindtap='showKeyboard' >
+      {{cardType == 1?'使 ':''}}{{motors}}{{cardType == 2?' 领':''}}
+      </view>
+    </block> -->
+
+    <view class='keyboard' hidden='{{!keyboard}}'>
+      <view class='main-motor' hidden='{{!motor}}'>
+        <view class='motor'>
+          <view bindtap='setMotor' data-id="鲁" hover-class="motor-hover">鲁</view>
+          <view bindtap='setMotor' data-id="京" hover-class="motor-hover">京</view>
+          <view bindtap='setMotor' data-id="津" hover-class="motor-hover">津</view>
+          <view bindtap='setMotor' data-id="沪" hover-class="motor-hover">沪</view>
+          <view bindtap='setMotor' data-id="冀" hover-class="motor-hover">冀</view>
+          <view bindtap='setMotor' data-id="豫" hover-class="motor-hover">豫</view>
+          <view bindtap='setMotor' data-id="云" hover-class="motor-hover">云</view>
+          <view bindtap='setMotor' data-id="辽" hover-class="motor-hover">辽</view>
+        </view>
+        <view class='motor'>
+          <view bindtap='setMotor' data-id="黑" hover-class="motor-hover">黑</view>
+          <view bindtap='setMotor' data-id="湘" hover-class="motor-hover">湘</view>
+          <view bindtap='setMotor' data-id="皖" hover-class="motor-hover">皖</view>
+          <view bindtap='setMotor' data-id="新" hover-class="motor-hover">新</view>
+          <view bindtap='setMotor' data-id="苏" hover-class="motor-hover">苏</view>
+          <view bindtap='setMotor' data-id="浙" hover-class="motor-hover">浙</view>
+          <view bindtap='setMotor' data-id="赣" hover-class="motor-hover">赣</view>
+          <view bindtap='setMotor' data-id="鄂" hover-class="motor-hover">鄂</view>
+        </view>
+        <view class='motor'>
+          <view bindtap='setMotor' data-id="桂" hover-class="motor-hover">桂</view>
+          <view bindtap='setMotor' data-id="甘" hover-class="motor-hover">甘</view>
+          <view bindtap='setMotor' data-id="晋" hover-class="motor-hover">晋</view>
+          <view bindtap='setMotor' data-id="蒙" hover-class="motor-hover">蒙</view>
+          <view bindtap='setMotor' data-id="陕" hover-class="motor-hover">陕</view>
+          <view bindtap='setMotor' data-id="吉" hover-class="motor-hover">吉</view>
+          <view bindtap='setMotor' data-id="闽" hover-class="motor-hover">闽</view>
+          <view bindtap='setMotor' data-id="贵" hover-class="motor-hover">贵</view>
+        </view>
+        <view class='motor'>
+          <view bindtap='setMotor' data-id="粤" hover-class="motor-hover">粤</view>
+          <view bindtap='setMotor' data-id="川" hover-class="motor-hover">川</view>
+          <view bindtap='setMotor' data-id="青" hover-class="motor-hover">青</view>
+          <view bindtap='setMotor' data-id="藏" hover-class="motor-hover">藏</view>
+          <view bindtap='setMotor' data-id="琼" hover-class="motor-hover">琼</view>
+          <view bindtap='setMotor' data-id="宁" hover-class="motor-hover">宁</view>
+          <view bindtap='setMotor' data-id="渝" hover-class="motor-hover">渝</view>
+        </view>
+      </view>
+
+      <view class='main-munber' hidden='{{!numbers}}'>
+        <block wx:if="{{getmotor.length > 1}}">
+          <view class='number'>
+            <view bindtap="setNumber" data-id="1" hover-class="motor-hover">1</view>
+            <view bindtap="setNumber" data-id="2" hover-class="motor-hover">2</view>
+            <view bindtap="setNumber" data-id="3" hover-class="motor-hover">3</view>
+            <view bindtap="setNumber" data-id="4" hover-class="motor-hover">4</view>
+            <view bindtap="setNumber" data-id="5" hover-class="motor-hover">5</view>
+            <view bindtap="setNumber" data-id="6" hover-class="motor-hover">6</view>
+            <view bindtap="setNumber" data-id="7" hover-class="motor-hover">7</view>
+            <view bindtap="setNumber" data-id="8" hover-class="motor-hover">8</view>
+            <view bindtap="setNumber" data-id="9" hover-class="motor-hover">9</view>
+            <view bindtap="setNumber" data-id="0" hover-class="motor-hover">0</view>
+          </view>
+        </block>
+        <block wx:else>
+          <view class='number'>
+            <view style='background:#DCDCDC; color:#999999;'>1</view>
+            <view style='background:#DCDCDC; color:#999999;'>2</view>
+            <view style='background:#DCDCDC; color:#999999;'>3</view>
+            <view style='background:#DCDCDC; color:#999999;'>4</view>
+            <view style='background:#DCDCDC; color:#999999;'>5</view>
+            <view style='background:#DCDCDC; color:#999999;'>6</view>
+            <view style='background:#DCDCDC; color:#999999;'>7</view>
+            <view style='background:#DCDCDC; color:#999999;'>8</view>
+            <view style='background:#DCDCDC; color:#999999;'>9</view>
+            <view style='background:#DCDCDC; color:#999999;'>0</view>
+          </view>
+        </block>
+        <view class='number'>
+          <view bindtap="setNumber" data-id="Q" hover-class="motor-hover">Q</view>
+          <view bindtap="setNumber" data-id="W" hover-class="motor-hover">W</view>
+          <view bindtap="setNumber" data-id="E" hover-class="motor-hover">E</view>
+          <view bindtap="setNumber" data-id="R" hover-class="motor-hover">R</view>
+          <view bindtap="setNumber" data-id="T" hover-class="motor-hover">T</view>
+          <view bindtap="setNumber" data-id="Y" hover-class="motor-hover">Y</view>
+          <view bindtap="setNumber" data-id="U" hover-class="motor-hover">U</view>
+          <view bindtap="setNumber" data-id="I" hover-class="motor-hover">I</view>
+          <view bindtap="setNumber" data-id="O" hover-class="motor-hover">O</view>
+          <view bindtap="setNumber" data-id="P" hover-class="motor-hover">P</view>
+        </view>
+        <view class='number'>
+          <view bindtap="setNumber" data-id="A" hover-class="motor-hover">A</view>
+          <view bindtap="setNumber" data-id="S" hover-class="motor-hover">S</view>
+          <view bindtap="setNumber" data-id="D" hover-class="motor-hover">D</view>
+          <view bindtap="setNumber" data-id="F" hover-class="motor-hover">F</view>
+          <view bindtap="setNumber" data-id="G" hover-class="motor-hover">G</view>
+          <view bindtap="setNumber" data-id="H" hover-class="motor-hover">H</view>
+          <view bindtap="setNumber" data-id="J" hover-class="motor-hover">J</view>
+          <view bindtap="setNumber" data-id="K" hover-class="motor-hover">K</view>
+          <view bindtap="setNumber" data-id="L" hover-class="motor-hover">L</view>
+          <view bindtap="delNumber" hover-class="motor-hover"><image src='../../images/dels.png' class='dels'></image></view>
+        </view>
+        <view class='number'>
+          <view bindtap="setNumber" data-id="Z" hover-class="motor-hover">Z</view>
+          <view bindtap="setNumber" data-id="X" hover-class="motor-hover">X</view>
+          <view bindtap="setNumber" data-id="C" hover-class="motor-hover">C</view>
+          <view bindtap="setNumber" data-id="V" hover-class="motor-hover">V</view>
+          <view bindtap="setNumber" data-id="B" hover-class="motor-hover">B</view>
+          <view bindtap="setNumber" data-id="N" hover-class="motor-hover">N</view>
+          <view bindtap="setNumber" data-id="M" hover-class="motor-hover">M</view>
+          <view bindtap='hideKeyboard' style='flex:3.3;background:#03CB65;color:#fff;border:1rpx solid #03CB65'>完成</view>
+        </view>
+      </view>
+    </view>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+
+  export default class CarNumber extends wepy.component {
+    props = {
+      nweType: {
+        type: Boolean,
+        default: 0,
+        twoWay: true
+      },
+      motors: {
+        type: String,
+        default: '',
+        twoWay: true
+      }
+    }
+
+    components = {
+    }
+
+    data = {
+      car: '',
+      cardType: 0,
+      uid: '',
+      getmotor: [],
+      keyboard: 0,
+      motor: 1,
+      numbers: 0,
+      security: ''
+    }
+    sizeMotor() {
+      if (this.getmotor.length === 3) {
+        this.getmotor.splice(2, 0, ' ')
+      }
+      this.motors = this.getmotor.join('')
+    }
+    sizeMotor2() {
+      if (this.getmotor.length === 3) {
+        this.getmotor.pop()
+      }
+      this.motors = this.getmotor.join('')
+    }
+    methods = {
+      xnyChange(e) {
+        this.nweType = e.detail.value ? 1 : 0
+      },
+      setMotor(e) {
+        this.motor = 0
+        this.numbers = 1
+        this.getmotor.push(e.target.dataset.id)
+        this.sizeMotor()
+      },
+      setNumber(e) {
+        if (this.getmotor.length >= 8 + this.nweType) {
+          return false
+        }
+        this.getmotor.push(e.target.dataset.id)
+        this.sizeMotor()
+      },
+      delNumber() {
+        if (this.getmotor.length === 1) {
+          this.motor = 1
+          this.numbers = 0
+        }
+        this.getmotor.pop()
+        this.sizeMotor2()
+      },
+      showKeyboard() {
+        wx.hideKeyboard()
+        this.getmotor = []
+        this.motors = ''
+        this.motor = 1
+        this.numbers = 0
+        this.keyboard = 1
+      },
+      hideKeyboard() {
+        this.keyboard = 0
+      }
+    }
+  }
+</script>
+<style type="less">
+.top {
+  height: 142rpx;
+  width: 750rpx;
+  background: #152136;
+  text-align: center;
+  position: relative;
+}
+
+.top text:first-child {
+  float: left;
+  line-height: 142rpx;
+  font-size: 32rpx;
+  color: #fff;
+  position: absolute;
+  left: 20rpx;
+  top: 0;
+}
+
+.top text:last-child {
+  font-size: 56rpx;
+  color: #fff;
+  line-height: 142rpx;
+  margin-left: 150rpx;
+  float: left;
+}
+.top .cards {
+  font-size: 56rpx;
+  color: #fff;
+  line-height: 142rpx;
+  margin-left: 150rpx;
+  float: left;
+  width: 440rpx;
+  text-align: left
+}
+
+.tips {
+  background: #fff;
+  height: 88rpx;
+  width: 730rpx;
+  font-size: 28rpx;
+  background: #fff;
+  line-height: 88rpx;
+  padding-left: 20rpx;
+}
+
+.img {
+  width: 438rpx;
+  height: 322rpx;
+  margin: 0 auto;
+  margin-top: 26rpx;
+  display: block;
+}
+
+.main {
+  margin-top: 28rpx;
+  background: #fff;
+}
+
+.main .list:first-child {
+  font-size: 24rpx;
+  color: #152136;
+}
+
+.main .list:last-child {
+  border-bottom: 0rpx;
+  font-size: 24rpx;
+  color: #666;
+}
+
+.list {
+  height: 88rpx;
+  width: 730rpx;
+  font-size: 28rpx;
+  background: #fff;
+  line-height: 88rpx;
+  border-bottom: 1rpx solid #e5e5e5;
+  margin-left: 20rpx;
+  vertical-align: top;
+}
+
+.list input {
+  margin-left: 40rpx;
+  width: 400rpx;
+  display: inline-block;
+  height: 88rpx;
+  line-height: 88rpx;
+  font-size: 28rpx;
+  vertical-align: top;
+}
+
+.btn-area {
+  background: #03CB65;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+}
+
+.btn-area button {
+  background: #03CB65;
+  color: #fff;
+}
+
+.keyboard {
+  height: 468rpx;
+  width: 750rpx;
+  background: #fff;
+  box-shadow: 0 -3px 4px 0 rgba(229, 229, 229, 0.50);
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  z-index: 10;
+  padding-top: 40rpx;
+}
+
+.keyboard .motor view {
+  width: 84rpx;
+  height: 102rpx;
+  line-height: 102rpx;
+  text-align: center;
+  border: 1rpx solid #dcdcdc;
+  box-shadow: 0px 4rpx 6rpx 1rpx rgba(174, 174, 174, 0.50);
+  border-radius: 10rpx;
+  margin: 0 5rpx;
+  margin-bottom: 8rpx;
+  display: block;
+  flex: 1;
+}
+
+.keyboard .motor {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-flow: row;
+  flex-flow: row;
+}
+
+.keyboard .motor-hover {
+  background: #03CB65;
+  border: 1rpx solid #03CB65;
+  box-shadow: 0 2px 3px 0 #ffe4d0;
+  border-radius: 5px;
+  color: #fff;
+}
+
+.number {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-flow: row;
+  flex-flow: row;
+}
+
+.number view {
+  width: 65rpx;
+  height: 102rpx;
+  line-height: 102rpx;
+  text-align: center;
+  border: 1rpx solid #dcdcdc;
+  box-shadow: 0px 4rpx 6rpx 1rpx rgba(174, 174, 174, 0.50);
+  border-radius: 10rpx;
+  margin: 0 5rpx;
+  margin-bottom: 8rpx;
+  display: block;
+  flex: 1;
+}
+
+.keyboard .motor-hover {
+  background: #03CB65;
+  border: 1rpx solid #03CB65;
+  /* box-shadow: 0 2px 3px 0 #ffe4d0; */
+  border-radius: 5px;
+  color: #fff;
+}
+
+.card-type {
+  height: 24rpx;
+  text-align: center;
+  line-height: 26rpx;
+  padding: 20rpx 0;
+}
+
+.card-type view {
+  font-size: 22rpx;
+  color: #333;
+  display: inline-block;
+  vertical-align: top;
+  margin: 0 30rpx;
+}
+
+.card-type text {
+  display: fiex;
+  width: 22rpx;
+  height: 22rpx;
+  border: 1px solid #999;
+  border-radius: 50%;
+  float: left;
+  margin-right: 8rpx;
+}
+
+.card-type image {
+  width: 26rpx;
+  height: 26rpx;
+  margin-right: 8rpx;
+  display: fiex;
+  vertical-align: top;
+}
+
+.xny {
+  height: 24rpx;
+  text-align: center;
+  line-height: 27rpx;
+  font-size: 22rpx;
+  display: inline-block;
+  margin: 0 30rpx;
+  color: #fff;
+  position: absolute;
+  right: 20rpx;
+  top: 60rpx;
+  vertical-align: top;
+}
+
+.xny text {
+  display: fiex;
+  width: 22rpx;
+  height: 22rpx;
+  border: 1px solid #999;
+  border-radius: 50%;
+  float: left;
+  margin-right: 8rpx;
+  vertical-align: top;
+}
+
+.xny image {
+  width: 26rpx;
+  height: 26rpx;
+  margin-right: 8rpx;
+  display: fiex;
+  vertical-align: top;
+}
+.dels{
+  width: 46rpx;
+  height: 34rpx;
+}
+.choose-image{
+  width:438rpx;
+  height:322rpx;
+  margin:0 auto;
+  margin-top:26rpx;
+  display:block;
+}
+.carNumber {
+  position: relative;
+}
+</style>

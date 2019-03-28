@@ -1,0 +1,55 @@
+<template>
+<view class="container">
+  <view class="textarea">
+    <textarea placeholder="请输入反馈意见" />
+  </view>
+  <view class="btnbox">
+    <button class="btn btn-success">提交反馈</button>
+  </view>
+</view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import base from '@/mixins/base.js'
+
+  export default class Index extends wepy.page {
+    config = {
+      navigationBarTitleText: '反馈'
+    }
+    components = {
+    }
+
+    mixins = [base]
+
+    data = {
+    }
+
+    computed = {
+    }
+
+    methods = {
+    }
+
+    events = {
+    }
+
+    onLoad() {
+    }
+  }
+</script>
+
+<style lang="less">
+page {
+  background: #F3F4F6;
+}
+textarea {
+  background: white;
+  box-sizing: border-box;
+  padding: 20rpx;
+  width: 750rpx;
+}
+.btnbox {
+  margin-top: 20rpx;
+}
+</style>

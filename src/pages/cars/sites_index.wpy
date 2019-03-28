@@ -1,0 +1,224 @@
+<template>
+<view class="container">
+  <view class="searchbar">
+    <!-- <view class="regionselect">
+      <picker mode="region" bindchange="bindRegionChange" value="{{region}}" custom-item="{{customItem}}">
+        <view class="picker">
+          {{region[0]}}
+        </view>
+      </picker>
+    </view> -->
+    <view class="inputbox">
+      <input type="text" bindinput="bindKeyInput" placeholder="可输入服务区名称或高速路名称搜索" />
+    </view>
+    <view class="confirmbtn" @tap="search">
+      <button class="btn btn-success">搜索</button>
+    </view>
+  </view>
+  <view class="sites">
+    <scroll-view style="height: {{windowHeight}}px;" scroll-y="true" lower-threshold="100" bindscrolltolower="searchScrollLower">
+      <block wx:for="{{list}}" wx:key="index">
+        <view class="site">
+          <view class="t1">
+            <view class="t1_l">{{item.name}}</view>
+            <!-- <view class="t1_r">{{item.type}}</view> -->
+          </view>
+          <!-- <view class="t2">
+            <view class="t2_l">
+              <image class="i" src="../../wximages/s1.png"></image>
+              服务：汽修，便利店，公厕，餐厅
+            </view>
+            <view class="t2_l">
+              <image class="i" src="../../wximages/s2.png"></image>
+              地址：汽修，便利店，公厕，餐厅
+            </view>
+            <view class="t2_l">
+              <image class="i" src="../../wximages/s3.png"></image>
+              距您：汽修，便利店，公厕，餐厅
+            </view>
+          </view> -->
+        </view>
+      </block>
+    </scroll-view>
+  </view>
+</view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import base from '@/mixins/base.js'
+  import http from '@/mixins/http.js'
+  import { service } from '@/config.js'
+
+  export default class Index extends wepy.page {
+    config = {
+      navigationBarTitleText: '服务区'
+    }
+    components = {
+    }
+
+    mixins = [base, http]
+
+    data = {
+      region: ['全国'],
+      customItem: '全部',
+      loading: false,
+      done: false,
+      searchQuery: '',
+      list: [],
+      pageIndex: 0,
+      pageLimit: 20,
+      windowHeight: 0
+    }
+
+    computed = {
+    }
+
+    methods = {
+      search() {
+        this.pageIndex = 0
+        this.list = []
+        this.done = false
+        this._fetch()
+      },
+      searchScrollLower() {
+        console.log(1)
+        if (this.done) {
+          return
+        }
+        this.pageIndex++
+        this._fetch()
+      },
+      bindKeyInput(e) {
+        this.searchQuery = e.detail.value
+      },
+      bindRegionChange(e) {
+        this.region = e.detail.value
+      },
+      toDetail() {
+        wx.navigateTo({
+          url: 'site_detail'
+        })
+      }
+    }
+
+    events = {
+    }
+
+    _fetch() {
+      this.loading = true
+      this.$post({
+        url: service.downTollstation,
+        data: {
+          search: this.searchQuery,
+          pageIndex: this.pageIndex,
+          pageLimit: this.pageLimit
+        }
+      }, {
+        success: (data) => {
+          this.list = this.list.concat(data.data)
+          this.loading = false
+          if (data.data.length === 0) {
+            this.done = true
+          }
+        },
+        fail: (data) => {
+          this.loading = false
+        }
+      })
+    }
+
+    onLoad() {
+      this._fetch()
+      this.windowHeight = wx.getSystemInfoSync().windowHeight - 40
+    }
+  }
+</script>
+
+<style lang="less">
+@h: 100rpx;
+page {
+  background: #F3F4F6;
+}
+.container {
+  padding-top: @h;
+}
+.searchbar {
+  background: white;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  font-size: 10px;
+  width: 750rpx;
+  height: @h;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 20rpx;
+  .regionselect {
+    width: 80rpx;
+    line-height: @h;
+  }
+  .inputbox {
+    input {
+      margin-top: 15rpx;
+      width: 550rpx;
+      height: @h - 30;
+      padding: 0 10rpx;
+      border-radius: 5rpx;
+      background: #eee;
+    }
+  }
+  .confirmbtn {
+    .btn {
+      margin-top: 15rpx;
+      height: @h - 30;
+      width: 120rpx;
+      font-size: 10px;
+      line-height: @h - 30;
+      padding: 0;
+      text-align: center;
+    }
+  }
+}
+
+.sites {
+  position: relative;
+  z-index: 0;
+  .site {
+    margin-top: 20rpx;
+    padding: 30rpx 20rpx 30rpx 20rpx;
+    background: white;
+    .t1 {
+      font-size: 14px;
+      display: flex;
+      justify-content: space-between;
+      .t1_r {
+        font-size: 10px;
+        color: white;
+        padding: 0rpx 20rpx;
+        height: 40rpx;
+        line-height: 40rpx;
+        background: #00AE57;
+        border-radius: 8rpx;
+      }
+    }
+    .t2 {
+      margin-top: 10rpx;
+      font-size: 10px;
+      line-height: 2;
+      color: #999;
+      .t2_l {
+        display: flex;
+        align-items: center;
+        .i {
+          width: 20rpx;
+          height: 20rpx;
+          margin-right: 20rpx;
+        }
+      }
+    }
+  }
+}
+</style>

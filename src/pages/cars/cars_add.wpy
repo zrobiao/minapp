@@ -1,0 +1,268 @@
+<template>
+<view class="container">
+  <view hidden="{{!load}}" style="background-color: #fff;">
+    <block wx:if="{{!issub}}" >
+      <input-name :config="name" @onInput.user="_handleInputName"></input-name>
+      <view class="field-cell field">
+        <view class="field-cell__hd field-title">手机号</view>
+        <view class="field-cell__bd">
+          <block wx:if="{{tel.value}}">
+            已授权
+          </block>
+          <block wx:else>
+            <button class="btn-success btn-small" open-type="getPhoneNumber" bindgetphonenumber="_handleInputTel">授权手机号</button> 
+          </block>
+        </view>
+      </view>
+      
+      <input-idcard :config="idcard" @onInput.user="_handleInputIdcard"><input-idcard/>
+    </block>
+    
+    <car-number :motors.sync="motors" :nweType.sync="nweType"></car-number>
+
+    <view class="atips">
+      <view class="l">
+        <image class="i" src="../../wximages/a1.png"></image>
+        <view class="r">
+          <view class="tt1">高速识别 无感支付</view>
+          <view class="tt2">高速公路、停车场无感通行</view>
+        </view>
+      </view>
+      <view class="l">
+        <image class="i" src="../../wximages/a2.png"></image>
+        <view class="r">
+          <view class="tt1">保险护航 免致贫威胁</view>
+          <view class="tt2">高速行车威胁，一路为您保驾护航</view>
+        </view>
+      </view>
+      <view class="l">
+        <image class="i" src="../../wximages/a3.png"></image>
+        <view class="r">
+          <view class="tt1">违章早知道 年检早提醒</view>
+          <view class="tt2">高速公路、停车场无感通行</view>
+        </view>
+      </view>
+    </view>
+
+    <button @tap="toCar" disabled="{{loading}}" class="btn-add btn btn-success">提交</button>
+  </view>
+</view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import base from '@/mixins/base.js'
+  import http from '@/mixins/http.js'
+  import input from '@/components/input'
+  import carNumber from '@/components/carnumber'
+  import { service } from '@/config.js'
+
+  export default class Index extends wepy.page {
+    config = {
+      navigationBarTitleText: '添加车辆'
+    }
+    components = {
+      'input-name': input,
+      'input-idcard': input,
+      'car-number': carNumber
+    }
+    mixins = [base, http]
+    data = {
+      issub: 0,
+      isfree: false,
+      motors: '',
+      nweType: 0,
+      loading: false,
+      load: false,
+      name: {
+        label: '姓名',
+        value: '',
+        placeholder: '请输入姓名'
+      },
+      tel: {
+        value: '',
+        iv: ''
+      },
+      idcard: {
+        label: '身份证号',
+        inputType: 'idcard',
+        value: '',
+        placeholder: '请输入身份证号'
+      },
+      carnumber: ''
+    }
+
+    computed = {
+    }
+
+    _next() {
+      wx.setStorageSync('carplateno', this.motors)
+      if (this.isfree) {
+        wx.redirectTo({
+          url: 'itcpay_binding'
+        })
+      } else {
+        wx.redirectTo({
+          url: 'itcpay_tobind'
+        })
+      }
+    }
+
+    methods = {
+      _handleInputName(e) {
+        this.name.value = e
+      },
+      _handleInputTel(e) {
+        if (e.detail.encryptedData) {
+          this.tel.value = e.detail.encryptedData
+          this.tel.iv = e.detail.iv
+        }
+      },
+      _handleInputIdcard(e) {
+        console.log(e)
+        this.idcard.value = e
+      },
+      toCar() {
+        if (this.issub === 0) {
+          if (!this.name.value.length) {
+            wx.showModal({
+              title: '提示',
+              content: '请输入姓名',
+              showCancel: false
+            })
+            return
+          }
+          if (!this.tel.value.length) {
+            wx.showModal({
+              title: '提示',
+              content: '请授权手机号',
+              showCancel: false
+            })
+            return
+          }
+          if (!this.idcard.value.length) {
+            wx.showModal({
+              title: '提示',
+              content: '请输入身份证号',
+              showCancel: false
+            })
+            return
+          }
+        }
+
+        if (!this.motors.length) {
+          wx.showModal({
+            title: '提示',
+            content: '请输入车牌号',
+            showCancel: false
+          })
+          return
+        }
+
+        let that = this
+        this.loading = true
+
+        if (this.issub === 0) {
+          this.$post({
+            url: service.firstaddcars,
+            data: {
+              mobile: this.tel.value,
+              iv: this.tel.iv,
+              // mobile: '13112341234',
+              agentName: this.name.value,
+              nickname: this.$parent.globalData.userInfo.nickName,
+              agentIdNum: this.idcard.value,
+              plateNo: this.motors.replace(' ', ''),
+              plateColor: this.nweType ? 5 : 1,
+              headImg: this.$parent.globalData.userInfo.avatarUrl
+            }
+          }, {
+            success: (data) => {
+              that._next()
+            },
+            fail: (data) => {
+              wx.showModal({
+                title: '提示',
+                content: data.resMsg,
+                showCancel: false
+              })
+              that.loading = false
+            }
+          })
+        } else {
+          this.$post({
+            url: service.addcars,
+            data: {
+              plateNo: this.motors.replace(' ', ''),
+              plateColor: this.nweType ? 5 : 1
+            }
+          }, {
+            success: (data) => {
+              that._next()
+            },
+            fail: (data) => {
+              wx.showModal({
+                title: '提示',
+                content: data.resMsg,
+                showCancel: false
+              })
+              that.loading = false
+            }
+          })
+        }
+      }
+    }
+
+    events = {
+    }
+
+    onLoad(option) {
+      let that = this
+      this.$post({
+        url: service.userinfo
+      }, {
+        success: (data) => {
+          that.issub = 1
+          that.isfree = data.data.userInfo.isFreePay
+          that.load = true
+        },
+        fail: (data) => {
+          that.issub = 0
+          that.load = true
+        }
+      })
+    }
+  }
+</script>
+
+<style lang="less">
+page {
+  background: white;
+}
+.atips {
+  margin: 60rpx;
+  .l {
+    display: flex;
+    align-items: center;
+    margin-bottom: 50rpx;
+    .i {
+      width: 90rpx;
+      height: 90rpx;
+      margin-right: 40rpx;
+    }
+    .r {
+      color: #999;
+      line-height: 1.5;
+      .tt1 {
+        font-size: 12px;
+      }
+      .tt2 {
+        font-size: 10px;
+      }
+    }
+  }
+}
+.btn-add {
+  margin: 0 60rpx;
+}
+</style>

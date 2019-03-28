@@ -1,0 +1,64 @@
+<template>
+<view class="container">
+  <panel>
+    <view slot="title" class="title">什么是高速通行车牌付？</view>
+    <view>
+      车辆通过高速公路收费站时可以免排队、免现金、自动缴纳通行费，又快又方便！
+      在手机上添加车辆、绑定微信支付就可以了~
+    </view>
+  </panel>
+  <panel>
+    <view slot="title" class="title">如何使用车牌付？</view>
+    <view>
+      01、在高速通行小程序首页上点击“车牌付”进入添加车辆页面输入车牌信息。绑定车辆成功以后下一步，开通微信免密支付。
+    </view>
+    <view>
+      02、添加完车辆后再开通页面点击开通按钮跳转到微信官方的开通免密支付页，点击“开通免密支付”按钮，输入“微信的支付密码”后点击返回键。
+    </view>
+    <view>
+      03、完成认证即可享用我们为您提供的车主专属服务。
+    </view>
+  </panel>
+</view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import base from '@/mixins/base.js'
+  import Panel from 'kai-ui/Panel'
+
+  export default class Index extends wepy.page {
+    config = {
+      navigationBarTitleText: '什么是无感支付？'
+    }
+    components = {
+      panel: Panel
+    }
+
+    mixins = [base]
+
+    data = {
+    }
+
+    computed = {
+    }
+
+    methods = {
+    }
+
+    events = {
+    }
+
+    onLoad() {
+    }
+  }
+</script>
+
+<style lang="less">
+.panel {
+  margin-top: 0;
+  .info {
+    padding: 20rpx;
+  }
+}
+</style>

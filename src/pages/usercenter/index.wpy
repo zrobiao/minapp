@@ -1,0 +1,243 @@
+<template>
+<view class="container">
+  <view class="userbanner">
+    <image class="bg" src="../../wximages/t2.png"></image>
+    <block wx:if="{{userinfo.nickname}}">
+      <view class="logo">
+        <image src="{{userinfo.headImg}}"></image>
+      </view>
+      <view class="info">
+        <view class="l1">
+          {{userinfo.nickname}}
+        </view>
+        <view class="l2">
+          {{userinfo.mobile}}
+        </view>
+      </view>
+    </block>
+    <block wx:else>
+      <view class="logo">
+        <image src="../../images/head.png"></image>
+      </view>
+      <view class="info">
+        <view class="l1">
+          未知
+        </view>
+        <view class="l2">
+          请添加车辆
+        </view>
+      </view>
+    </block>
+  </view>
+  <view class="userbtns">
+    <view class="l" @tap="toScore">
+      <image src="../../wximages/u1.png"></image>
+      0积分
+    </view>
+    <view class="l">
+      <image src="../../wximages/u2.png"></image>
+      积分商城
+    </view>
+    <view class="l">
+      <image src="../../wximages/u3.png"></image>
+      今日签到
+    </view>
+  </view>
+  <view class="list">
+    <view class="l">
+      <image src="../../wximages/ub1.png"></image>
+      行程账单
+    </view>
+    <view class="l" @tap="toInsurance">
+      <image src="../../wximages/ub2.png"></image>
+      我的保单
+    </view>
+    <view class="l">
+      <image src="../../wximages/ub3.png"></image>
+      我的红包
+    </view>
+    <view class="l">
+      <image src="../../wximages/ub4.png"></image>
+      我的卡包
+    </view>
+    <view class="l" @tap="toQa">
+      <image src="../../wximages/ub5.png"></image>
+      问题反馈
+    </view>
+  </view>
+
+  <view hidden="{{!userinfo.nickname || userinfo.isFreePay === false}}" class="ahref" @tap="unbind">解绑免密支付</view>
+</view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import base from '@/mixins/base.js'
+  import http from '@/mixins/http.js'
+  import { service } from '@/config.js'
+
+  export default class Index extends wepy.page {
+    config = {
+      navigationBarTitleText: '个人中心'
+    }
+    components = {
+    }
+
+    mixins = [base, http]
+
+    data = {
+      userinfo: {}
+    }
+
+    computed = {
+    }
+
+    methods = {
+      toScore() {
+        wx.navigateTo({
+          url: 'scores'
+        })
+      },
+      toInsurance() {
+        wx.navigateTo({
+          url: 'insurances'
+        })
+      },
+      toQa() {
+        wx.navigateTo({
+          url: '/pages/qa/ask'
+        })
+      },
+      unbind() {
+        this.$post({
+          url: service.closefreepay,
+          data: {
+          }
+        }, {
+          success: (data) => {
+            wx.showModal({
+              title: '提示',
+              content: '已成功解约',
+              showCancel: false
+            })
+            this.userinfo.isFreePay = false
+          },
+          fail: (data) => {
+            wx.showModal({
+              title: '提示',
+              content: data.resMsg,
+              showCancel: false
+            })
+          }
+        })
+      }
+    }
+
+    events = {
+    }
+
+    onShow() {
+      let that = this
+      this.$post({
+        url: service.userinfo
+      }, {
+        success: (data) => {
+          that.userinfo = data.data.userInfo
+        },
+        fail: (data) => {
+        }
+      })
+    }
+  }
+</script>
+
+<style lang="less">
+.userbanner {
+  height: 200rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 50rpx;
+  position: relative;
+
+  .bg {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+  }
+  .logo {
+    width: 100rpx;
+    height: 100rpx;
+    z-index: 1;
+    border: #fbfbfb 1px solid;
+    border-radius: 50%;
+    image {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+    }
+  }
+  .info {
+    width: 500rpx;
+    z-index: 1;
+    color: white;
+    opacity: 0.8;
+    .l1 {
+
+    }
+    .l2 {
+      margin-top: 10rpx;
+      font-size: 12px;
+    }
+  }
+}
+.userbtns {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 120rpx;
+  background: white;
+  .l {
+    text-align: center;
+    width: 33.33%;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    image {
+      width: 46rpx;
+      height: 46rpx;
+      margin-right: 15rpx;
+    }
+  }
+}
+.list {
+  background: white;
+  margin-top: 20rpx;
+  padding-left: 40rpx;
+  .l {
+    border-bottom: 1px solid #fbfbfb;
+    font-size: 13px;
+    padding: 30rpx 0;
+    display: flex;
+    align-items: center;
+    image {
+      width: 46rpx;
+      height: 46rpx;
+      margin-right: 15rpx;
+    }
+  }
+}
+.ahref {
+  position: fixed;
+  bottom: 20px;
+  left: 0;
+  width: 100%;
+  color: #999;
+  text-align: center;
+  font-size: 14px;
+}
+</style>

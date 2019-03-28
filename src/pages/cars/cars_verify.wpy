@@ -1,0 +1,247 @@
+<template>
+<view class="container">
+  <view class="vbox">
+    <view class="vbox-title">
+      <text class="t">示例</text>
+      <text class="tip">请确保行驶证拍摄完整、文字清晰</text>
+    </view>
+    <view class="vbox-list">
+      <image class="l" src="../../wximages/vl1.png" mode="scaleToFill"></image>
+      <image class="l" src="../../wximages/vl2.png" mode="scaleToFill"></image>
+      <image class="l" src="../../wximages/vl3.png" mode="scaleToFill"></image>
+    </view>
+  </view>
+
+  <view class="vbox">
+    <view class="vbox-title">
+      <text class="t">请上传车辆信息</text>
+    </view>
+    <view class="vbox-list">
+      <view @tap="upload" class="uploadbox" data-id="drivingLicence">
+        <block wx:if="{{!drivingLicence}}">
+          <image class="camera" src="../../wximages/vt1.png" mode="scaleToFill"></image>
+        </block>
+        <block wx:else>
+          <image class="l" src="{{drivingLicence}}" mode="scaleToFill"></image>
+        </block>
+      </view>
+      <view @tap="upload" class="uploadbox" data-id="vehicleLicence">
+        <block wx:if="{{!vehicleLicence}}">
+          <image class="camera" src="../../wximages/vt2.png" mode="scaleToFill"></image>
+        </block>
+        <block wx:else>
+          <image class="l" src="{{vehicleLicence}}" mode="scaleToFill"></image>
+        </block>
+      </view>
+      <view @tap="upload" class="uploadbox" data-id="vehiclePhotos">
+        <block wx:if="{{!vehiclePhotos}}">
+          <image class="camera" src="../../wximages/vt3.png" mode="scaleToFill"></image>
+        </block>
+        <block wx:else>
+          <image class="l" src="{{vehiclePhotos}}" mode="scaleToFill"></image>
+        </block>
+      </view>
+    </view>
+  </view>
+
+  <view class="tips">
+    <view class="l1">- 完成车辆认证，体验更多车主服务 -</view>
+    <view class="l2">
+      <view class="tt">
+        <image class="i" src="../../wximages/y1.png"></image>
+        <view class="t">
+          一件认证
+        </view>
+        <view class="t">
+          无感通行
+        </view>
+      </view>
+      <view class="tt">
+        <image class="i" src="../../wximages/y2.png"></image>
+        <view class="t">
+          一次设置
+        </view>
+        <view class="t">
+          永不脱险
+        </view>
+      </view>
+      <view class="tt">
+        <image class="i" src="../../wximages/y3.png"></image>
+        <view class="t">
+          违章年检
+        </view>
+        <view class="t">
+          及时不逾期
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="btnbox">
+    <button @tap="toNext" class="btn btn-large btn-success" disabled="{{!vehiclePhotos || !vehicleLicence || !drivingLicence}}">提交认证</button>
+  </view>
+</view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import base from '@/mixins/base.js'
+  import http from '@/mixins/http.js'
+  import { service } from '@/config.js'
+
+  export default class Index extends wepy.page {
+    config = {
+      navigationBarTitleText: '车辆验证'
+    }
+    components = {
+    }
+
+    mixins = [base, http]
+
+    data = {
+      isnext: 0,
+      plateno: '新T77777',
+      vehiclePhotos: '',
+      vehicleLicence: '',
+      drivingLicence: ''
+    }
+
+    computed = {
+    }
+
+    methods = {
+      toNext() {
+        this.$post({
+          url: service.certification,
+          data: {
+            plateNo: this.plateno,
+            vehiclePhotos: this.vehiclePhotos,
+            vehicleLicence: this.vehicleLicence,
+            drivingLicence: this.drivingLicence
+          }
+        }, {
+          success: (data) => {
+            wx.redirectTo({
+              url: 'cars_index'
+            })
+          },
+          fail: (data) => {
+            wx.showModal({
+              title: '提示',
+              content: data.resMsg,
+              showCancel: false
+            })
+          }
+        })
+      },
+      upload(e) {
+        let id = e.currentTarget.dataset.id
+        let that = this
+        wx.chooseImage({
+          count: 1,
+          success (res) {
+            const tempFilePaths = res.tempFilePaths
+            wx.uploadFile({
+              url: service.upload,
+              filePath: tempFilePaths[0],
+              name: 'file',
+              formData: {},
+              success: (res) => {
+                res = JSON.parse(res.data)
+                if (res.resCode === '0000') {
+                  setTimeout(() => {
+                    that[id] = res.data.path
+                    that.$apply()
+                  }, 10)
+                } else {
+                  wx.showModal({
+                    title: '提示',
+                    content: res.resMsg,
+                    showCancel: false
+                  })
+                }
+              }
+            })
+          }
+        })
+      }
+    }
+
+    events = {
+    }
+
+    onLoad(option) {
+      if (option && option.plateno) {
+        this.plateno = option.plateno
+      }
+    }
+  }
+</script>
+
+<style lang="less">
+.vbox {
+  margin-top: 20rpx;
+  margin-bottom: 50rpx;
+  padding: 0 20rpx;
+  &-title {
+    color: #333;
+    font-size: 14px;
+    .tip {
+      margin-left: 20rpx;
+      color: #EB6F0F;
+      font-size: 12px;
+    }
+  }
+  &-list {
+    margin-top: 20rpx;
+    display: flex;
+    justify-content: space-between;
+    .l {
+      width: 220rpx;
+      height: 150rpx;
+    }
+    .uploadbox {
+      width: 220rpx;
+      height: 130rpx;
+      text-align: center;
+      .camera {
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+}
+.tips {
+  margin-top: 150rpx;
+  margin-bottom: 50rpx;
+  text-align: center;
+  font-size: 10px;
+  color:  #CFCFCF;
+  .l2 {
+    margin-top: 40rpx;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    .tt {
+      margin: 0 40rpx;
+    }
+    .i {
+      width: 80rpx;
+      height: 80rpx;
+      margin-bottom: 20rpx;
+    }
+  }
+}
+.btnbox {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 750rpx;
+  .btn {
+    width: 650rpx;
+    height: 100rpx;
+    line-height: 100rpx;
+    font-size: 14px;
+  }
+}
+</style>
