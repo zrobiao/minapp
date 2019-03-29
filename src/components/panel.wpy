@@ -1,43 +1,48 @@
 <style lang="less">
-  .panel {
-    width: 100%;
-    margin-top: 20rpx;
-    text-align: left;
-    font-size: 12px;
-    padding-top: 20rpx;
-    padding-left: 50rpx;
-    padding-bottom: 20rpx;
-    border: 1px solid #ccc;
-
-    .title {
-      padding-bottom: 20rpx;
-      font-size: 14px;
-      font-weight: bold;
-    }
-    .info {
-      padding: 15rpx;
-    }
-    .testcounter {
-      margin-top: 15rpx;
-      position: absolute;
-    }
-    .counterview {
-      margin-left: 120rpx;
-    }
-  }
+.panel {
+	width: 100%;
+	box-sizing: border-box;
+	text-align: left;
+	margin-top: 10rpx;
+	.title {
+		padding: 20rpx;
+		font-size: 12px;
+		display:block;
+	}
+	.info {
+		border-style: solid;
+		border-color: #e1e1e1;
+		border-width: 0;
+		font-size: 12px;
+		background-color: #fff;
+		display: block;
+		// padding: 10px;
+	}
+}
 </style>
 <template>
   <view class="panel">
-    <slot name="title">
-      Title
-    </slot>
-    <slot>
-    </slot>
+    <slot name="title"></slot>
+    <view class="info" style="border-width: {{border}};" >
+      <slot></slot>
+    </view>
   </view>
 </template>
 <script>
   import wepy from 'wepy'
 
   export default class Panel extends wepy.component {
+    props = {
+      border: {
+        type: [Number, String],
+        default: 0
+      }
+    }
+
+    methods = {
+    }
+
+    onLoad () {
+    }
   }
 </script>

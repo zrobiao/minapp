@@ -11,7 +11,6 @@ export const service = {
   addcars: `${host}/addcars`,
   carlist: `${host}/carlist`,
   delcars: `${host}/delcars`,
-  addcars: `${host}/addcars`,
   userinfo: `${host}/userinfo`,
   opennosense: `${host}/opennosense`,
   closefreepay: `${host}/closefreepay`,

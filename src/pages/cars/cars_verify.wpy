@@ -135,6 +135,7 @@
         })
       },
       upload(e) {
+        console.log(e)
         let id = e.currentTarget.dataset.id
         let that = this
         wx.chooseImage({
