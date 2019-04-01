@@ -135,7 +135,6 @@
     methods = {
       onCar(data) {
         let that = this
-
         if (data.detail.iv) {
           let user = data.detail.userInfo
           that.$parent.globalData.userInfo = user
@@ -154,7 +153,6 @@
       },
       toCar(data) {
         let that = this
-
         if (data.detail.iv) {
           let user = data.detail.userInfo
           that.$parent.globalData.userInfo = user
@@ -171,10 +169,10 @@
       }
     }
 
-    _showMask() {
-      this.showmask = true
-      wx.hideTabBar()
-    }
+    // _showMask() {
+    //   this.showmask = true
+    //   wx.hideTabBar()
+    // }
 
     _hideMask() {
       this.showmask = false
@@ -185,7 +183,14 @@
     }
 
     onLoad() {
-      this._showMask()
+      // this._showMask()
+      const options = {
+        content: '欢迎进入高速通行小程序',
+        position: 'middle',
+        duration: 2000
+      }
+      this.$invoke('toast', 'show', options)
+      this._hideMask()
     }
   }
 </script>

@@ -50,12 +50,12 @@ export default class extends wepy.app {
         'selectedIconPath': './wximages/logo-1-active.png'
       }, {
         'pagePath': 'pages/services/index',
-        'text': '发现',
+        'text': '消息',
         'iconPath': './wximages/logo-2.png',
         'selectedIconPath': './wximages/logo-2-active.png'
       }, {
         'pagePath': 'pages/usercenter/index',
-        'text': '个人中心',
+        'text': '我的',
         'iconPath': './wximages/logo-3.png',
         'selectedIconPath': './wximages/logo-3-active.png'
       }]
@@ -143,7 +143,6 @@ export default class extends wepy.app {
   }
 
   onShow(res) {
-    console.log(res)
     if (res.scene === 1038) {
       const { appId, extraData } = res.referrerInfo
       if (appId === 'wxbd687630cd02ce1d') {
