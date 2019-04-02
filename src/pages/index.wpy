@@ -184,12 +184,6 @@
 
     onLoad() {
       // this._showMask()
-      const options = {
-        content: '欢迎进入高速通行小程序',
-        position: 'middle',
-        duration: 2000
-      }
-      this.$invoke('toast', 'show', options)
       this._hideMask()
     }
   }
