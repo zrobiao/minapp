@@ -1,193 +1,179 @@
 <template>
-<view class="container">
-  <image class="bg" src="../../wximages/t1.png"></image>
-  <view class="carslist">
-    <block wx:for="{{carlist}}" wx:key="index">
-      <view class="carbox">
-        <view class="t1">
-          <view class="t1_l">车牌号</view>
-          <view class="t1_r">
-            无感支付
-            <view @tap="changeNosense" data-index={{index}} data-isNosense="{{item.isNosense}}" data-plateNo="{{item.plateNo}}" class="t1_r_btn"></view>
-            <switch checked="{{item.isNosense === 2}}" />
+  <view class="container">
+    <image class="bg" src="../../wximages/t1.png">
+    <view class="carslist">
+      <block wx:for="{{carlist}}" wx:key="index">
+        <view class="carbox">
+          <view class="t1">
+            <view class="t1_l">车牌号</view>
+            <view class="t1_r">无感支付
+              <view
+                @tap="changeNosense"
+                data-index="{{index}}"
+                data-is-nosense="{{item.isNosense}}"
+                data-plate-no="{{item.plateNo}}"
+                class="t1_r_btn"
+              ></view>
+              <switch checked="{{item.isNosense === 2}}"/>
+            </view>
+          </view>
+          <view class="t2">{{item.plateNo}}</view>
+          <view class="t3" wx:if="{{item.isCheck === 1 || item.isCheck === 3}}">
+            <view class="t3_l">车辆未认证，完善车辆信息可以有效防止套牌，避免财产损失！</view>
+            <view class="t3_r" data-plate-no="{{item.plateNo}}" @tap="toVerify">
+              <image class="btn-rz" src="../../wximages/rz.png">
+            </view>
+          </view>
+          <view class="t3" wx:else>
+            <view class="t3_l" wx:if="{{item.isCheck === 2}}">车辆已完成认证</view>
+            <view class="t3_l" wx:if="{{item.isCheck === 4}}">车辆认证中</view>
           </view>
         </view>
-        <view class="t2">
-          {{item.plateNo}}
+      </block>
+    </view>
+    <view class="caradd" @tap="toCarAdd">
+      <image class="i" src="../../wximages/icon-add.png">
+      <view class="t">添加车辆 省时省力</view>
+    </view>
+    <view class="cartip" @tap="toPayIntroduce">什么是无感支付？</view>
+    <view class="tips">
+      <view class="l1">- 完成车辆认证，体验更多车主服务 -</view>
+      <view class="l2">
+        <view class="tt">
+          <image class="i" src="../../wximages/y1.png">
+          <view class="t">一件认证</view>
+          <view class="t">无感通行</view>
         </view>
-        <view class="t3" wx:if="{{item.isCheck === 1 || item.isCheck === 3}}">
-          <view class="t3_l">
-            车辆未认证，完善车辆信息可以有效防止套牌，避免财产损失！
-          </view>
-          <view class="t3_r" data-plateNo="{{item.plateNo}}" @tap="toVerify">
-            <image class="btn-rz" src="../../wximages/rz.png"></image>
-          </view>
+        <view class="tt">
+          <image class="i" src="../../wximages/y2.png">
+          <view class="t">一次设置</view>
+          <view class="t">永不脱险</view>
         </view>
-        <view class="t3" wx:else>
-          <view class="t3_l" wx:if="{{item.isCheck === 2}}">
-            车辆已完成认证
-          </view>
-          <view class="t3_l" wx:if="{{item.isCheck === 4}}">
-            车辆认证中
-          </view>
-        </view>
-      </view>
-    </block>
-  </view>
-
-  <view class="caradd" @tap="toCarAdd">
-    <image class="i" src="../../wximages/icon-add.png"></image>
-    <view class="t">添加车辆 省时省力</view>
-  </view>
-
-  <view class="cartip" @tap="toPayIntroduce">
-    什么是无感支付？
-  </view>
-
-  <view class="tips">
-    <view class="l1">- 完成车辆认证，体验更多车主服务 -</view>
-    <view class="l2">
-      <view class="tt">
-        <image class="i" src="../../wximages/y1.png"></image>
-        <view class="t">
-          一件认证
-        </view>
-        <view class="t">
-          无感通行
-        </view>
-      </view>
-      <view class="tt">
-        <image class="i" src="../../wximages/y2.png"></image>
-        <view class="t">
-          一次设置
-        </view>
-        <view class="t">
-          永不脱险
-        </view>
-      </view>
-      <view class="tt">
-        <image class="i" src="../../wximages/y3.png"></image>
-        <view class="t">
-          违章年检
-        </view>
-        <view class="t">
-          及时不逾期
+        <view class="tt">
+          <image class="i" src="../../wximages/y3.png">
+          <view class="t">违章年检</view>
+          <view class="t">及时不逾期</view>
         </view>
       </view>
     </view>
+    <view class="ahref" @tap="toSite">查看已覆盖的站点</view>
   </view>
-
-  <view class="ahref" @tap="toSite">查看已覆盖的站点</view>
-</view>
 </template>
 
 <script>
-  import wepy from 'wepy'
-  import base from '@/mixins/base.js'
-  import http from '@/mixins/http.js'
-  import { service } from '@/config.js'
+import wepy from "wepy";
+import base from "@/mixins/base.js";
+import http from "@/mixins/http.js";
+import { service } from "@/config.js";
 
-  export default class Index extends wepy.page {
-    config = {
-      navigationBarTitleText: '我的车辆'
-    }
-    components = {
-    }
+export default class Index extends wepy.page {
+  config = {
+    navigationBarTitleText: "我的车辆"
+  };
+  components = {};
 
-    mixins = [base, http]
+  mixins = [base, http];
 
-    data = {
-      carlist: []
-    }
+  data = {
+    carlist: []
+  };
 
-    computed = {
-    }
+  computed = {};
 
-    methods = {
-      toVerify(e) {
-        let plateno = e.currentTarget.dataset.plateno
-        wx.navigateTo({
-          url: 'cars_verify?plateno=' + plateno
-        })
-      },
-      changeNosense(e) {
-        let plateno = e.currentTarget.dataset.plateno
-        let isnosense = e.currentTarget.dataset.isnosense
-        let index = e.currentTarget.dataset.index
-        if (isnosense === 1) {
-          this.$post({
+  methods = {
+    toVerify(e) {
+      let plateno = e.currentTarget.dataset.plateno;
+      wx.navigateTo({
+        url: "cars_verify?plateno=" + plateno
+      });
+    },
+    changeNosense(e) {
+      console.log(e);
+      let plateno = e.currentTarget.dataset.plateno;
+      let isnosense = e.currentTarget.dataset.isnosense;
+      let index = e.currentTarget.dataset.index;
+      if (isnosense === 1) {
+        this.$post(
+          {
             url: service.opennosense,
             data: {
               plateNo: plateno,
-              type: 'open'
+              type: "open"
             }
-          }, {
-            success: (data) => {
-              this.carlist[index].isNosense = 2
+          },
+          {
+            success: data => {
+              this.carlist[index].isNosense = 2;
             },
-            fail: (data) => {
+            fail: data => {
               wx.showModal({
-                title: '提示',
+                title: "提示",
                 content: data.resMsg,
                 showCancel: false
-              })
+              });
             }
-          })
-        } else {
-          this.$post({
+          }
+        );
+      } else {
+        this.$post(
+          {
             url: service.opennosense,
             data: {
               plateNo: plateno,
-              type: 'close'
+              type: "close"
             }
-          }, {
-            success: (data) => {
-              this.carlist[index].isNosense = 1
+          },
+          {
+            success: data => {
+              this.carlist[index].isNosense = 1;
             },
-            fail: (data) => {
+            fail: data => {
               wx.showModal({
-                title: '提示',
+                title: "提示",
                 content: data.resMsg,
                 showCancel: false
-              })
+              });
             }
-          })
-        }
-      },
-      toCarAdd() {
-        wx.navigateTo({
-          url: 'cars_add'
-        })
-      },
-      toPayIntroduce() {
-        wx.navigateTo({
-          url: 'itcpay_introduce'
-        })
-      },
-      toSite() {
-        wx.navigateTo({
-          url: 'sites_index'
-        })
+          }
+        );
       }
+    },
+    toCarAdd() {
+      wx.navigateTo({
+        url: "cars_add"
+      });
+    },
+    toPayIntroduce() {
+      wx.navigateTo({
+        url: "itcpay_introduce"
+      });
+    },
+    toSite() {
+      wx.navigateTo({
+        url: "sites_index"
+      });
     }
+  };
 
-    events = {
-    }
+  events = {};
 
-    onShow() {
-      let that = this
-      this.$post({
+  onShow() {
+    let that = this;
+    this.$post(
+      {
         url: service.carlist,
         data: {
           type: 3
         }
-      }, {
-        success: (data) => {
-          that.carlist = data.data.carList
+      },
+      {
+        success: data => {
+          that.carlist = data.data.carList;
         }
-      })
-    }
+      }
+    );
   }
+}
 </script>
 
 <style lang="less">
@@ -222,7 +208,7 @@
       .t1_r {
         position: relative;
         font-size: 14px;
-        color: #00AE57;
+        color: #00ae57;
         .t1_r_btn {
           position: absolute;
           right: 0;
@@ -231,15 +217,15 @@
           height: 50rpx;
           z-index: 10;
         }
-        .wx-switch-input{
+        .wx-switch-input {
           width: 84rpx !important;
           height: 40rpx !important;
         }
-        .wx-switch-input::before{
+        .wx-switch-input::before {
           width: 80rpx !important;
           height: 36rpx !important;
         }
-        .wx-switch-input::after{
+        .wx-switch-input::after {
           width: 40rpx !important;
           height: 36rpx !important;
         }
@@ -301,7 +287,7 @@
   margin-bottom: 50rpx;
   text-align: center;
   font-size: 10px;
-  color: #CFCFCF;
+  color: #cfcfcf;
   .l2 {
     margin-top: 40rpx;
     display: flex;
@@ -324,6 +310,6 @@
   height: 80rpx;
   text-align: center;
   font-size: 12px;
-  color: #66CEDC;
+  color: #66cedc;
 }
 </style>

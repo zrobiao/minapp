@@ -14,7 +14,6 @@
           </block>
         </view>
       </view>
-      
       <input-idcard :config="idcard" @onInput.user="_handleInputIdcard"><input-idcard/>
     </block>
     
@@ -214,6 +213,9 @@
     }
 
     events = {
+    }
+    onReady() {
+      console.log('开始进入')
     }
 
     onLoad(option) {

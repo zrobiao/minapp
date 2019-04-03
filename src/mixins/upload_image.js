@@ -1,4 +1,4 @@
-import wepy from 'wepy';
+import wepy from 'wepy'
 import { service } from '../config.js'
 
 export default class upload_image extends wepy.mixin {
@@ -41,7 +41,7 @@ export default class upload_image extends wepy.mixin {
         } else {
           that.uploadFiles(filePaths, successUp, failUp, i, length)
         }
-        wx.hideToast();
+        wx.hideToast()
       }
     })
   }
@@ -67,6 +67,6 @@ export default class upload_image extends wepy.mixin {
           that.uploadFiles(that.BookImage, 0, 0, 0, that.files.length)
         }
       })
-    },
+    }
   }
 }

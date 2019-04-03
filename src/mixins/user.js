@@ -12,11 +12,11 @@ export default class userMixin extends wepy.mixin {
     wepy.login({
       success: (res) => {
         console.log('wepy.login.success:', res)
-        this.$post({ url: service.login, data: {code: res.code} }, {
-          success: ({code, data}) => {
+        this.$post({ url: service.login, data: { code: res.code } }, {
+          success: ({ code, data }) => {
             wx.setStorageSync('token', data.token)
             wx.setStorageSync('openid', data.token)
-            if(!data.token){
+            if (!data.token) {
               wx.setStorageSync('jump', '/' + getCurrentPages()[0].__route__)
             }
           }
@@ -43,19 +43,17 @@ export default class userMixin extends wepy.mixin {
 
   // get code
   $getCode() {
-    var code = wx.getStorageSync('code');
+    var code = wx.getStorageSync('code')
     if (!code) {
       this.$setCode()
     }
-    var code = wx.getStorageSync('code');
     return code
   }
 
   $getUser() {
     var user = wx.getStorageSync('user')
-
     // 不重复获取用户信息
-    if (!user ||  !user.nickName) {
+    if (!user || !user.nickName) {
       wepy.getUserInfo({
         success: (res) => {
           console.log('wepy.getUserInfo.success:', res)
@@ -90,7 +88,7 @@ export default class userMixin extends wepy.mixin {
   }
 
   // 进行微信登陆
-  $login(success = () => {}, noAutoLogin) {
+  $login(success = () => { }, noAutoLogin) {
     // 先登录
     wepy.login({
       success: (res) => {
@@ -164,7 +162,7 @@ export default class userMixin extends wepy.mixin {
   // 打开授权页
   _wxOpenSetting(callback) {
     wx.openSetting && wx.openSetting({
-      success: ({authSetting}) => {
+      success: ({ authSetting }) => {
         console.log('wx.openSetting.success', authSetting)
         if (authSetting['scope.userInfo']) {
           // 用户打开设置，重新获取信息

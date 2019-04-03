@@ -3,46 +3,46 @@ import { service } from '../config.js'
 
 export default class httpMixin extends wepy.mixin {
   $get(
-    {url = '', headers = {}, data = {} },
-    {success = () => {}, fail = () => {}, complete = () => {} }
+    { url = '', headers = {}, data = {} },
+    { success = () => { }, fail = () => { }, complete = () => { } }
   ) {
     const methods = 'GET'
     this.$ajax(
-      {url, headers, methods, data},
-      {success, fail, complete }
+      { url, headers, methods, data },
+      { success, fail, complete }
     )
   }
 
   $post(
-    {url = '', headers = {}, data = {} },
-    {success = () => {}, fail = () => {}, complete = () => {} }
+    { url = '', headers = {}, data = {} },
+    { success = () => { }, fail = () => { }, complete = () => { } }
   ) {
     const methods = 'POST'
     this.$ajax(
-      {url, headers, methods, data},
-      {success, fail, complete }
+      { url, headers, methods, data },
+      { success, fail, complete }
     )
   }
 
   $put(
-    {url = '', headers = {}, data = {} },
-    {success = () => {}, fail = () => {}, complete = () => {} }
+    { url = '', headers = {}, data = {} },
+    { success = () => { }, fail = () => { }, complete = () => { } }
   ) {
     const methods = 'PUT'
     this.$ajax(
-      {url, headers, methods, data},
-      {success, fail, complete }
+      { url, headers, methods, data },
+      { success, fail, complete }
     )
   }
 
   $delete(
-    {url = '', headers = {}, data = {} },
-    {success = () => {}, fail = () => {}, complete = () => {} }
+    { url = '', headers = {}, data = {} },
+    { success = () => { }, fail = () => { }, complete = () => { } }
   ) {
     const methods = 'DELETE'
     this.$ajax(
-      {url, headers, methods, data},
-      {success, fail, complete }
+      { url, headers, methods, data },
+      { success, fail, complete }
     )
   }
 
@@ -52,15 +52,15 @@ export default class httpMixin extends wepy.mixin {
    * @return {Boolean}      [description]
    */
   $ajax(
-    {url = '', headers = {}, methods = 'GET', data = {} },
-    {success = () => {}, error = () => {}, fail = () => {}, complete = () => {} }
+    { url = '', headers = {}, methods = 'GET', data = {} },
+    { success = () => { }, error = () => { }, fail = () => { }, complete = () => { } }
   ) {
     // 增强体验：加载中
     wx.showNavigationBarLoading()
     // 构造请求体
     const request = {
       url: url,
-      method: ['GET', 'POST','PUT', 'DELETE'].indexOf(methods) > -1 ? methods : 'GET',
+      method: ['GET', 'POST', 'PUT', 'DELETE'].indexOf(methods) > -1 ? methods : 'GET',
       header: Object.assign({
         'Authorization': wx.getStorageSync('token')
       }, headers),
@@ -76,12 +76,12 @@ export default class httpMixin extends wepy.mixin {
         console.log('[SUCCESS]', statusCode, typeof data === 'object' ? data : data.toString().substring(0, 100))
 
         // 状态码正常 & 确认有数据
-        if ('0000' === data.resCode) {
+        if (data.resCode === '0000') {
           // 成功回调
           wx.removeStorageSync('fromId')
           return setTimeout(() => {
             let successExist = this.isFunction(success)
-            successExist && success({statusCode, ...data})
+            successExist && success({ statusCode, ...data })
             this.$apply()
           })
         } else if (data.resCode == 1) {
@@ -139,9 +139,9 @@ export default class httpMixin extends wepy.mixin {
           // 失败回调：其他情况
           return setTimeout(() => {
             if (this.isFunction(fail)) {
-              fail({statusCode, ...data})
+              fail({ statusCode, ...data })
               this.$apply()
-            }else{
+            } else {
               wx.showModal({
                 title: '提示',
                 content: data.resMsg,
@@ -150,20 +150,19 @@ export default class httpMixin extends wepy.mixin {
             }
           })
         }
-
       },
       fail: ({ statusCode, data }) => {
         // 控制台调试日志
         console.log('[ERROR]', statusCode, data)
         // 失败回调
         return setTimeout(() => {
-          this.isFunction(error) && error({statusCode, ...data})
+          this.isFunction(error) && error({ statusCode, ...data })
           this.$apply()
         })
       },
       complete: (res) => {
         // 控制台调试日志
-        //console.log('[COMPLETE]', res)
+        // console.log('[COMPLETE]', res)
         // 隐藏加载提示
         wx.hideNavigationBarLoading()
         // 停止下拉状态
@@ -171,11 +170,10 @@ export default class httpMixin extends wepy.mixin {
         // 完成回调
         return (() => {
           let completeExist = this.isFunction(complete)
-           completeExist && complete(res)
+          completeExist && complete(res)
           this.$apply()
         })()
       }
     }))
   }
 }
-

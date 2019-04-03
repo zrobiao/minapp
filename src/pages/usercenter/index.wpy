@@ -1,154 +1,142 @@
 <template>
-<view class="container">
-  <view class="userbanner">
-    <image class="bg" src="../../wximages/t2.png"></image>
-    <block wx:if="{{userinfo.nickname}}">
-      <view class="logo">
-        <image src="{{userinfo.headImg}}"></image>
-      </view>
-      <view class="info">
-        <view class="l1">
-          {{userinfo.nickname}}
+  <view class="container">
+    <view class="userbanner">
+      <image class="bg" src="../../wximages/t2.png">
+      <block wx:if="{{userinfo.nickname}}">
+        <view class="logo">
+          <image src="{{userinfo.headImg}}">
         </view>
-        <view class="l2">
-          {{userinfo.mobile}}
+        <view class="info">
+          <view class="l1">{{userinfo.nickname}}</view>
+          <view class="l2">{{userinfo.mobile}}</view>
         </view>
-      </view>
-    </block>
-    <block wx:else>
-      <view class="logo">
-        <image src="../../images/head.png"></image>
-      </view>
-      <view class="info">
-        <view class="l1">
-          未知
+      </block>
+      <block wx:else>
+        <view class="logo">
+          <image src="../../images/head.png">
         </view>
-        <view class="l2">
-          请添加车辆
+        <view class="info">
+          <view class="l1">未知</view>
+          <view class="l2">请添加车辆</view>
         </view>
+      </block>
+    </view>
+    <view class="userbtns">
+      <view class="l" @tap="toScore">
+        <image src="../../wximages/u1.png">0积分
       </view>
-    </block>
+      <view class="l">
+        <image src="../../wximages/u2.png">积分商城
+      </view>
+      <view class="l">
+        <image src="../../wximages/u3.png">今日签到
+      </view>
+    </view>
+    <view class="list">
+      <view class="l">
+        <image src="../../wximages/ub1.png">行程账单
+      </view>
+      <view class="l" @tap="toInsurance">
+        <image src="../../wximages/ub2.png">我的保单
+      </view>
+      <view class="l">
+        <image src="../../wximages/ub3.png">我的红包
+      </view>
+      <view class="l">
+        <image src="../../wximages/ub4.png">我的卡包
+      </view>
+      <view class="l" @tap="toQa">
+        <image src="../../wximages/ub5.png">问题反馈
+      </view>
+    </view>
+    <view
+      hidden="{{!userinfo.nickname || userinfo.isFreePay === false}}"
+      class="ahref"
+      @tap="unbind"
+    >解绑免密支付</view>
   </view>
-  <view class="userbtns">
-    <view class="l" @tap="toScore">
-      <image src="../../wximages/u1.png"></image>
-      0积分
-    </view>
-    <view class="l">
-      <image src="../../wximages/u2.png"></image>
-      积分商城
-    </view>
-    <view class="l">
-      <image src="../../wximages/u3.png"></image>
-      今日签到
-    </view>
-  </view>
-  <view class="list">
-    <view class="l">
-      <image src="../../wximages/ub1.png"></image>
-      行程账单
-    </view>
-    <view class="l" @tap="toInsurance">
-      <image src="../../wximages/ub2.png"></image>
-      我的保单
-    </view>
-    <view class="l">
-      <image src="../../wximages/ub3.png"></image>
-      我的红包
-    </view>
-    <view class="l">
-      <image src="../../wximages/ub4.png"></image>
-      我的卡包
-    </view>
-    <view class="l" @tap="toQa">
-      <image src="../../wximages/ub5.png"></image>
-      问题反馈
-    </view>
-  </view>
-
-  <view hidden="{{!userinfo.nickname || userinfo.isFreePay === false}}" class="ahref" @tap="unbind">解绑免密支付</view>
-</view>
 </template>
 
 <script>
-  import wepy from 'wepy'
-  import base from '@/mixins/base.js'
-  import http from '@/mixins/http.js'
-  import { service } from '@/config.js'
+import wepy from "wepy";
+import base from "@/mixins/base.js";
+import http from "@/mixins/http.js";
+import { service } from "@/config.js";
 
-  export default class Index extends wepy.page {
-    config = {
-      navigationBarTitleText: '个人中心'
-    }
-    components = {
-    }
+export default class Index extends wepy.page {
+  config = {
+    navigationBarTitleText: "个人中心"
+  };
+  components = {};
 
-    mixins = [base, http]
+  mixins = [base, http];
 
-    data = {
-      userinfo: {}
-    }
+  data = {
+    userinfo: {}
+  };
 
-    computed = {
-    }
+  computed = {};
 
-    methods = {
-      toScore() {
-        wx.navigateTo({
-          url: 'scores'
-        })
-      },
-      toInsurance() {
-        wx.navigateTo({
-          url: 'insurances'
-        })
-      },
-      toQa() {
-        wx.navigateTo({
-          url: '/pages/qa/ask'
-        })
-      },
-      unbind() {
-        this.$post({
+  methods = {
+    toScore() {
+      wx.navigateTo({
+        url: "scores"
+      });
+    },
+    toInsurance() {
+      wx.navigateTo({
+        url: "insurances"
+      });
+    },
+    toQa() {
+      wx.navigateTo({
+        url: "/pages/qa/ask"
+      });
+    },
+    unbind() {
+      this.$post(
+        {
           url: service.closefreepay,
-          data: {
-          }
-        }, {
-          success: (data) => {
+          data: {}
+        },
+        {
+          success: data => {
             wx.showModal({
-              title: '提示',
-              content: '已成功解约',
+              title: "提示",
+              content: "已成功解约",
               showCancel: false
-            })
-            this.userinfo.isFreePay = false
+            });
+            this.userinfo.isFreePay = false;
           },
-          fail: (data) => {
+          fail: data => {
             wx.showModal({
-              title: '提示',
+              title: "提示",
               content: data.resMsg,
               showCancel: false
-            })
+            });
           }
-        })
-      }
-    }
-
-    events = {
-    }
-
-    onShow() {
-      let that = this
-      this.$post({
-        url: service.userinfo
-      }, {
-        success: (data) => {
-          that.userinfo = data.data.userInfo
-        },
-        fail: (data) => {
         }
-      })
+      );
     }
+  };
+
+  events = {};
+
+  onShow() {
+    let that = this;
+    this.$post(
+      {
+        url: service.userinfo
+      },
+      {
+        success: data => {
+          that.userinfo = data.data.userInfo;
+        },
+        fail: data => {}
+      }
+    );
   }
+}
 </script>
 
 <style lang="less">
@@ -186,7 +174,6 @@
     color: white;
     opacity: 0.8;
     .l1 {
-
     }
     .l2 {
       margin-top: 10rpx;
