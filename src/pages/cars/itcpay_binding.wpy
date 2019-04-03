@@ -1,103 +1,95 @@
 <template>
-<view class="container">
-  <view class="top">
-    <view class="t1">车牌号绑定成功</view>
-    <view class="t2">{{plateNo}}</view>
-  </view>
-  <view class="tipbox">
-    <view class="t1">
-      开通微信无感支付
+  <view class="container">
+    <view class="top">
+      <view class="t1">车牌号绑定成功</view>
+      <view class="t2">{{plateNo}}</view>
     </view>
-    <view class="t2">
-      过收费站享受先通行后付费，更快更便捷
+    <view class="tipbox">
+      <view class="t1">开通微信无感支付</view>
+      <view class="t2">过收费站享受先通行后付费，更快更便捷</view>
+      <view class="t3">开通步骤：</view>
+      <view class="t4">
+        <image class="i" src="../../wximages/ib1.png">
+      </view>
+      <view class="t5">开通成功后过收费站即可使用无感支付。</view>
     </view>
-    <view class="t3">
-      开通步骤：
-    </view>
-    <view class="t4">
-      <image class="i" src="../../wximages/ib1.png"></image>
-    </view>
-    <view class="t5">
-      开通成功后过收费站即可使用无感支付。
+    <view class="btnbox">
+      <button disabled="{{loading}}" class="btn btn-success" @tap="openNosense">立即开通</button>
+      <view class="t" @tap="toHome">回到首页</view>
     </view>
   </view>
-  <view class="btnbox">
-    <button disabled="{{loading}}" class="btn btn-success" @tap="openNosense">立即开通</button>
-    <view class="t" @tap="toHome">回到首页</view>
-  </view>
-</view>
 </template>
 
 <script>
-  import wepy from 'wepy'
-  import base from '@/mixins/base.js'
-  import http from '@/mixins/http.js'
-  import { service } from '@/config.js'
+import wepy from "wepy";
+import base from "@/mixins/base.js";
+import http from "@/mixins/http.js";
+import { service } from "@/config.js";
 
-  export default class Index extends wepy.page {
-    config = {
-      navigationBarTitleText: '无感支付'
-    }
-    components = {
-    }
+export default class Index extends wepy.page {
+  config = {
+    navigationBarTitleText: "无感支付"
+  };
+  components = {};
 
-    mixins = [base, http]
+  mixins = [base, http];
 
-    data = {
-      plateNo: '京RRRRRR',
-      loading: false
-    }
+  data = {
+    plateNo: "京RRRRRR",
+    loading: false
+  };
 
-    computed = {
-    }
+  computed = {};
 
-    methods = {
-      openNosense() {
-        this.loading = true
-        let that = this
-        this.$post({
+  methods = {
+    openNosense() {
+      this.loading = true;
+      let that = this;
+      this.$post(
+        {
           url: service.opennosense,
           data: {
-            plateNo: this.plateNo.replace(' ', '')
+            plateNo: this.plateNo.replace(" ", "")
           }
-        }, {
-          success: (data) => {
+        },
+        {
+          success: data => {
             wx.showModal({
-              title: '提示',
+              title: "提示",
               content: data.resMsg,
               showCancel: false,
               complete: () => {
                 wx.redirectTo({
-                  url: 'cars_index'
-                })
+                  url: "cars_index"
+                });
               }
-            })
-            that.loading = false
+            });
+            that.loading = false;
           },
-          fail: (data) => {
+          fail: data => {
             wx.showModal({
-              title: '提示',
+              title: "提示",
               content: data.resMsg,
               showCancel: false
-            })
-            that.loading = false
+            });
+            that.loading = false;
           }
-        })
-      },
-      toHome() {
-        wx.redirectTo({
-          url: 'cars_index'
-        })
-      }
+        }
+      );
+    },
+    toHome() {
+      wx.redirectTo({
+        url: "cars_index"
+      });
     }
+  };
 
-    events = {
-    }
+  events = {};
 
-    onLoad() {
-      this.plateNo = wx.getStorageSync('carplateno')
-    }
+  onLoad() {
+    this.plateNo = wx.getStorageSync("carplateno");
   }
+}
 </script>
 
 <style lang="less">
@@ -113,7 +105,7 @@
     width: 450rpx;
     padding: 20rpx 0;
     text-align: center;
-    background-color: #EAFBF3;
+    background-color: #eafbf3;
     color: #058143;
     border-radius: 20rpx;
   }
@@ -128,7 +120,7 @@
   .t2 {
     font-size: 10px;
     margin-top: 10rpx;
-    color: #66CEDC;
+    color: #66cedc;
   }
   .t3 {
     margin-top: 80rpx;
@@ -142,7 +134,7 @@
     }
   }
   .t5 {
-    color: #D8D8D8;
+    color: #d8d8d8;
     font-size: 10px;
   }
 }

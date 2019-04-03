@@ -66,9 +66,9 @@ export default class extends wepy.app {
     },
     window: {
       backgroundColor: "#F3F4F6",
-      backgroundTextStyle: "#fff",
+      backgroundTextStyle: "light",
       navigationBarBackgroundColor: "#03CB65",
-      navigationBarTitleText: "WeChat",
+      navigationBarTitleText: "高速通行",
       navigationBarTextStyle: "white",
       enablePullDownRefresh: false
     },
@@ -77,7 +77,7 @@ export default class extends wepy.app {
       downloadFile: 10000
     },
     debug: true,
-    navigateToMiniProgramAppIdList: ["wxbd687630cd02ce1d"]
+    navigateToMiniProgramAppIdList: ["wxbd687630cd02ce1d", "wx519ba1e247434af1"]
   };
 
   mixins = [http];

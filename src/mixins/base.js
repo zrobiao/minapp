@@ -1,49 +1,49 @@
-import wepy from 'wepy'
+import wepy from 'wepy';
 
 export default class baseMixin extends wepy.mixin {
   noop() {
-    return null
+    return null;
   }
   hasOwn(obj, type) {
-    return Object.prototype.hasOwnProperty.call(obj, type)
+    return Object.prototype.hasOwnProperty.call(obj, type);
   }
   $showToast(title) {
     wx.showToast({
       title: title,
       icon: 'none',
       duration: 1200
-    })
+    });
   }
   $toastSuccess(title) {
     wx.showToast({
       title: title,
       icon: 'success',
       duration: 1200
-    })
+    });
   }
   $showLoading(title) {
     wx.showLoading({
       title: title,
       mask: true
-    })
+    });
   }
   $hideLoading() {
-    wx.hideLoading()
+    wx.hideLoading();
   }
 
   $formatTime(date) {
     function formatNumber(n) {
-      n = n.toString()
-      return n[1] ? n : '0' + n
+      n = n.toString();
+      return n[1] ? n : '0' + n;
     }
 
-    const year = date.getFullYear()
-    const month = date.getMonth() + 1
-    const day = date.getDate()
-    const hour = date.getHours()
-    const minute = date.getMinutes()
-    const second = date.getSeconds()
-    return [year, month, day].map(formatNumber).join('-') + ' ' + [hour, minute, second].map(formatNumber).join(':')
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    const hour = date.getHours();
+    const minute = date.getMinutes();
+    const second = date.getSeconds();
+    return [year, month, day].map(formatNumber).join('-') + ' ' + [hour, minute, second].map(formatNumber).join(':');
   }
 
   /**
@@ -52,25 +52,25 @@ export default class baseMixin extends wepy.mixin {
    * @return {Boolean}      [description]
    */
   isUndefined(item) {
-    return typeof item === 'undefined'
+    return typeof item === 'undefined';
   }
   isDefined(item) {
-    return !this.isUndefined(item)
+    return !this.isUndefined(item);
   }
   isString(item) {
-    return typeof item === 'string'
+    return typeof item === 'string';
   }
   isNumber(item) {
-    return typeof item === 'number'
+    return typeof item === 'number';
   }
   isArray(item) {
-    return Object.prototype.toString.apply(item) === '[object Array]'
+    return Object.prototype.toString.apply(item) === '[object Array]';
   }
   isObject(item) {
-    return typeof item === 'object' && !this.isArray(item)
+    return typeof item === 'object' && !this.isArray(item);
   }
   isFunction(item) {
-    return typeof item === 'function'
+    return typeof item === 'function';
   }
 
   /**
@@ -79,22 +79,22 @@ export default class baseMixin extends wepy.mixin {
    * @return {Boolean}      [description]
    */
   getString(item, defaultStr) {
-    if (this.isString(item)) return item.trim()
-    if (this.isNumber(item)) return `${item}`.trim()
-    return defaultStr || ''
+    if (this.isString(item)) return item.trim();
+    if (this.isNumber(item)) return `${item}`.trim();
+    return defaultStr || '';
   }
   getNumber(item, defaultNum) {
-    var matches = this.getString(item).match(/\d+/)
-    return this.isNumber(matches && +matches[0]) ? +matches[0] : defaultNum
+    var matches = this.getString(item).match(/\d+/);
+    return this.isNumber(matches && +matches[0]) ? +matches[0] : defaultNum;
   }
   getArray(item, defaultArr) {
-    return this.isArray(item) ? item : (defaultArr || [])
+    return this.isArray(item) ? item : (defaultArr || []);
   }
   getObject(item, defaultObj) {
-    return this.isObject(item) ? item : (defaultObj || {})
+    return this.isObject(item) ? item : (defaultObj || {});
   }
   getFunction(item) {
-    return this.isFunction(item) ? item : noop
+    return this.isFunction(item) ? item : noop;
   }
 
   /**
@@ -103,22 +103,22 @@ export default class baseMixin extends wepy.mixin {
    * @return {Boolean}      [description]
    */
   $json(item) {
-    let str = { type: Object.prototype.toString.call(item) }
+    let str = { type: Object.prototype.toString.call(item) };
     try {
-      str = JSON.stringify(item)
+      str = JSON.stringify(item);
     } catch (e) {
-      str.error = e && e.stack || ''
+      str.error = e && e.stack || '';
     }
-    return this.isString(str) ? str : this.$json(str)
+    return this.isString(str) ? str : this.$json(str);
   }
   $parse(item) {
-    let obj = { type: Object.prototype.toString.call(item) }
+    let obj = { type: Object.prototype.toString.call(item) };
     try {
-      obj = JSON.parse(item)
+      obj = JSON.parse(item);
     } catch (e) {
-      obj.error = e && e.stack || ''
+      obj.error = e && e.stack || '';
     }
-    return this.isObject(obj) ? obj : this.$parse(obj)
+    return this.isObject(obj) ? obj : this.$parse(obj);
   }
 
   /**
@@ -127,7 +127,7 @@ export default class baseMixin extends wepy.mixin {
    * @return {Boolean}      [description]
    */
   isPhone(str) {
-    return /^1\d{10}$/.test(str)
+    return /^1\d{10}$/.test(str);
   }
 
   // 警告框
@@ -144,31 +144,31 @@ export default class baseMixin extends wepy.mixin {
     } : {
           // 尝试转换字符串
         title: item.toString ? item.toString() : '参数异常'
-      }
+      };
     wx.showModal(Object.assign({
       showCancel: false
-    }, param))
+    }, param));
   }
 
   // 跳转链接
   $goto(url) {
-    wx.navigateTo({ url: url })
+    wx.navigateTo({ url: url });
   }
 
   // 缓存当前页面
   $cache(title) {
-    var pages = getCurrentPages()    // 获取加载的页面
+    var pages = getCurrentPages();    // 获取加载的页面
 
-    var currentPage = pages[pages.length - 1]    // 获取当前页面的对象
+    var currentPage = pages[pages.length - 1];    // 获取当前页面的对象
 
-    var options = currentPage.options
-    var url = '/' + currentPage.route
+    var options = currentPage.options;
+    var url = '/' + currentPage.route;
     if (options.id) {
-      url = '/' + currentPage.route + `?id=${options.id}`
+      url = '/' + currentPage.route + `?id=${options.id}`;
     } else if (options.id && options.library_id) {
-      url = '/' + currentPage.route + '?id=' + options.id + `&library_id=${options.library_id}`
+      url = '/' + currentPage.route + '?id=' + options.id + `&library_id=${options.library_id}`;
     }
 
-    wx.setStorageSync(title, url)
+    wx.setStorageSync(title, url);
   }
 }

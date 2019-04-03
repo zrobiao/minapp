@@ -73,10 +73,10 @@
 </template>
 
 <script>
-  import wepy from 'wepy'
-  import base from '@/mixins/base.js'
-  import http from '@/mixins/http.js'
-  import { service } from '@/config.js'
+  import wepy from 'wepy';
+  import base from '@/mixins/base.js';
+  import http from '@/mixins/http.js';
+  import { service } from '@/config.js';
 
   export default class Index extends wepy.page {
     config = {
@@ -112,47 +112,47 @@
           success: (data) => {
             wx.redirectTo({
               url: 'cars_index'
-            })
+            });
           },
           fail: (data) => {
             wx.showModal({
               title: '提示',
               content: data.resMsg,
               showCancel: false
-            })
+            });
           }
-        })
+        });
       },
       upload(e) {
-        let id = e.currentTarget.dataset.id
-        let that = this
+        let that = this;
+        let id = e.currentTarget.dataset.id;
         wx.chooseImage({
           count: 1,
           success (res) {
-            const tempFilePaths = res.tempFilePaths
+            const tempFilePaths = res.tempFilePaths;
             wx.uploadFile({
               url: service.upload,
               filePath: tempFilePaths[0],
               name: 'file',
               formData: {},
               success: (res) => {
-                res = JSON.parse(res.data)
+                res = JSON.parse(res.data);
                 if (res.resCode === '0000') {
                   setTimeout(() => {
-                    that[id] = res.data.path
-                    that.$apply()
-                  }, 10)
+                    that[id] = res.data.path;
+                    that.$apply();
+                  }, 10);
                 } else {
                   wx.showModal({
                     title: '提示',
                     content: res.resMsg,
                     showCancel: false
-                  })
+                  });
                 }
               }
-            })
+            });
           }
-        })
+        });
       },
       chooseImage(e) {
         //let id = e.currentTarget.dataset.id
@@ -160,14 +160,14 @@
           itemList: ['拍照', '相册选择'],
           success: (res) => {
             if (res.tapIndex === 0) {
-              console.log('选择了拍照！')
+              console.log('选择了拍照！');
             } else {
               wx.chooseImage({
                 count: 1,
                 sizeType: ['original', 'compressed'],
                 sourceType: ['album'],
                 success: (res) => {
-                  console.log(res)
+                  console.log(res);
                   //let path = res.tempFilePaths[0];
                   //this.progressPhoto(type, path);
                 },
@@ -179,8 +179,8 @@
               });
             }
           }
-        })
-      },
+        });
+      }
       // 处理图片
       // progressPhoto(type, path) {
       //   if (wx.canIUse('compressImage')) {
@@ -210,13 +210,11 @@
       //   }
       // },
     }
-
     events = {
     }
-
     onLoad(option) {
       if (option && option.plateno) {
-        this.plateno = option.plateno
+        this.plateno = option.plateno;
       }
     }
   }

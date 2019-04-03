@@ -1,72 +1,59 @@
 <template>
-<view class="container">
-  <view>
-    <view class="title">常见问题</view>
-    <view class="list">
-      <view @tap="toDetail" class="item">
-        什么是高速顺通？
+  <view class="container">
+    <view>
+      <view class="title">常见问题</view>
+      <view class="list">
+        <view @tap="toDetail" class="item">什么是高速顺通？</view>
+        <view class="item">什么是高速顺通？</view>
+        <view class="item">什么是高速顺通？</view>
+        <view class="item last">什么是高速顺通？</view>
       </view>
-      <view class="item">
-        什么是高速顺通？
-      </view>
-      <view class="item">
-        什么是高速顺通？
-      </view>
-      <view class="item last">
-        什么是高速顺通？
-      </view>
+      <view class="href">商户合作</view>
     </view>
-    <view class="href">商户合作</view>
+    <view class="btnbox">
+      <button @tap="toAsk" class="btn btn-success">反馈</button>
+    </view>
   </view>
-  <view class="btnbox">
-    <button @tap="toAsk" class="btn btn-success">反馈</button>
-  </view>
-</view>
 </template>
 
 <script>
-  import wepy from 'wepy'
-  import base from '@/mixins/base.js'
+import wepy from "wepy";
+import base from "@/mixins/base.js";
 
-  export default class Index extends wepy.page {
-    config = {
-      navigationBarTitleText: '常见问题'
-    }
-    components = {
-    }
+export default class Index extends wepy.page {
+  config = {
+    navigationBarTitleText: "常见问题"
+  };
+  components = {};
 
-    mixins = [base]
+  mixins = [base];
 
-    data = {
-    }
+  data = {};
 
-    computed = {
-    }
+  computed = {};
 
-    methods = {
-      toAsk() {
-        wx.navigateTo({
-          url: 'ask'
-        })
-      },
-      toDetail() {
-        wx.navigateTo({
-          url: 'detail'
-        })
-      }
+  methods = {
+    toAsk() {
+      wx.navigateTo({
+        url: "ask"
+      });
+    },
+    toDetail() {
+      wx.navigateTo({
+        url: "detail"
+      });
     }
+  };
 
-    events = {
-    }
+  events = {};
 
-    onLoad() {
-    }
-  }
+  onLoad() {}
+}
 </script>
 
 <style lang="less">
 page {
-  background: #F3F4F6;
+  background: #f3f4f6;
 }
 .title {
   color: #999;
@@ -80,13 +67,13 @@ page {
 }
 .list {
   padding-left: 20rpx;
-  border-top: 1px solid #EFEFEF;
-  border-bottom: 1px solid #EFEFEF;
+  border-top: 1px solid #efefef;
+  border-bottom: 1px solid #efefef;
   background: white;
   .item {
     font-size: 13px;
     padding: 30rpx 0;
-    border-bottom: 1px solid #EFEFEF;
+    border-bottom: 1px solid #efefef;
     &.last {
       border-bottom: none;
     }

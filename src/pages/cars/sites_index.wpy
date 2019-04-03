@@ -1,29 +1,34 @@
 <template>
-<view class="container">
-  <view class="searchbar">
-    <!-- <view class="regionselect">
+  <view class="container">
+    <view class="searchbar">
+      <!-- <view class="regionselect">
       <picker mode="region" bindchange="bindRegionChange" value="{{region}}" custom-item="{{customItem}}">
         <view class="picker">
           {{region[0]}}
         </view>
       </picker>
-    </view> -->
-    <view class="inputbox">
-      <input type="text" bindinput="bindKeyInput" placeholder="可输入服务区名称或高速路名称搜索" />
+      </view>-->
+      <view class="inputbox">
+        <input type="text" bindinput="bindKeyInput" placeholder="可输入服务区名称或高速路名称搜索">
+      </view>
+      <view class="confirmbtn" @tap="search">
+        <button class="btn btn-success">搜索</button>
+      </view>
     </view>
-    <view class="confirmbtn" @tap="search">
-      <button class="btn btn-success">搜索</button>
-    </view>
-  </view>
-  <view class="sites">
-    <scroll-view style="height: {{windowHeight}}px;" scroll-y="true" lower-threshold="100" bindscrolltolower="searchScrollLower">
-      <block wx:for="{{list}}" wx:key="index">
-        <view class="site">
-          <view class="t1">
-            <view class="t1_l">{{item.name}}</view>
-            <!-- <view class="t1_r">{{item.type}}</view> -->
-          </view>
-          <!-- <view class="t2">
+    <view class="sites">
+      <scroll-view
+        style="height: {{windowHeight}}px;"
+        scroll-y="true"
+        lower-threshold="100"
+        bindscrolltolower="searchScrollLower"
+      >
+        <block wx:for="{{list}}" wx:key="index">
+          <view class="site">
+            <view class="t1">
+              <view class="t1_l">{{item.name}}</view>
+              <!-- <view class="t1_r">{{item.type}}</view> -->
+            </view>
+            <!-- <view class="t2">
             <view class="t2_l">
               <image class="i" src="../../wximages/s1.png"></image>
               服务：汽修，便利店，公厕，餐厅
@@ -36,109 +41,109 @@
               <image class="i" src="../../wximages/s3.png"></image>
               距您：汽修，便利店，公厕，餐厅
             </view>
-          </view> -->
-        </view>
-      </block>
-    </scroll-view>
+            </view>-->
+          </view>
+        </block>
+      </scroll-view>
+    </view>
   </view>
-</view>
 </template>
 
 <script>
-  import wepy from 'wepy'
-  import base from '@/mixins/base.js'
-  import http from '@/mixins/http.js'
-  import { service } from '@/config.js'
+import wepy from "wepy";
+import base from "@/mixins/base.js";
+import http from "@/mixins/http.js";
+import { service } from "@/config.js";
 
-  export default class Index extends wepy.page {
-    config = {
-      navigationBarTitleText: '服务区'
-    }
-    components = {
-    }
+export default class Index extends wepy.page {
+  config = {
+    navigationBarTitleText: "服务区"
+  };
+  components = {};
 
-    mixins = [base, http]
+  mixins = [base, http];
 
-    data = {
-      region: ['全国'],
-      customItem: '全部',
-      loading: false,
-      done: false,
-      searchQuery: '',
-      list: [],
-      pageIndex: 0,
-      pageLimit: 20,
-      windowHeight: 0
-    }
+  data = {
+    region: ["全国"],
+    customItem: "全部",
+    loading: false,
+    done: false,
+    searchQuery: "",
+    list: [],
+    pageIndex: 0,
+    pageLimit: 20,
+    windowHeight: 0
+  };
 
-    computed = {
-    }
+  computed = {};
 
-    methods = {
-      search() {
-        this.pageIndex = 0
-        this.list = []
-        this.done = false
-        this._fetch()
-      },
-      searchScrollLower() {
-        console.log(1)
-        if (this.done) {
-          return
-        }
-        this.pageIndex++
-        this._fetch()
-      },
-      bindKeyInput(e) {
-        this.searchQuery = e.detail.value
-      },
-      bindRegionChange(e) {
-        this.region = e.detail.value
-      },
-      toDetail() {
-        wx.navigateTo({
-          url: 'site_detail'
-        })
+  methods = {
+    search() {
+      this.pageIndex = 0;
+      this.list = [];
+      this.done = false;
+      this._fetch();
+    },
+    searchScrollLower() {
+      console.log(1);
+      if (this.done) {
+        return;
       }
+      this.pageIndex++;
+      this._fetch();
+    },
+    bindKeyInput(e) {
+      this.searchQuery = e.detail.value;
+    },
+    bindRegionChange(e) {
+      this.region = e.detail.value;
+    },
+    toDetail() {
+      wx.navigateTo({
+        url: "site_detail"
+      });
     }
+  };
 
-    events = {
-    }
+  events = {};
 
-    _fetch() {
-      this.loading = true
-      this.$post({
+  _fetch() {
+    this.loading = true;
+    this.$post(
+      {
         url: service.downTollstation,
         data: {
           search: this.searchQuery,
           pageIndex: this.pageIndex,
           pageLimit: this.pageLimit
         }
-      }, {
-        success: (data) => {
-          this.list = this.list.concat(data.data)
-          this.loading = false
+      },
+      {
+        success: data => {
+          this.list = this.list.concat(data.data);
+          this.loading = false;
           if (data.data.length === 0) {
-            this.done = true
+            this.done = true;
           }
         },
-        fail: (data) => {
-          this.loading = false
+        fail: data => {
+          this.loading = false;
         }
-      })
-    }
-
-    onLoad() {
-      this._fetch()
-      this.windowHeight = wx.getSystemInfoSync().windowHeight - 40
-    }
+      }
+    );
   }
+
+  onLoad() {
+    this._fetch();
+    this.windowHeight = wx.getSystemInfoSync().windowHeight - 40;
+  }
+}
 </script>
 
 <style lang="less">
 @h: 100rpx;
 page {
-  background: #F3F4F6;
+  background: #f3f4f6;
 }
 .container {
   padding-top: @h;
@@ -200,7 +205,7 @@ page {
         padding: 0rpx 20rpx;
         height: 40rpx;
         line-height: 40rpx;
-        background: #00AE57;
+        background: #00ae57;
         border-radius: 8rpx;
       }
     }

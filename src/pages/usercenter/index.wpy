@@ -58,14 +58,14 @@
 </template>
 
 <script>
-import wepy from "wepy";
-import base from "@/mixins/base.js";
-import http from "@/mixins/http.js";
-import { service } from "@/config.js";
+import wepy from 'wepy';
+import base from '@/mixins/base.js';
+import http from '@/mixins/http.js';
+import { service } from '@/config.js';
 
 export default class Index extends wepy.page {
   config = {
-    navigationBarTitleText: "个人中心"
+    navigationBarTitleText: '个人中心'
   };
   components = {};
 

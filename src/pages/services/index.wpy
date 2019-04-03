@@ -1,10 +1,8 @@
 <template>
-<view class="container">
-  <view class="services">
-    <view class="empty">
-      暂无更多服务
-    </view>
-    <!-- <view class="service" @tap="toService">
+  <view class="container">
+    <view class="services">
+      <view class="empty">暂无更多服务</view>
+      <!-- <view class="service" @tap="toService">
       <image src="../../images/banner.jpg" mode="aspectFill" />
     </view>
     <view class="service">
@@ -18,44 +16,39 @@
     </view>
     <view class="service">
       <image src="../../images/banner.jpg" mode="aspectFill" />
-    </view> -->
+      </view>-->
+    </view>
   </view>
-</view>
 </template>
 
 <script>
-  import wepy from 'wepy'
-  import base from '@/mixins/base.js'
+import wepy from "wepy";
+import base from "@/mixins/base.js";
 
-  export default class Index extends wepy.page {
-    config = {
-      navigationBarTitleText: '发现'
-    }
-    components = {
-    }
+export default class Index extends wepy.page {
+  config = {
+    navigationBarTitleText: "发现"
+  };
+  components = {};
 
-    mixins = [base]
+  mixins = [base];
 
-    data = {
-    }
+  data = {};
 
-    computed = {
-    }
+  computed = {};
 
-    methods = {
-      toService() {
-        wx.navigateTo({
-          url: 'web'
-        })
-      }
+  methods = {
+    toService() {
+      wx.navigateTo({
+        url: "web"
+      });
     }
+  };
 
-    events = {
-    }
+  events = {};
 
-    onLoad() {
-    }
-  }
+  onLoad() {}
+}
 </script>
 
 <style lang="less">

@@ -22,9 +22,9 @@
       <image src="../wximages/c-logo-4.png"></image>
       <view>服务区</view>
     </view>
-    <view class="icon" @tap="onWait">
+    <view class="icon" @tap="jumpMinApp">
       <image src="../wximages/c-logo-5.png"></image>
-      <view>趣自驾GO</view>
+      <view>微ETC</view>
     </view>
     <view class="icon" @tap="onWait">
       <image src="../wximages/c-logo-1.png"></image>
@@ -108,10 +108,10 @@
 </template>
 
 <script>
-  import wepy from 'wepy'
-  import base from '@/mixins/base.js'
-  import http from '@/mixins/http.js'
-  import Toast from '@/components/toast'
+  import wepy from 'wepy';
+  import base from '@/mixins/base.js';
+  import http from '@/mixins/http.js';
+  import Toast from '@/components/toast';
   // import { service } from '@/config'
 
   export default class Index extends wepy.page {
@@ -134,13 +134,13 @@
 
     methods = {
       onCar(data) {
-        let that = this
+        let that = this;
         if (data.detail.iv) {
-          let user = data.detail.userInfo
-          that.$parent.globalData.userInfo = user
+          let user = data.detail.userInfo;
+          that.$parent.globalData.userInfo = user;
           wx.navigateTo({
             url: 'cars/cars_index'
-          })
+          });
         }
       },
       onWait() {
@@ -148,24 +148,37 @@
           content: '建设中...',
           position: 'middle',
           duration: 2000
-        }
-        this.$invoke('toast', 'show', options)
+        };
+        this.$invoke('toast', 'show', options);
       },
       toCar(data) {
-        let that = this
+        let that = this;
         if (data.detail.iv) {
-          let user = data.detail.userInfo
-          that.$parent.globalData.userInfo = user
+          let user = data.detail.userInfo;
+          that.$parent.globalData.userInfo = user;
           wx.navigateTo({
             url: 'cars/cars_add'
-          })
+          });
         }
       },
       hideMask() {
-        this._hideMask()
+        this._hideMask();
       },
       swiperChange(e) {
-        this.currentSwiper = e.detail.current
+        this.currentSwiper = e.detail.current;
+      },
+      //跳转小程序按钮
+      jumpMinApp() {
+        wx.navigateToMiniProgram({
+          appId: 'wx519ba1e247434af1',
+          path: 'pages/index',
+          extraData: {
+            foo: 'bar'
+          },
+          success(res) {
+            console.log('跳转成功！');
+          }
+        });
       }
     }
 
@@ -175,8 +188,8 @@
     // }
 
     _hideMask() {
-      this.showmask = false
-      wx.showTabBar()
+      this.showmask = false;
+      wx.showTabBar();
     }
 
     events = {
@@ -184,7 +197,7 @@
 
     onLoad() {
       // this._showMask()
-      this._hideMask()
+      this._hideMask();
     }
   }
 </script>

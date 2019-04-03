@@ -49,12 +49,12 @@
 </template>
 
 <script>
-  import wepy from 'wepy'
-  import base from '@/mixins/base.js'
-  import http from '@/mixins/http.js'
-  import input from '@/components/input'
-  import carNumber from '@/components/carnumber'
-  import { service } from '@/config.js'
+  import wepy from 'wepy';
+  import base from '@/mixins/base.js';
+  import http from '@/mixins/http.js';
+  import input from '@/components/input';
+  import carNumber from '@/components/carnumber';
+  import { service } from '@/config.js';
 
   export default class Index extends wepy.page {
     config = {
@@ -95,31 +95,31 @@
     }
 
     _next() {
-      wx.setStorageSync('carplateno', this.motors)
+      wx.setStorageSync('carplateno', this.motors);
       if (this.isfree) {
         wx.redirectTo({
           url: 'itcpay_binding'
-        })
+        });
       } else {
         wx.redirectTo({
           url: 'itcpay_tobind'
-        })
+        });
       }
     }
 
     methods = {
       _handleInputName(e) {
-        this.name.value = e
+        this.name.value = e;
       },
       _handleInputTel(e) {
         if (e.detail.encryptedData) {
-          this.tel.value = e.detail.encryptedData
-          this.tel.iv = e.detail.iv
+          this.tel.value = e.detail.encryptedData;
+          this.tel.iv = e.detail.iv;
         }
       },
       _handleInputIdcard(e) {
-        console.log(e)
-        this.idcard.value = e
+        console.log(e);
+        this.idcard.value = e;
       },
       toCar() {
         if (this.issub === 0) {
@@ -128,24 +128,24 @@
               title: '提示',
               content: '请输入姓名',
               showCancel: false
-            })
-            return
+            });
+            return;
           }
           if (!this.tel.value.length) {
             wx.showModal({
               title: '提示',
               content: '请授权手机号',
               showCancel: false
-            })
-            return
+            });
+            return;
           }
           if (!this.idcard.value.length) {
             wx.showModal({
               title: '提示',
               content: '请输入身份证号',
               showCancel: false
-            })
-            return
+            });
+            return;
           }
         }
 
@@ -154,12 +154,12 @@
             title: '提示',
             content: '请输入车牌号',
             showCancel: false
-          })
-          return
+          });
+          return;
         }
 
-        let that = this
-        this.loading = true
+        let that = this;
+        this.loading = true;
 
         if (this.issub === 0) {
           this.$post({
@@ -177,17 +177,17 @@
             }
           }, {
             success: (data) => {
-              that._next()
+              that._next();
             },
             fail: (data) => {
               wx.showModal({
                 title: '提示',
                 content: data.resMsg,
                 showCancel: false
-              })
-              that.loading = false
+              });
+              that.loading = false;
             }
-          })
+          });
         } else {
           this.$post({
             url: service.addcars,
@@ -197,17 +197,17 @@
             }
           }, {
             success: (data) => {
-              that._next()
+              that._next();
             },
             fail: (data) => {
               wx.showModal({
                 title: '提示',
                 content: data.resMsg,
                 showCancel: false
-              })
-              that.loading = false
+              });
+              that.loading = false;
             }
-          })
+          });
         }
       }
     }
@@ -215,24 +215,24 @@
     events = {
     }
     onReady() {
-      console.log('开始进入')
+      console.log('开始进入');
     }
 
     onLoad(option) {
-      let that = this
+      let that = this;
       this.$post({
         url: service.userinfo
       }, {
         success: (data) => {
-          that.issub = 1
-          that.isfree = data.data.userInfo.isFreePay
-          that.load = true
+          that.issub = 1;
+          that.isfree = data.data.userInfo.isFreePay;
+          that.load = true;
         },
         fail: (data) => {
-          that.issub = 0
-          that.load = true
+          that.issub = 0;
+          that.load = true;
         }
-      })
+      });
     }
   }
 </script>

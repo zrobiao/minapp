@@ -1,82 +1,80 @@
 <template>
-<view class="container">
-  <view class="top">
-    <view class="t1">高速通行费及自动护航免密支付授权</view>
-    <view class="t2">开通后过站免排队、免现金、自动缴纳通行费，高速通行将提供自动护航服务，全程为您及车上人员保驾护航。</view>
-    <view class="t3">
-      <button @tap="openFreepay" class="btn btn-success">立即开通</button>
-      <view class="jump" @tap="jump">跳过</view>
+  <view class="container">
+    <view class="top">
+      <view class="t1">高速通行费及自动护航免密支付授权</view>
+      <view class="t2">开通后过站免排队、免现金、自动缴纳通行费，高速通行将提供自动护航服务，全程为您及车上人员保驾护航。</view>
+      <view class="t3">
+        <button @tap="openFreepay" class="btn btn-success">立即开通</button>
+        <view class="jump" @tap="jump">跳过</view>
+      </view>
     </view>
   </view>
-</view>
 </template>
 
 <script>
-  import wepy from 'wepy'
-  import base from '@/mixins/base.js'
-  import http from '@/mixins/http.js'
-  import { service } from '@/config.js'
+import wepy from "wepy";
+import base from "@/mixins/base.js";
+import http from "@/mixins/http.js";
+import { service } from "@/config.js";
 
-  export default class Index extends wepy.page {
-    config = {
-      navigationBarTitleText: '开通免密支付'
-    }
-    components = {
-    }
+export default class Index extends wepy.page {
+  config = {
+    navigationBarTitleText: "开通免密支付"
+  };
+  components = {};
 
-    mixins = [base, http]
+  mixins = [base, http];
 
-    data = {
-    }
+  data = {};
 
-    computed = {
-    }
+  computed = {};
 
-    _openFreeRequest(data) {
-      wx.navigateToMiniProgram({
-        appId: 'wxbd687630cd02ce1d',
-        path: 'pages/index/index',
-        extraData: data,
-        success(res) {
-          console.log(res)
-        },
-        fail(res) {
-          console.log(res)
-        }
-      })
-    }
+  _openFreeRequest(data) {
+    wx.navigateToMiniProgram({
+      appId: "wxbd687630cd02ce1d",
+      path: "pages/index/index",
+      extraData: data,
+      success(res) {
+        console.log(res);
+      },
+      fail(res) {
+        console.log(res);
+      }
+    });
+  }
 
-    methods = {
-      openFreepay() {
-        let that = this
-        this.$post({
+  methods = {
+    openFreepay() {
+      let that = this;
+      this.$post(
+        {
           url: service.getfreepay
-        }, {
-          success: (data) => {
-            that._openFreeRequest(data.data)
+        },
+        {
+          success: data => {
+            that._openFreeRequest(data.data);
           },
-          fail: (data) => {
+          fail: data => {
             wx.showModal({
-              title: '提示',
+              title: "提示",
               content: data.resMsg,
               showCancel: false
-            })
+            });
           }
-        })
-      },
-      jump() {
-        wx.redirectTo({
-          url: 'itcpay_binding'
-        })
-      }
+        }
+      );
+    },
+    jump() {
+      wx.redirectTo({
+        url: "itcpay_binding"
+      });
     }
+  };
 
-    events = {
-    }
+  events = {};
 
-    onLoad() {
-    }
-  }
+  onLoad() {}
+}
 </script>
 
 <style lang="less">
@@ -86,7 +84,7 @@
   margin: 50rpx;
   border-radius: 10rpx;
   padding: 100rpx 50rpx 50rpx;
-  border: 1px solid #EFEFEF;
+  border: 1px solid #efefef;
   font-size: 14px;
   .t1 {
     color: #000;
@@ -96,7 +94,7 @@
   .t2 {
     font-size: 12px;
     line-height: 1.5;
-    color: #FF8606;
+    color: #ff8606;
     text-align: left;
   }
   .t3 {

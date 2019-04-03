@@ -1,74 +1,68 @@
 <template>
-<view class="container">
-  <view class="mapbox">
-    <map id="map" longitude="113.324520" latitude="23.099994" scale="14"></map>
+  <view class="container">
+    <view class="mapbox">
+      <map id="map" longitude="113.324520" latitude="23.099994" scale="14"></map>
+    </view>
+    <view class="title">
+      <view class="t1">北京白鹿服务区</view>
+      <view class="t2">高速路：京港澳高速、京石高速</view>
+      <view class="t2">地址：河北保定京石高速公路58公里处</view>
+    </view>
+    <view class="info">
+      <view class="info-item">
+        <image class="l" src="../../wximages/d1.png">
+        <view class="r">
+          <view class="rt">服务项目</view>
+          <view class="rd">汽修、便利店、公厕、餐厅</view>
+        </view>
+      </view>
+      <view class="info-item">
+        <image class="l" src="../../wximages/d2.png">
+        <view class="r">
+          <view class="rt">联系方式</view>
+          <view class="rd">0312-3971232</view>
+        </view>
+      </view>
+      <view class="info-item">
+        <image class="l" src="../../wximages/d3.png">
+        <view class="r">
+          <view class="rt">所属单位</view>
+          <view class="rd">河北省高速公路实业总公司</view>
+        </view>
+      </view>
+      <view class="info-item">
+        <image class="l" src="../../wximages/d4.png">
+        <view class="r">
+          <view class="rt">服务区介绍</view>
+          <view class="rd">河北省高速路</view>
+        </view>
+      </view>
+    </view>
   </view>
-  <view class="title">
-    <view class="t1">北京白鹿服务区</view>
-    <view class="t2">高速路：京港澳高速、京石高速</view>
-    <view class="t2">地址：河北保定京石高速公路58公里处</view>
-  </view>
-  <view class="info">
-    <view class="info-item">
-      <image class="l" src="../../wximages/d1.png"></image>
-      <view class="r">
-        <view class="rt">服务项目</view>
-        <view class="rd">汽修、便利店、公厕、餐厅</view>
-      </view>
-    </view>
-    <view class="info-item">
-      <image class="l" src="../../wximages/d2.png"></image>
-      <view class="r">
-        <view class="rt">联系方式</view>
-        <view class="rd">0312-3971232</view>
-      </view>
-    </view>
-    <view class="info-item">
-      <image class="l" src="../../wximages/d3.png"></image>
-      <view class="r">
-        <view class="rt">所属单位</view>
-        <view class="rd">河北省高速公路实业总公司</view>
-      </view>
-    </view>
-    <view class="info-item">
-      <image class="l" src="../../wximages/d4.png"></image>
-      <view class="r">
-        <view class="rt">服务区介绍</view>
-        <view class="rd">河北省高速路</view>
-      </view>
-    </view>
-  </view>
-</view>
 </template>
 
 <script>
-  import wepy from 'wepy'
-  import base from '@/mixins/base.js'
+import wepy from "wepy";
+import base from "@/mixins/base.js";
 
-  export default class Index extends wepy.page {
-    config = {
-      navigationBarTitleText: '服务区'
-    }
-    components = {
-    }
+export default class Index extends wepy.page {
+  config = {
+    navigationBarTitleText: "服务区"
+  };
+  components = {};
 
-    mixins = [base]
+  mixins = [base];
 
-    data = {
-    }
+  data = {};
 
-    computed = {
-    }
+  computed = {};
 
-    methods = {
-    }
+  methods = {};
 
-    events = {
-    }
+  events = {};
 
-    onLoad() {
-    }
-  }
+  onLoad() {}
+}
 </script>
 
 <style lang="less">

@@ -1,37 +1,28 @@
-<template>
-  
-</template>
+<template></template>
 
 <script>
-  import wepy from 'wepy'
-  import base from '@/mixins/base.js'
+import wepy from "wepy";
+import base from "@/mixins/base.js";
 
-  export default class Index extends wepy.page {
-    config = {
-      navigationBarTitleText: '开通免密支付'
-    }
-    components = {
-    }
+export default class Index extends wepy.page {
+  config = {
+    navigationBarTitleText: "开通免密支付"
+  };
+  components = {};
 
-    mixins = [base]
+  mixins = [base];
 
-    data = {
-    }
+  data = {};
 
-    computed = {
-    }
+  computed = {};
 
-    methods = {
-    }
+  methods = {};
 
-    events = {
-    }
+  events = {};
 
-    onLoad() {
-    }
-  }
+  onLoad() {}
+}
 </script>
 
 <style lang="less">
-
 </style>
