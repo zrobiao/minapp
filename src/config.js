@@ -1,7 +1,7 @@
 // 域名
-var domain = 'https://wxopen.gzsjht.com'
-var host = domain + '/wxpap/minipro'
-var roadhost = domain + '/wxpro/road/'
+var domain = 'https://wxopen.gzsjht.com';
+var host = domain + '/wxpap/minipro';
+var roadhost = domain + '/wxpro/road/';
 
 export const service = {
   // 登录接口
@@ -21,8 +21,8 @@ export const service = {
   stationDetail: `${roadhost}/stationDetail`,
   // 主域
   host
-}
+};
 
 export default {
   service
-}
+};

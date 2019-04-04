@@ -1,5 +1,5 @@
 {
-	"description": "A WePY project",
+	"description": "A WePY project,项目配置文件",
 	"setting": {
 		"urlCheck": true,
 		"es6": false,
@@ -7,9 +7,21 @@
 		"minified": false,
 		"newFeature": true
 	},
+	"packOptions": {
+		"ignore": [
+			{
+				"type": "file",
+				"value": ".gitignore"
+			},
+			{
+				"type": "file",
+				"value": ".eslintrc.js"
+			}
+		]
+	},
 	"compileType": "miniprogram",
-	"appid": "touristappid",
-	"projectname": "wxapp-itc",
+	"appid": "wx7c06863c605d58f4",
+	"projectname": "GSTX",
 	"miniprogramRoot": "dist/",
 	"condition": {}
 }

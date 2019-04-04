@@ -170,8 +170,8 @@
       //跳转小程序按钮
       jumpMinApp() {
         wx.navigateToMiniProgram({
-          appId: 'wx519ba1e247434af1',
-          path: 'pages/index',
+          appId: 'wxf027cc32bfa26828',
+          path: 'pages/Home/Home',
           extraData: {
             foo: 'bar'
           },

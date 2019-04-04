@@ -77,7 +77,11 @@ export default class extends wepy.app {
       downloadFile: 10000
     },
     debug: true,
-    navigateToMiniProgramAppIdList: ["wxbd687630cd02ce1d", "wx519ba1e247434af1"]
+    navigateToMiniProgramAppIdList: [
+      "wxbd687630cd02ce1d",
+      "wx519ba1e247434af1",
+      "wxf027cc32bfa26828"
+    ]
   };
 
   mixins = [http];
