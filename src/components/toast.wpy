@@ -5,16 +5,16 @@
     z-index: 999;
     left: 50%;
     padding: 10px 15px;
-    background:rgba(0,0,0,0.8);
-    color:#fff;
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
     font-size: 12px;
     border-radius: 2px;
     opacity: 0;
-    transition: opacity .3s;
-    text-align:center;
+    transition: opacity 0.3s;
+    text-align: center;
     display: none;
     .toast-wrap__icon {
-        margin-bottom: 2px;
+      margin-bottom: 2px;
       .kai-iconfont {
         font-weight: bold;
       }
@@ -28,7 +28,7 @@
       .toast-loading {
         .loading-type {
           border-color: #fff;
-          border-top-color:#666;
+          border-top-color: #666;
         }
       }
     }
@@ -61,7 +61,12 @@
         <iconSucess wx:if="{{toast.type==='success'}}" type="tick"/>
         <iconError wx:if="{{toast.type==='error'}}" type="error"/>
         <iconWarn wx:if="{{toast.type==='warning'}}" type="info"/>
-        <iconLoading wx:if="{{toast.type==='loading'}}" type="circle" size="big" class="toast-loading"/>
+        <iconLoading
+          wx:if="{{toast.type==='loading'}}"
+          type="circle"
+          size="big"
+          class="toast-loading"
+        />
       </view>
       <view>{{toast.content}}</view>
     </view>
@@ -69,45 +74,45 @@
 </template>
 
 <script>
-  import wepy from 'wepy'
-  import Icon from './icon'
-  import Loading from './loading'
+import wepy from "wepy";
+import Icon from "./icon";
+import Loading from "./loading";
 
-  export default class Toast extends wepy.component {
-    data = {
-      toast: {
-        show: false
-      },
-      timer: ''
-    }
-    components = {
-      iconSucess: Icon,
-      iconError: Icon,
-      iconWarn: Icon,
-      iconLoading: Loading
-    }
+export default class Toast extends wepy.component {
+  data = {
+    toast: {
+      show: false
+    },
+    timer: ""
+  };
+  components = {
+    iconSucess: Icon,
+    iconError: Icon,
+    iconWarn: Icon,
+    iconLoading: Loading
+  };
 
-    show (options) {
-      const {timer} = this
-      if (timer) {
-        this.toast.show = false
-        this.$apply()
-        clearTimeout(this.timer)
-      }
-      this.toast = {
-        show: true,
-        type: options.type,
-        content: options.content,
-        duration: options.duration || 3000,
-        position: options.position || 'middle'
-      }
-      this.$apply()
-
-      this.timer = setTimeout(() => {
-        this.toast.show = false
-        this.$apply()
-        options.afterClose && this.$emit(options.afterClose)
-      }, +this.toast.duration)
+  show(options) {
+    const { timer } = this;
+    if (timer) {
+      this.toast.show = false;
+      this.$apply();
+      clearTimeout(this.timer);
     }
+    this.toast = {
+      show: true,
+      type: options.type,
+      content: options.content,
+      duration: options.duration || 3000,
+      position: options.position || "middle"
+    };
+    this.$apply();
+
+    this.timer = setTimeout(() => {
+      this.toast.show = false;
+      this.$apply();
+      options.afterClose && this.$emit(options.afterClose);
+    }, +this.toast.duration);
   }
+}
 </script>

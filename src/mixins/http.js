@@ -1,49 +1,49 @@
-import wepy from 'wepy'
-import { service } from '../config.js'
+import wepy from 'wepy';
+import { service } from '../config.js';
 
 export default class httpMixin extends wepy.mixin {
   $get(
     { url = '', headers = {}, data = {} },
     { success = () => { }, fail = () => { }, complete = () => { } }
   ) {
-    const methods = 'GET'
+    const methods = 'GET';
     this.$ajax(
       { url, headers, methods, data },
       { success, fail, complete }
-    )
+    );
   }
 
   $post(
     { url = '', headers = {}, data = {} },
     { success = () => { }, fail = () => { }, complete = () => { } }
   ) {
-    const methods = 'POST'
+    const methods = 'POST';
     this.$ajax(
       { url, headers, methods, data },
       { success, fail, complete }
-    )
+    );
   }
 
   $put(
     { url = '', headers = {}, data = {} },
     { success = () => { }, fail = () => { }, complete = () => { } }
   ) {
-    const methods = 'PUT'
+    const methods = 'PUT';
     this.$ajax(
       { url, headers, methods, data },
       { success, fail, complete }
-    )
+    );
   }
 
   $delete(
     { url = '', headers = {}, data = {} },
     { success = () => { }, fail = () => { }, complete = () => { } }
   ) {
-    const methods = 'DELETE'
+    const methods = 'DELETE';
     this.$ajax(
       { url, headers, methods, data },
       { success, fail, complete }
-    )
+    );
   }
 
   /**
@@ -56,7 +56,7 @@ export default class httpMixin extends wepy.mixin {
     { success = () => { }, error = () => { }, fail = () => { }, complete = () => { } }
   ) {
     // 增强体验：加载中
-    wx.showNavigationBarLoading()
+    wx.showNavigationBarLoading();
     // 构造请求体
     const request = {
       url: url,
@@ -67,31 +67,31 @@ export default class httpMixin extends wepy.mixin {
       data: Object.assign({
         // set something global
       }, data)
-    }
+    };
 
     // 发起请求
     wepy.request(Object.assign(request, {
       success: ({ statusCode, data }) => {
         // 控制台调试日志
-        console.log('[SUCCESS]', statusCode, typeof data === 'object' ? data : data.toString().substring(0, 100))
+        console.log('[SUCCESS]', statusCode, typeof data === 'object' ? data : data.toString().substring(0, 100));
 
         // 状态码正常 & 确认有数据
         if (data.resCode === '0000') {
           // 成功回调
-          wx.removeStorageSync('fromId')
+          wx.removeStorageSync('fromId');
           return setTimeout(() => {
-            let successExist = this.isFunction(success)
-            successExist && success({ statusCode, ...data })
-            this.$apply()
-          })
-        } else if (data.resCode == 1) {
-          wx.hideLoading()
+            let successExist = this.isFunction(success);
+            successExist && success({ statusCode, ...data });
+            this.$apply();
+          });
+        } else if (data.resCode === 1) {
+          wx.hideLoading();
           wx.showModal({
             title: '提示',
             content: data.message,
             showCancel: false
-          })
-        } else if (data.resCode == 2) {
+          });
+        } else if (data.resCode === 2) {
           // 删除过时token
           // var pages = getCurrentPages()    // 获取加载的页面
           // var currentPage = pages[pages.length - 1]    // 获取当前页面的对象
@@ -139,41 +139,41 @@ export default class httpMixin extends wepy.mixin {
           // 失败回调：其他情况
           return setTimeout(() => {
             if (this.isFunction(fail)) {
-              fail({ statusCode, ...data })
-              this.$apply()
+              fail({ statusCode, ...data });
+              this.$apply();
             } else {
               wx.showModal({
                 title: '提示',
                 content: data.resMsg,
                 showCancel: false
-              })
+              });
             }
-          })
+          });
         }
       },
       fail: ({ statusCode, data }) => {
         // 控制台调试日志
-        console.log('[ERROR]', statusCode, data)
+        console.log('[ERROR]', statusCode, data);
         // 失败回调
         return setTimeout(() => {
-          this.isFunction(error) && error({ statusCode, ...data })
-          this.$apply()
-        })
+          this.isFunction(error) && error({ statusCode, ...data });
+          this.$apply();
+        });
       },
       complete: (res) => {
         // 控制台调试日志
         // console.log('[COMPLETE]', res)
         // 隐藏加载提示
-        wx.hideNavigationBarLoading()
+        wx.hideNavigationBarLoading();
         // 停止下拉状态
-        wx.stopPullDownRefresh()
+        wx.stopPullDownRefresh();
         // 完成回调
         return (() => {
-          let completeExist = this.isFunction(complete)
-          completeExist && complete(res)
-          this.$apply()
-        })()
+          let completeExist = this.isFunction(complete);
+          completeExist && complete(res);
+          this.$apply();
+        })();
       }
-    }))
+    }));
   }
 }

@@ -1,48 +1,46 @@
 <style lang="less">
 .panel {
-	width: 100%;
-	box-sizing: border-box;
-	text-align: left;
-	margin-top: 10rpx;
-	.title {
-		padding: 20rpx;
-		font-size: 12px;
-		display:block;
-	}
-	.info {
-		border-style: solid;
-		border-color: #e1e1e1;
-		border-width: 0;
-		font-size: 12px;
-		background-color: #fff;
-		display: block;
-		// padding: 10px;
-	}
+  width: 100%;
+  box-sizing: border-box;
+  text-align: left;
+  margin-top: 10rpx;
+  .title {
+    padding: 20rpx;
+    font-size: 12px;
+    display: block;
+  }
+  .info {
+    border-style: solid;
+    border-color: #e1e1e1;
+    border-width: 0;
+    font-size: 12px;
+    background-color: #fff;
+    display: block;
+    // padding: 10px;
+  }
 }
 </style>
 <template>
   <view class="panel">
     <slot name="title"></slot>
-    <view class="info" style="border-width: {{border}};" >
+    <view class="info" style="border-width: {{border}};">
       <slot></slot>
     </view>
   </view>
 </template>
 <script>
-  import wepy from 'wepy'
+import wepy from "wepy";
 
-  export default class Panel extends wepy.component {
-    props = {
-      border: {
-        type: [Number, String],
-        default: 0
-      }
+export default class Panel extends wepy.component {
+  props = {
+    border: {
+      type: [Number, String],
+      default: 0
     }
+  };
 
-    methods = {
-    }
+  methods = {};
 
-    onLoad () {
-    }
-  }
+  onLoad() {}
+}
 </script>
