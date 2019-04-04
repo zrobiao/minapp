@@ -32,14 +32,14 @@
             <image class="l" src="{{vehicleLicence}}" mode="scaleToFill">
           </block>
         </view>
-        <view @tap="chooseImage" class="uploadbox" data-id="vehiclePhotos">
+        <!-- <view @tap="chooseImage" class="uploadbox" data-id="vehiclePhotos">
           <block wx:if="{{!vehiclePhotos}}">
             <image class="camera" src="../../wximages/vt3.png" mode="scaleToFill">
           </block>
           <block wx:else>
             <image class="l" src="{{vehiclePhotos}}" mode="scaleToFill">
           </block>
-        </view>
+        </view> -->
       </view>
     </view>
     <view class="tips">

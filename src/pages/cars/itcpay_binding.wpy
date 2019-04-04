@@ -21,21 +21,21 @@
 </template>
 
 <script>
-import wepy from "wepy";
-import base from "@/mixins/base.js";
-import http from "@/mixins/http.js";
-import { service } from "@/config.js";
+import wepy from 'wepy';
+import base from '@/mixins/base.js';
+import http from '@/mixins/http.js';
+import { service } from '@/config.js';
 
 export default class Index extends wepy.page {
   config = {
-    navigationBarTitleText: "无感支付"
+    navigationBarTitleText: '无感支付'
   };
   components = {};
 
   mixins = [base, http];
 
   data = {
-    plateNo: "京RRRRRR",
+    plateNo: '京RRRRRR',
     loading: false
   };
 
@@ -49,18 +49,18 @@ export default class Index extends wepy.page {
         {
           url: service.opennosense,
           data: {
-            plateNo: this.plateNo.replace(" ", "")
+            plateNo: this.plateNo.replace(' ', '')
           }
         },
         {
           success: data => {
             wx.showModal({
-              title: "提示",
+              title: '提示',
               content: data.resMsg,
               showCancel: false,
               complete: () => {
                 wx.redirectTo({
-                  url: "cars_index"
+                  url: 'cars_index'
                 });
               }
             });
@@ -68,7 +68,7 @@ export default class Index extends wepy.page {
           },
           fail: data => {
             wx.showModal({
-              title: "提示",
+              title: '提示',
               content: data.resMsg,
               showCancel: false
             });
@@ -79,7 +79,7 @@ export default class Index extends wepy.page {
     },
     toHome() {
       wx.redirectTo({
-        url: "cars_index"
+        url: 'cars_index'
       });
     }
   };
@@ -87,7 +87,7 @@ export default class Index extends wepy.page {
   events = {};
 
   onLoad() {
-    this.plateNo = wx.getStorageSync("carplateno");
+    this.plateNo = wx.getStorageSync('carplateno');
   }
 }
 </script>
