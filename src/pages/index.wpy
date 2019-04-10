@@ -3,40 +3,52 @@
   <view class="banner">
     <image src="https://wxopen.gzsjht.com/files/images/banner/b1.png" mode="aspectFill" />
   </view>
+  <view class="noti">
+    <image mode="aspectFit" src="../wximages/tl.png"></image>
+    <view class="p">祝贺贵州省高速移动支付12.20日进入试运行</view>
+  </view>
   <view class="icons">
+    <view class="icon" @tab="jumpMinApp(0)">
+        <image src="../wximages/c-logo-1.png"></image>
+        <view>微ETC</view>
+    </view>
     <view class="icon">
       <button open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="onCar">
-        <image src="../wximages/c-logo-1.png"></image>
-        <view>车牌付</view>
+        <image src="../wximages/c-logo-2.png"></image>
+        <view>会员权益</view>
       </button>
     </view>
-    <view class="icon" @tap="onWait">
-      <image src="../wximages/c-logo-2.png"></image>
-      <view>护航险</view>
-    </view>
-    <view class="icon" @tap="onWait">
+    <view class="icon" @tap="jumpMinApp(1)">
       <image src="../wximages/c-logo-3.png"></image>
-      <view>违章查询</view>
+      <view>微保</view>
     </view>
-    <view class="icon" @tap="onWait">
+    <view class="icon" @tap="jumpMinApp(2)">
+      <button open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="onCar">
       <image src="../wximages/c-logo-4.png"></image>
-      <view>服务区</view>
+      <view>好车主</view>
+      </button>
     </view>
-    <view class="icon" @tap="jumpMinApp">
+    <view class="icon">
+      <button open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="onCar">
       <image src="../wximages/c-logo-5.png"></image>
-      <view>微ETC</view>
+      <view>代价服务</view>
+      </button>
     </view>
-    <view class="icon" @tap="onWait">
+    <view class="icon">
+      <button open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="onCar">
       <image src="../wximages/c-logo-1.png"></image>
-      <view>瓜分红包</view>
+      <view>洗车服务</view>
+      </button>
     </view>
-    <view class="icon" @tap="onWait">
+    <view class="icon">
+      <button open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="onCar">
       <image src="../wximages/c-logo-7.png"></image>
-      <view>优享洗车</view>
+      <view>违章查询</view>
+      </button>
     </view>
-    <view class="icon" @tap="onWait">
+    <view class="icon">
       <image src="../wximages/c-logo-8.png"></image>
-      <view>优惠加油</view>
+      <view>地图导航</view>
     </view>
   </view>
   <view class="notice">
@@ -47,62 +59,6 @@
       添加车辆，高速过站畅通无阻！
     </view>
   </view>
-  <view class="carpanel">
-    <button class="carbox" open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="toCar">
-      <image class="i" src="../wximages/btn-add.png"></image>
-      <view class="r">
-        <view class="t1">添加车辆，高速过站畅通无阻</view>
-        <view class="t2">又快又方便，无感支付有现金红包领哦~</view>
-      </view>
-    </button>
-    <view class="noti">
-      <image mode="aspectFit" src="../wximages/tl.png"></image>
-      <view class="p">祝贺贵州省高速移动支付12.20日进入试运行</view>
-    </view>
-  </view>
-
-  <view @tap="hideMask" hidden="{{showmask ? false : true}}" class="mask"></view>
-  <view hidden="{{showmask ? false : true}}" class="swiper">
-    <swiper
-      class="swiper-box"
-      current="{{currentSwiper}}"
-      bindchange="swiperChange"
-    >
-      <swiper-item class="swiper-item">
-        <image src="https://wxopen.gzsjht.com/files/images/banner/h5.png" class="swiper-image" mode="aspectFill" />
-      </swiper-item>
-      <swiper-item class="swiper-item">
-        <image src="https://wxopen.gzsjht.com/files/images/banner/h3.png" class="swiper-image" mode="aspectFill" />
-      </swiper-item>
-      <swiper-item class="swiper-item">
-        <image src="https://wxopen.gzsjht.com/files/images/banner/h4.png" class="swiper-image" mode="aspectFill" />
-      </swiper-item>
-      <swiper-item class="swiper-item">
-        <view @tap="hideMask" class="close">
-          <image src="../images/close.png" mode="aspectFill" />
-        </view>
-        <image src="https://wxopen.gzsjht.com/files/images/banner/h2.png" class="swiper-image" mode="aspectFill" />
-        <button class="btn btn-bind" open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="toCar">
-          <image src="../wximages/button3.png" mode="aspectFit" />
-        </button>
-      </swiper-item>
-    </swiper>
-    <view class="dots">  
-      <block>
-        <view class="dot {{0 == currentSwiper ? ' active' : ''}}"></view>
-      </block>
-      <block>
-        <view class="dot {{1 == currentSwiper ? ' active' : ''}}"></view>
-      </block>
-      <block>
-        <view class="dot {{2 == currentSwiper ? ' active' : ''}}"></view>
-      </block>
-      <block>
-        <view class="dot {{3 == currentSwiper ? ' active' : ''}}"></view>
-      </block>
-    </view>
-  </view>
-  
   <toast></toast>
 </view>
 </template>
@@ -138,9 +94,9 @@
         if (data.detail.iv) {
           let user = data.detail.userInfo;
           that.$parent.globalData.userInfo = user;
-          wx.navigateTo({
-            url: 'cars/cars_index'
-          });
+          // wx.navigateTo({
+          //   url: 'cars/cars_index'
+          // });
         }
       },
       onWait() {
@@ -394,11 +350,11 @@
   background-color: #03CB65;
 }
 .noti {
-  margin-top: 20rpx;
-  padding: 20rpx;
+  padding: 5rpx;
   display: flex;
   align-items: center;
   font-size: 13px;
+  // background: #fff;
   image {
     width: 60rpx;
     height: 60rpx;

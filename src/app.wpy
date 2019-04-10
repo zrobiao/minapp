@@ -52,7 +52,7 @@ export default class extends wepy.app {
         },
         {
           pagePath: "pages/services/index",
-          text: "消息",
+          text: "申办微ETC",
           iconPath: "./wximages/logo-2.png",
           selectedIconPath: "./wximages/logo-2-active.png"
         },
