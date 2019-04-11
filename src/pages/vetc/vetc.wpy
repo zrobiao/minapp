@@ -1,0 +1,54 @@
+<template>
+  <view>这里显示跳转vEtc</view>
+</template>
+
+<script>
+import wepy from "wepy";
+import base from "@/mixins/base.js";
+
+export default class Index extends wepy.page {
+  config = {
+    navigationBarTitleText: "微ETC"
+  };
+  components = {};
+
+  mixins = [base];
+
+  data = {};
+
+  computed = {};
+
+  methods = {};
+
+  events = {};
+
+  onLoad() {
+    console.log("开始load！");
+  }
+
+  onShow() {
+    console.log("开始show");
+    wx.navigateToMiniProgram({
+      appId: "wxf027cc32bfa26828",
+      path: "pages/Home/Home",
+      extraData: {
+        foo: "bar"
+      },
+      success(res) {
+        console.log("跳转成功！");
+      }
+    });
+  }
+
+  onReady() {
+    console.log("开始页面的加载！");
+  }
+
+  onHide() {
+    console.log("开始hide");
+  }
+}
+</script>
+
+<style lang="less">
+</style>

@@ -1,0 +1,67 @@
+<template>
+  <view class="tabBar">
+    <block wx:for="{{tabBar}}" wx:for-item="item" wx:key="tabBar">
+      <view class="tabBar-item">
+        <navigator open-type="switchTab" url="{{item.pagePath}}">
+          <view>
+            <image class="icon" src="{{item.iconPath}}">
+          </view>
+          <view class="{{item.current== 1 ? 'tabBartext' :''}}">{{item.text}}</view>
+        </navigator>
+      </view>
+    </block>
+  </view>
+</template>
+
+<script>
+import wepy from "wepy";
+
+export default class tabbar extends wepy.component {
+  props = {
+    // 接收父级传递的tabBar信息
+    tabBar: {
+      type: Object,
+      default: {}
+    }
+  };
+
+  methods = {};
+
+  onLoad() {
+    console.log("开始load！");
+  }
+}
+</script>
+
+<style lang="less">
+.icon {
+  width: 54rpx;
+  height: 54rpx;
+}
+.tabBar {
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  padding: 10rpx;
+  margin-left: -4rpx;
+  background: #f7f7fa;
+  font-size: 24rpx;
+  color: #8a8a8a;
+  box-shadow: 3rpx 3rpx 3rpx 3rpx #aaa;
+  z-index: 9999;
+}
+
+.tabBar-item {
+  float: left;
+  width: 33%;
+  text-align: center;
+  overflow: hidden;
+}
+/*当前字体颜色*/
+.tabBartext {
+  color: #09bb07;
+}
+.navigator-hover {
+  background-color: rgba(0, 0, 0, 0);
+}
+</style>

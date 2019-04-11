@@ -54,6 +54,9 @@
       class="ahref"
       @tap="unbind"
     >解绑免密支付</view>
+    <view>
+      <tabBarBottom :tabBar.sync="tabBarData"></tabBarBottom>
+    </view>
   </view>
 </template>
 
@@ -62,17 +65,21 @@ import wepy from 'wepy';
 import base from '@/mixins/base.js';
 import http from '@/mixins/http.js';
 import { service } from '@/config.js';
+import tabBarBottom from '@/components/tabbar';
 
 export default class Index extends wepy.page {
   config = {
     navigationBarTitleText: '个人中心'
   };
-  components = {};
+  components = {
+    tabBarBottom
+  };
 
   mixins = [base, http];
 
   data = {
-    userinfo: {}
+    userinfo: {},
+    tabBarData: {}
   };
 
   computed = {};
@@ -135,6 +142,10 @@ export default class Index extends wepy.page {
         fail: data => {}
       }
     );
+  }
+  onLoad() {
+    this.tabBarData = this.$parent.tabbarmain('tabBar', 2, this);
+    this.$apply();
   }
 }
 </script>

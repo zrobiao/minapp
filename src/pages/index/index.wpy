@@ -4,60 +4,63 @@
     <image src="https://wxopen.gzsjht.com/files/images/banner/b1.png" mode="aspectFill" />
   </view>
   <view class="noti">
-    <image mode="aspectFit" src="../wximages/tl.png"></image>
+    <image mode="aspectFit" src="../../wximages/tl.png"></image>
     <view class="p">祝贺贵州省高速移动支付12.20日进入试运行</view>
   </view>
   <view class="icons">
-    <view class="icon" @tab="jumpMinApp(0)">
-        <image src="../wximages/c-logo-1.png"></image>
+    <view class="icon" @tap="jumpMinApp(0)">
+        <image src="../../wximages/c-logo-1.png"></image>
         <view>微ETC</view>
     </view>
     <view class="icon">
       <button open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="onCar">
-        <image src="../wximages/c-logo-2.png"></image>
+        <image src="../../wximages/c-logo-2.png"></image>
         <view>会员权益</view>
       </button>
     </view>
     <view class="icon" @tap="jumpMinApp(1)">
-      <image src="../wximages/c-logo-3.png"></image>
+      <image src="../../wximages/c-logo-3.png"></image>
       <view>微保</view>
     </view>
     <view class="icon" @tap="jumpMinApp(2)">
       <button open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="onCar">
-      <image src="../wximages/c-logo-4.png"></image>
+      <image src="../../wximages/c-logo-4.png"></image>
       <view>好车主</view>
       </button>
     </view>
     <view class="icon">
       <button open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="onCar">
-      <image src="../wximages/c-logo-5.png"></image>
+      <image src="../../wximages/c-logo-5.png"></image>
       <view>代价服务</view>
       </button>
     </view>
     <view class="icon">
       <button open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="onCar">
-      <image src="../wximages/c-logo-1.png"></image>
+      <image src="../../wximages/c-logo-1.png"></image>
       <view>洗车服务</view>
       </button>
     </view>
     <view class="icon">
       <button open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="onCar">
-      <image src="../wximages/c-logo-7.png"></image>
+      <image src="../../wximages/c-logo-7.png"></image>
       <view>违章查询</view>
       </button>
     </view>
     <view class="icon">
-      <image src="../wximages/c-logo-8.png"></image>
+      <image src="../../wximages/c-logo-8.png"></image>
       <view>地图导航</view>
     </view>
   </view>
   <view class="notice">
     <view class="l">
-      <image src="../wximages/hdgk.png"></image>
+      <image src="../../wximages/hdgk.png"></image>
     </view>
     <view class="r">
       添加车辆，高速过站畅通无阻！
     </view>
+  </view>
+  <view>
+    <tabBarBottom :tabBar.sync="tabBarData"></tabBarBottom>
   </view>
   <toast></toast>
 </view>
@@ -68,6 +71,7 @@
   import base from '@/mixins/base.js';
   import http from '@/mixins/http.js';
   import Toast from '@/components/toast';
+  import tabBarBottom from '@/components/tabbar';
   // import { service } from '@/config'
 
   export default class Index extends wepy.page {
@@ -75,14 +79,16 @@
       navigationBarTitleText: '首页'
     }
     components = {
-      toast: Toast
+      toast: Toast,
+      tabBarBottom
     }
 
     mixins = [base, http]
 
     data = {
       showmask: 0,
-      currentSwiper: 0
+      currentSwiper: 0,
+      tabBarData: {}
     }
 
     computed = {
@@ -124,17 +130,21 @@
         this.currentSwiper = e.detail.current;
       },
       //跳转小程序按钮
-      jumpMinApp() {
-        wx.navigateToMiniProgram({
-          appId: 'wxf027cc32bfa26828',
-          path: 'pages/Home/Home',
-          extraData: {
-            foo: 'bar'
-          },
-          success(res) {
-            console.log('跳转成功！');
-          }
-        });
+      jumpMinApp(type) {
+        if (type === '0') {
+          wx.navigateToMiniProgram({
+            appId: 'wxf027cc32bfa26828',
+            path: 'pages/Home/Home',
+            extraData: {
+              foo: 'bar'
+            },
+            success(res) {
+              console.log('跳转成功！');
+            }
+          });
+        } else if (type === '1') {
+        } else {
+        }
       }
     }
 
@@ -154,6 +164,9 @@
     onLoad() {
       // this._showMask()
       this._hideMask();
+      this.tabBarData = this.$parent.tabbarmain('tabBar', 0, this);
+      console.log(this.tabBarData);
+      this.$apply();
     }
   }
 </script>

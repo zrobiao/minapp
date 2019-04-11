@@ -21,23 +21,22 @@ setStore(store);
 export default class extends wepy.app {
   config = {
     pages: [
-      "pages/index",
+      "pages/index/index",
+      "pages/vetc/vetc",
       "pages/usercenter/index",
-      "pages/cars/sites_index",
-      "pages/cars/itcpay_binding",
-      "pages/cars/cars_verify",
-      "pages/cars/itcpay_tobind",
-      "pages/cars/cars_index",
-      "pages/cars/cars_add",
-      "pages/usercenter/scores",
-      "pages/usercenter/insurances",
-      "pages/cars/site_detail",
+      "pages/addCar/cars_add",
+      "pages/bill/bill",
+      "pages/breakRules/breakRules",
+      "pages/cardBag/cardBag",
+      "pages/faq/FAQ",
+      "pages/feedback/feedback",
+      "pages/map/map",
+      "pages/myCar/myCar",
+      "pages/notice/notice",
       "pages/qa/ask",
-      "pages/qa/detail",
-      "pages/qa/list",
-      "pages/services/index",
-      "pages/services/web",
-      "pages/cars/itcpay_introduce"
+      "pages/vip/vip",
+      "pages/washCar/list",
+      "pages/washCar/detail"
     ],
     tabBar: {
       color: "#999",
@@ -45,13 +44,13 @@ export default class extends wepy.app {
       borderStyle: "white",
       list: [
         {
-          pagePath: "pages/index",
+          pagePath: "pages/index/index",
           text: "首页",
           iconPath: "./wximages/logo-1.png",
           selectedIconPath: "./wximages/logo-1-active.png"
         },
         {
-          pagePath: "pages/services/index",
+          pagePath: "pages/vetc/vetc",
           text: "申办微ETC",
           iconPath: "./wximages/logo-2.png",
           selectedIconPath: "./wximages/logo-2-active.png"
@@ -81,7 +80,12 @@ export default class extends wepy.app {
       "wxbd687630cd02ce1d",
       "wx519ba1e247434af1",
       "wxf027cc32bfa26828"
-    ]
+    ],
+    permission: {
+      "scope.userLocation": {
+        desc: "位置信息仅用于确认权益信息"
+      }
+    }
   };
 
   mixins = [http];
@@ -91,8 +95,43 @@ export default class extends wepy.app {
       nickName: "test",
       avatarUrl: "test"
     },
-    token: null
+    token: null,
+    tabBar: [
+      {
+        current: 0,
+        pagePath: "pages/index/index",
+        iconPath: "../../wximages/logo-1.png",
+        selectedIconPath: "../../wximages/logo-1-active.png",
+        text: "首页"
+      },
+      {
+        current: 0,
+        pagePath: "pages/vetc/vetc",
+        iconPath: "../../wximages/logo-2.png",
+        selectedIconPath: "../../wximages/logo-2-active.png",
+        text: "申办微ETC"
+      },
+      {
+        current: 0,
+        pagePath: "pages/usercenter/index",
+        iconPath: "../../wximages/logo-3.png",
+        selectedIconPath: "../../wximages/logo-3-active.png",
+        text: "我的"
+      }
+    ]
   };
+
+  tabbarmain(bindName = "tabdata", id, target) {
+    var that = target;
+    var bindData = {};
+    var otabbar = this.globalData.tabBar;
+    otabbar[id]["iconPath"] = otabbar[id]["selectedIconPath"]; //换当前的icon
+    otabbar[id]["current"] = 1;
+    bindData[bindName] = otabbar;
+    that.$apply();
+    // return bindData;
+    return this.globalData.tabBar;
+  }
 
   constructor() {
     super();
@@ -170,6 +209,7 @@ export default class extends wepy.app {
 
   onLaunch() {
     const that = this;
+    wx.hideTabBar();
     wx.login({
       success(res) {
         if (res.code) {
