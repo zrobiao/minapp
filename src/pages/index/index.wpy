@@ -1,0 +1,367 @@
+<template>
+<view class="container">
+  <view class="banner">
+    <image src="https://wxopen.gzsjht.com/files/images/banner/b1.png" mode="aspectFill" />
+  </view>
+  <view class="noti">
+    <image mode="aspectFit" src="../wximages/tl.png"></image>
+    <view class="p">祝贺贵州省高速移动支付12.20日进入试运行</view>
+  </view>
+  <view class="icons">
+    <view class="icon" @tab="jumpMinApp(0)">
+        <image src="../wximages/c-logo-1.png"></image>
+        <view>微ETC</view>
+    </view>
+    <view class="icon">
+      <button open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="onCar">
+        <image src="../wximages/c-logo-2.png"></image>
+        <view>会员权益</view>
+      </button>
+    </view>
+    <view class="icon" @tap="jumpMinApp(1)">
+      <image src="../wximages/c-logo-3.png"></image>
+      <view>微保</view>
+    </view>
+    <view class="icon" @tap="jumpMinApp(2)">
+      <button open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="onCar">
+      <image src="../wximages/c-logo-4.png"></image>
+      <view>好车主</view>
+      </button>
+    </view>
+    <view class="icon">
+      <button open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="onCar">
+      <image src="../wximages/c-logo-5.png"></image>
+      <view>代价服务</view>
+      </button>
+    </view>
+    <view class="icon">
+      <button open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="onCar">
+      <image src="../wximages/c-logo-1.png"></image>
+      <view>洗车服务</view>
+      </button>
+    </view>
+    <view class="icon">
+      <button open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="onCar">
+      <image src="../wximages/c-logo-7.png"></image>
+      <view>违章查询</view>
+      </button>
+    </view>
+    <view class="icon">
+      <image src="../wximages/c-logo-8.png"></image>
+      <view>地图导航</view>
+    </view>
+  </view>
+  <view class="notice">
+    <view class="l">
+      <image src="../wximages/hdgk.png"></image>
+    </view>
+    <view class="r">
+      添加车辆，高速过站畅通无阻！
+    </view>
+  </view>
+  <toast></toast>
+</view>
+</template>
+
+<script>
+  import wepy from 'wepy';
+  import base from '@/mixins/base.js';
+  import http from '@/mixins/http.js';
+  import Toast from '@/components/toast';
+  // import { service } from '@/config'
+
+  export default class Index extends wepy.page {
+    config = {
+      navigationBarTitleText: '首页'
+    }
+    components = {
+      toast: Toast
+    }
+
+    mixins = [base, http]
+
+    data = {
+      showmask: 0,
+      currentSwiper: 0
+    }
+
+    computed = {
+    }
+
+    methods = {
+      onCar(data) {
+        let that = this;
+        if (data.detail.iv) {
+          let user = data.detail.userInfo;
+          that.$parent.globalData.userInfo = user;
+          // wx.navigateTo({
+          //   url: 'cars/cars_index'
+          // });
+        }
+      },
+      onWait() {
+        const options = {
+          content: '建设中...',
+          position: 'middle',
+          duration: 2000
+        };
+        this.$invoke('toast', 'show', options);
+      },
+      toCar(data) {
+        let that = this;
+        if (data.detail.iv) {
+          let user = data.detail.userInfo;
+          that.$parent.globalData.userInfo = user;
+          wx.navigateTo({
+            url: 'cars/cars_add'
+          });
+        }
+      },
+      hideMask() {
+        this._hideMask();
+      },
+      swiperChange(e) {
+        this.currentSwiper = e.detail.current;
+      },
+      //跳转小程序按钮
+      jumpMinApp() {
+        wx.navigateToMiniProgram({
+          appId: 'wxf027cc32bfa26828',
+          path: 'pages/Home/Home',
+          extraData: {
+            foo: 'bar'
+          },
+          success(res) {
+            console.log('跳转成功！');
+          }
+        });
+      }
+    }
+
+    // _showMask() {
+    //   this.showmask = true
+    //   wx.hideTabBar()
+    // }
+
+    _hideMask() {
+      this.showmask = false;
+      wx.showTabBar();
+    }
+
+    events = {
+    }
+
+    onLoad() {
+      // this._showMask()
+      this._hideMask();
+    }
+  }
+</script>
+<style lang="less">
+.banner {
+  width: 750rpx;
+  height: 280rpx;
+  image {
+    width: 750rpx;
+    height: 280rpx;
+  }
+}
+.icons {
+  background-color: white;
+  width: 750rpx;
+  padding: 20rpx 0;
+  .icon {
+    display: inline-block;
+    width: 25%;
+    margin: 10rpx 0;
+    text-align: center;
+    box-sizing: border-box;
+    font-size: 12px;
+    button {
+      display: inline;
+      margin: 0;
+      padding: 0;
+      border: 0;
+      background: none;
+      line-height: inherit;
+      font-size: inherit;
+      color: inherit;
+    }
+    image {
+      width: 78rpx;
+      height: 78rpx;
+    }
+  }
+}
+.notice {
+  background: white;
+  width: 750rpx;
+  height: 120rpx;
+  border-top: 1rpx solid #f8f9fa;
+  padding: 20rpx;
+  display: flex;
+  font-size: 12px;
+  box-sizing: border-box;
+  .l {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 200rpx;
+    border-right: 1px solid #fdfdfd;
+    padding: 20rpx;
+    image {
+      width: 198rpx;
+      height: 79rpx;
+    }
+  }
+  .r {
+    box-sizing: border-box;
+    align-items: center;
+    font-size: 12px;
+    padding: 0 20rpx;
+  }
+}
+.carpanel {
+  margin-top: 20rpx;
+  padding-top: 20rpx;
+  height: 360rpx;
+  background: white;
+}
+.carbox {
+  display: inline;
+  &::after {
+    border: none;
+  }
+  line-height: inherit;
+  margin-left: 20rpx;
+  margin-right: 20rpx;
+  background: #eafbf3;
+  display: flex;
+  align-items: center;
+  border-radius: 20rpx;
+  padding: 20rpx 40rpx;
+  
+  .i {
+    width: 145rpx;
+    height: 62rpx;
+  }
+  .r {
+    margin-left: 40rpx;
+    color: #00AE57;
+    .t1 {
+      font-size: 14px;
+      margin-bottom: 10rpx;
+    }
+    .t2 {
+      font-size: 10px;
+    }
+  }
+}
+.mask {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 100;
+}
+
+.swiper-box {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  width: 600rpx;
+  height: 800rpx;
+  transform: translate(-50%, -50%);
+  z-index: 200;
+  overflow: hidden;
+
+  .swiper-item {
+    box-sizing: border-box;
+    padding: 0 20rpx;
+    position: relative;
+
+    .close {
+      position: absolute;
+      right: 30rpx;
+      top: 20rpx;
+      width: 40rpx;
+      height: 40rpx;
+      image {
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    .btn-bind {
+      position: absolute;
+      bottom: 50rpx;
+      left: 50%;
+      width: 300rpx;
+      height: 80rpx;
+      line-height: 80rpx;
+      font-size: 14px;
+      margin: 0 auto;
+      padding: 0rpx;
+      transform: translate(-50%, -50%);
+      border: none;
+      &::after {
+        border: none;
+      }
+      image {
+        width: 200rpx;
+        height: 70rpx;
+      }
+    }
+  }
+
+  .swiper-image {
+    border-radius: 20rpx;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.dots{  
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 200;
+  overflow: hidden;
+  width: 156rpx;
+  height: 36rpx; 
+  display: flex;
+  justify-content: space-around;
+  position: absolute;
+  margin-top: 450rpx;
+}  
+/*未选中时的小圆点样式 */
+.dot{  
+  width: 16rpx;  
+  height: 16rpx;   
+  border-radius: 8rpx;
+  background-color: white;
+}  
+/*选中以后的小圆点样式  */
+.active{  
+  width: 20rpx;   
+  background-color: #03CB65;
+}
+.noti {
+  padding: 5rpx;
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  // background: #fff;
+  image {
+    width: 60rpx;
+    height: 60rpx;
+    margin-right: 40rpx;
+  }
+  .p {
+    color: #EB6F0F;
+  }
+}
+</style>

@@ -1,0 +1,28 @@
+<template></template>
+
+<script>
+import wepy from "wepy";
+import base from "@/mixins/base.js";
+
+export default class Index extends wepy.page {
+  config = {
+    navigationBarTitleText: "卡包"
+  };
+  components = {};
+
+  mixins = [base];
+
+  data = {};
+
+  computed = {};
+
+  methods = {};
+
+  events = {};
+
+  onLoad() {}
+}
+</script>
+
+<style lang="less">
+</style>
