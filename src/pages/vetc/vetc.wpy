@@ -1,43 +1,59 @@
 <template>
-  <view>这里显示跳转vEtc</view>
+  <view>
+    <view>
+      <tabBarBottom :tabBar.sync="tabBarData"></tabBarBottom>
+    </view>
+  </view>
 </template>
 
 <script>
 import wepy from "wepy";
 import base from "@/mixins/base.js";
+import tabBarBottom from "@/components/tabbar";
 
 export default class Index extends wepy.page {
   config = {
     navigationBarTitleText: "微ETC"
   };
-  components = {};
+  components = {
+    tabBarBottom
+  };
 
   mixins = [base];
 
-  data = {};
+  data = {
+    tabBarData: {}
+  };
 
   computed = {};
 
   methods = {};
 
-  events = {};
+  events = {
+    "jump-page": e => {
+      console.log(e);
+    }
+  };
 
   onLoad() {
     console.log("开始load！");
+    this.$apply();
+    this.tabBarData = this.$parent.tabbarmain("tabBar", 1, this);
+    console.log(this.tabBarData);
   }
 
   onShow() {
     console.log("开始show");
-    wx.navigateToMiniProgram({
-      appId: "wxf027cc32bfa26828",
-      path: "pages/Home/Home",
-      extraData: {
-        foo: "bar"
-      },
-      success(res) {
-        console.log("跳转成功！");
-      }
-    });
+    // wx.navigateToMiniProgram({
+    //   appId: "wxf027cc32bfa26828",
+    //   path: "pages/Home/Home",
+    //   extraData: {
+    //     foo: "bar"
+    //   },
+    //   success(res) {
+    //     console.log("跳转成功！");
+    //   }
+    // });
   }
 
   onReady() {

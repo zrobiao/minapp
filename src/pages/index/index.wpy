@@ -159,6 +159,9 @@
     }
 
     events = {
+      'jump-page': (e) => {
+        console.log(e);
+      }
     }
 
     onLoad() {

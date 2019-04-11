@@ -127,7 +127,11 @@ export default class Index extends wepy.page {
     }
   };
 
-  events = {};
+  events = {
+    'jump-page': (e) => {
+      console.log(e);
+    }
+  };
 
   onShow() {
     let that = this;
@@ -144,8 +148,9 @@ export default class Index extends wepy.page {
     );
   }
   onLoad() {
-    this.tabBarData = this.$parent.tabbarmain('tabBar', 2, this);
     this.$apply();
+    this.tabBarData = this.$parent.tabbarmain('tabBar', 2, this);
+    console.log(this.tabBarData);
   }
 }
 </script>

@@ -2,12 +2,13 @@
   <view class="tabBar">
     <block wx:for="{{tabBar}}" wx:for-item="item" wx:key="tabBar">
       <view class="tabBar-item">
-        <navigator open-type="switchTab" url="{{item.pagePath}}">
-          <view>
-            <image class="icon" src="{{item.iconPath}}">
+        <!-- <navigator open-type="reLaunch" url="{{item.pagePath}}"> -->
+          <view @tap="jumpPages" data-text="{{item.text}}" data-url="{{item.pagePath}}">
+            <image wx:if="{{item.current== 1}}" class="icon" src="{{item.selectedIconPath}}">
+            <image wx:else class="icon" src="{{item.iconPath}}">
           </view>
           <view class="{{item.current== 1 ? 'tabBartext' :''}}">{{item.text}}</view>
-        </navigator>
+        <!-- </navigator> -->
       </view>
     </block>
   </view>
@@ -25,7 +26,30 @@ export default class tabbar extends wepy.component {
     }
   };
 
-  methods = {};
+  methods = {
+    jumpPages(e) {
+      this.$emit('jump-page', e);
+      // if (text === '申办微ETC') {
+      //   wx.navigateToMiniProgram({
+      //     appId: 'wxf027cc32bfa26828',
+      //     path: 'pages/Home/Home',
+      //     extraData: {
+      //       foo: 'bar'
+      //     },
+      //     success(res) {
+      //       console.log('跳转成功！');
+      //     }
+      //   });
+      // } else {
+      //   wx.reLaunch({
+      //     url: url,
+      //     success(res) {
+      //       console.log(res);
+      //     }
+      //   });
+      // }
+    }
+  };
 
   onLoad() {
     console.log("开始load！");
