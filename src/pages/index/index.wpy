@@ -23,15 +23,13 @@
       <view>微保</view>
     </view>
     <view class="icon" @tap="jumpMinApp(2)">
-      <button open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="onCar">
       <image src="../../wximages/c-logo-4.png"></image>
       <view>好车主</view>
-      </button>
     </view>
     <view class="icon">
       <button open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="onCar">
       <image src="../../wximages/c-logo-5.png"></image>
-      <view>代价服务</view>
+      <view>代驾服务</view>
       </button>
     </view>
     <view class="icon">
@@ -41,14 +39,16 @@
       </button>
     </view>
     <view class="icon">
-      <button open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="onCar">
+      <navigator open-type="navigate" url="../breakRules/breakRules">
       <image src="../../wximages/c-logo-7.png"></image>
       <view>违章查询</view>
-      </button>
+      </navigator>
     </view>
     <view class="icon">
+      <navigator open-type="navigate" url="../map/map">
       <image src="../../wximages/c-logo-8.png"></image>
       <view>地图导航</view>
+      </navigator>
     </view>
   </view>
   <view class="notice">
@@ -160,7 +160,24 @@
 
     events = {
       'jump-page': (e) => {
-        console.log(e);
+        let vEtc = e.currentTarget.dataset.text;
+        let pageUrl = '../../' + e.currentTarget.dataset.url;
+        if (vEtc === '申办微ETC') {
+          wx.navigateToMiniProgram({
+            appId: 'wxf027cc32bfa26828',
+            path: 'pages/Home/Home',
+            extraData: {
+              foo: 'bar'
+            },
+            success(res) {
+              console.log('跳转成功！');
+            }
+          });
+        } else {
+          wx.reLaunch({
+            url: pageUrl
+          });
+        }
       }
     }
 

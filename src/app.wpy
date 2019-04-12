@@ -22,8 +22,8 @@ export default class extends wepy.app {
   config = {
     pages: [
       "pages/index/index",
-      "pages/vetc/vetc",
       "pages/usercenter/index",
+      "pages/vetc/vetc",
       "pages/addCar/cars_add",
       "pages/bill/bill",
       "pages/breakRules/breakRules",
@@ -99,21 +99,21 @@ export default class extends wepy.app {
     tabBar: [
       {
         current: 0,
-        pagePath: "../../pages/index/index",
+        pagePath: "pages/index/index",
         iconPath: "../../wximages/logo-1.png",
         selectedIconPath: "../../wximages/logo-1-active.png",
         text: "首页"
       },
       {
         current: 0,
-        pagePath: "../../pages/vetc/vetc",
+        pagePath: "pages/vetc/vetc",
         iconPath: "../../wximages/logo-2.png",
         selectedIconPath: "../../wximages/logo-2-active.png",
         text: "申办微ETC"
       },
       {
         current: 0,
-        pagePath: "../../pages/usercenter/index",
+        pagePath: "pages/usercenter/index",
         iconPath: "../../wximages/logo-3.png",
         selectedIconPath: "../../wximages/logo-3-active.png",
         text: "我的"
@@ -125,16 +125,11 @@ export default class extends wepy.app {
     var that = target;
     var bindData = {};
     var otabbar = this.globalData.tabBar;
-    // if (id === 1) {
-    //   return console.log("这里跳转微etc");
-    // }
     otabbar.forEach((item, index) => {
       if (id === index) {
         otabbar[id].current = 1;
-        // otabbar[id]["iconPath"] = otabbar[id]["selectedIconPath"]; //换当前的icon
       } else {
         otabbar[index].current = 0;
-        // otabbar[index]["iconPath"] = otabbar[index]["iconPath"]; //换当前的icon
       }
     });
     bindData[bindName] = otabbar;

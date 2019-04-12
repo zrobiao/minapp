@@ -1,4 +1,8 @@
-<template></template>
+<template>
+  <view>
+    <button>这里显示的是卡包信息</button>
+  </view>
+</template>
 
 <script>
 import wepy from "wepy";

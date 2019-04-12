@@ -129,7 +129,25 @@ export default class Index extends wepy.page {
 
   events = {
     'jump-page': (e) => {
-      console.log(e);
+      // console.log(e);
+      let vEtc = e.currentTarget.dataset.text;
+      let pageUrl = '../../' + e.currentTarget.dataset.url;
+      if (vEtc === '申办微ETC') {
+        wx.navigateToMiniProgram({
+          appId: 'wxf027cc32bfa26828',
+          path: 'pages/Home/Home',
+          extraData: {
+            foo: 'bar'
+          },
+          success(res) {
+            console.log('跳转成功！');
+          }
+        });
+      } else {
+        wx.reLaunch({
+          url: pageUrl
+        });
+      }
     }
   };
 
