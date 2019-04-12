@@ -10,12 +10,12 @@
         value="{{motors}}"
       >
     </view>
-    <view class="field-cell field">
+    <!-- <view class="field-cell field">
       <view class="field-cell__hd field-title">新能源</view>
       <view class="field-cell__bd">
         <switch checked="{{nweType}}" bindchange="xnyChange"/>
       </view>
-    </view>
+    </view> -->
     <!-- <text>车牌号</text>
     <block wx:if="{{motors == '' && cardType == 0 }}">
       <text style='color: #7D8EA0;' bindtap='showKeyboard'>请输入车牌号</text>

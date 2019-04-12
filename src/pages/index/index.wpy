@@ -100,9 +100,9 @@
         if (data.detail.iv) {
           let user = data.detail.userInfo;
           that.$parent.globalData.userInfo = user;
-          // wx.navigateTo({
-          //   url: 'cars/cars_index'
-          // });
+          wx.navigateTo({
+            url: '../addCar/cars_add'
+          });
         }
       },
       onWait() {
