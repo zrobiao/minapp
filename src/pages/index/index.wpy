@@ -85,10 +85,10 @@
     <toast></toast>
     <view class="hintShowBox {{hintShow ? 'hintBoxhind' : ''}}">
       <view class="btnbox">
-        <button @tab="jumpVip">
+        <button type="default" @tap="jumpVip(0)">
           <view class="hintTxt">微ETC会员权益</view>
         </button>
-        <button>
+        <button type="default" @tap="jumpVip(1)">
           <view class="hintTxt">高速通行会员权益</view>
         </button>
       </view>
@@ -119,7 +119,7 @@ export default class Index extends wepy.page {
     showmask: 0,
     currentSwiper: 0,
     tabBarData: {},
-    imgUrls: ["../../images/banner.jpg", "../../images/banner.jpg", "../../images/banner.jpg"],
+    imgUrls: ['../../images/banner.jpg', '../../images/banner.jpg', '../../images/banner.jpg'],
     currentBannerIndex: 0,
     hintShow: false
   };
@@ -132,10 +132,31 @@ export default class Index extends wepy.page {
       this.currentBannerIndex = current;
     },
     goVip(data) {
-      this.hintShow = !this.hintShow;
+      if (data.detail.iv) {
+        let user = data.detail.userInfo;
+        this.$parent.globalData.userInfo = user;
+        this.hintShow = !this.hintShow;
+      }
     },
-    jumpVip(data) {
+    jumpVip(type) {
       this.hintShow = !this.hintShow;
+      if (type == 0) {
+        //跳转微ETC小程序会员权益页面
+        wx.navigateToMiniProgram({
+          appId: "wxf027cc32bfa26828",
+          path: "pages/Home/Home",
+          extraData: {
+            foo: "bar"
+          },
+          success(res) {
+            console.log("跳转成功！");
+          }
+        });
+      }else {
+        wx.navigateTo({
+          url: "../vip/vip"
+        });
+      }
     },
     onCar(data) {
       let that = this;
