@@ -57,10 +57,10 @@ export default class tabbar extends wepy.component {
 }
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 .icon {
-  width: 54rpx;
-  height: 54rpx;
+  width: 40rpx;
+  height: 40rpx;
 }
 .tabBar {
   width: 100%;
@@ -72,7 +72,7 @@ export default class tabbar extends wepy.component {
   font-size: 24rpx;
   color: #8a8a8a;
   box-shadow: 3rpx 3rpx 3rpx 3rpx #aaa;
-  z-index: 9999;
+  z-index: 999;
 }
 
 .tabBar-item {

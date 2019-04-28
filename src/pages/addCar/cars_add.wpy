@@ -53,6 +53,7 @@
       <view class="input-wrapper">
         <view class="input-item">
           <text>车主姓名</text>
+          <input value="{{carName}}" bindinput="inputValueChange">
           <!-- <textarea value="{{faceObj.owner}}" bindinput="inputValueChange" data-type="0" data-key="owner" placeholder-class="placeholder-class" auto-height/> -->
         </view>
         <view class="input-item iconfont {{personIndex === 0 ? 'error':''}}">
@@ -65,10 +66,10 @@
             <view class="persons">{{personsArr[personIndex]}}{{personIndex !== 0?'人':''}}</view>
           </picker>
         </view>
-        <view class="input-item">
+        <!-- <view class="input-item">
           <text>车牌号码</text>
-          <!-- <input value="{{faceObj.numberPlates}}" bindinput="inputValueChange" data-type="0" data-key="numberPlates" placeholder-class="placeholder-class"/> -->
-        </view>
+          <input value="{{faceObj.numberPlates}}" bindinput="inputValueChange" data-type="0" data-key="numberPlates" placeholder-class="placeholder-class"/>
+        </view> -->
         <car-number :motors.sync="motors" :nweType.sync="nweType"></car-number>
       </view>
     </view>
@@ -105,6 +106,7 @@
       vehiclePhotos: '',
       vehicleLicence: '',
       drivingLicence: '',
+      carName:'新车',
       motors: '',
       nweType: 0,
       type: 0,
