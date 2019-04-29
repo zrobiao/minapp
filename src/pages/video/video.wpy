@@ -1,0 +1,32 @@
+<template>
+  <view>
+    <button>这里显示的是视频信息</button>
+  </view>
+</template>
+
+<script>
+import wepy from "wepy";
+import base from "@/mixins/base.js";
+
+export default class video extends wepy.page {
+  config = {
+    navigationBarTitleText: "视频"
+  };
+  components = {};
+
+  mixins = [base];
+
+  data = {};
+
+  computed = {};
+
+  methods = {};
+
+  events = {};
+
+  onLoad() {}
+}
+</script>
+
+<style lang="less">
+</style>

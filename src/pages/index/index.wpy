@@ -6,6 +6,7 @@
     <view class="big-swiperbox">
       <swiper
         class="bannerBox"
+        autoplay
         interval="3000"
         duration="1000"
         previous-margin="30px"
@@ -26,51 +27,79 @@
         </view>
     </view>
     <view class="icons">
-      <view class="noti">
-        <image mode="aspectFit" src="../../wximages/tl.png">
-        <view class="p">祝贺贵州省高速移动支付12.20日进入试运行</view>
-      </view>
-      <view class="icon" @tap="jumpMinApp(0)">
-        <image src="../../wximages/c-logo-1.png">
-        <view class="icon-txt">微ETC</view>
-      </view>
-      <view class="icon">
-        <button open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="goVip">
-          <image src="../../wximages/c-logo-2.png">
-          <view class="icon-txt">会员权益</view>
-        </button>
-      </view>
-      <view class="icon" @tap="jumpMinApp(1)">
-        <image src="../../wximages/c-logo-3.png">
-        <view class="icon-txt">微保</view>
-      </view>
-      <view class="icon" @tap="jumpMinApp(2)">
-        <image src="../../wximages/c-logo-4.png">
-        <view class="icon-txt">好车主</view>
-      </view>
-      <view class="icon">
-        <button open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="onCar">
-          <image src="../../wximages/c-logo-5.png">
-          <view class="icon-txt">代驾服务</view>
-        </button>
-      </view>
-      <view class="icon">
-        <button open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="onCar">
-          <image src="../../wximages/c-logo-1.png">
-          <view class="icon-txt">洗车服务</view>
-        </button>
-      </view>
-      <view class="icon">
-        <navigator open-type="navigate" url="../breakRules/breakRules">
-          <image src="../../wximages/c-logo-7.png">
-          <view class="icon-txt">违章查询</view>
-        </navigator>
-      </view>
-      <view class="icon">
-        <navigator open-type="navigate" url="../map/map">
-          <image src="../../wximages/c-logo-8.png">
-          <view class="icon-txt">地图导航</view>
-        </navigator>
+        <view class="noti">
+          <image mode="aspectFit" src="../../wximages/tl.png">
+          <view class="p">祝贺贵州省高速移动支付12.20日进入试运行</view>
+        </view>
+        <scroll-view
+          class="scrollbigbox"
+          scroll-x
+          scroll-left="10px;"
+          bindscrolltolower="lower"
+          bindscrolltoupper="upper"
+        >
+        <view class="scrollbox">
+          <view class="icon" @tap="jumpMinApp(0)">
+            <image src="../../wximages/c-logo-1.png">
+            <view class="icon-txt">微ETC</view>
+          </view>
+          <view class="icon">
+            <button open-type="getUserInfo" lang="zh_CN" data-type="vip" bindgetuserinfo="jumpOtherPage">
+              <image src="../../wximages/c-logo-2.png">
+              <view class="icon-txt">会员权益</view>
+            </button>
+          </view>
+          <view class="icon" @tap="jumpMinApp(1)">
+            <image src="../../wximages/c-logo-3.png">
+            <view class="icon-txt">微保</view>
+          </view>
+          <view class="icon" @tap="jumpMinApp(2)">
+            <image src="../../wximages/c-logo-4.png">
+            <view class="icon-txt">好车主</view>
+          </view>
+          <view class="icon">
+            <button open-type="getUserInfo" lang="zh_CN" data-type="addoil" bindgetuserinfo="jumpOtherPage">
+              <image src="../../wximages/c-logo-5.png">
+              <view class="icon-txt">加油</view>
+            </button>
+          </view>
+        </view>
+        <view class="scrollbox">
+          <view class="icon">
+            <button open-type="getUserInfo" lang="zh_CN" data-type="driver" bindgetuserinfo="jumpOtherPage">
+              <image src="../../wximages/c-logo-5.png">
+              <view class="icon-txt">代驾服务</view>
+            </button>
+          </view>
+          <view class="icon">
+            <button open-type="getUserInfo" lang="zh_CN" data-type="washCar" bindgetuserinfo="jumpOtherPage">
+              <image src="../../wximages/c-logo-1.png">
+              <view class="icon-txt">洗车服务</view>
+            </button>
+          </view>
+          <view class="icon">
+            <button  open-type="getUserInfo" lang="zh_CN" data-type="breakRules" bindgetuserinfo="jumpOtherPage">
+              <image src="../../wximages/c-logo-7.png">
+              <view class="icon-txt">违章查询</view>
+            </button>
+          </view>
+          <view class="icon">
+            <navigator open-type="navigate" url="../map/map">
+              <image src="../../wximages/c-logo-8.png">
+              <view class="icon-txt">地图导航</view>
+            </navigator>
+          </view>
+          <view class="icon">
+            <button open-type="getUserInfo" lang="zh_CN" data-type="video" bindgetuserinfo="jumpOtherPage">
+              <image src="../../wximages/c-logo-5.png">
+              <view class="icon-txt">视频</view>
+            </button>
+          </view>
+        </view>
+      </scroll-view>
+      <view class="scrollline">
+        <view class="{{lineshow ? 'linebox' : 'colorline'}}"></view>
+        <view class="{{lineshow ? 'colorline' : 'linebox'}}"></view>
       </view>
     </view>
     <view class="notice">
@@ -121,7 +150,8 @@ export default class Index extends wepy.page {
     tabBarData: {},
     imgUrls: ['../../images/banner.jpg', '../../images/banner.jpg', '../../images/banner.jpg'],
     currentBannerIndex: 0,
-    hintShow: false
+    hintShow: false,
+    lineshow: false
   };
 
   computed = {};
@@ -131,20 +161,19 @@ export default class Index extends wepy.page {
       let current = e.detail.current;
       this.currentBannerIndex = current;
     },
-    goVip(data) {
-      if (data.detail.iv) {
-        let user = data.detail.userInfo;
-        this.$parent.globalData.userInfo = user;
-        this.hintShow = !this.hintShow;
-      }
+    upper(e) {
+      this.lineshow = !this.lineshow;
+    },
+    lower(e) {
+      this.lineshow = !this.lineshow;
     },
     jumpVip(type) {
       this.hintShow = !this.hintShow;
       if (type == 0) {
-        //跳转微ETC小程序会员权益页面
+        // 跳转微ETC小程序会员权益页面
         wx.navigateToMiniProgram({
           appId: "wxf027cc32bfa26828",
-          path: "pages/Home/Home",
+          path: "pages/VIPRights/VIPRights",
           extraData: {
             foo: "bar"
           },
@@ -152,20 +181,42 @@ export default class Index extends wepy.page {
             console.log("跳转成功！");
           }
         });
-      }else {
+      } else {
         wx.navigateTo({
           url: "../vip/vip"
         });
       }
     },
-    onCar(data) {
+    jumpOtherPage(data) {
       let that = this;
+      let dataType = data.target.dataset.type;
+      console.log(data);
       if (data.detail.iv) {
         let user = data.detail.userInfo;
         that.$parent.globalData.userInfo = user;
-        wx.navigateTo({
-          url: "../addCar/cars_add"
-        });
+        if (dataType === 'vip') {
+          this.hintShow = !this.hintShow;
+        } else if (dataType === 'driver') {
+          wx.navigateTo({
+            url: "../driver/driver"
+          });
+        } else if (dataType === 'washCar') {
+          wx.navigateTo({
+            url: "../washCar/list"
+          });
+        } else if (dataType === 'breakRules') {
+          wx.navigateTo({
+            url: "../breakRules/breakRules"
+          });
+        } else if (dataType === 'addoil') {
+          wx.navigateTo({
+            url: "../addoil/addoil"
+          });
+        } else if (dataType === 'video') {
+          wx.navigateTo({
+            url: "../video/video"
+          });
+        }
       }
     },
     onWait() {
@@ -260,7 +311,7 @@ export default class Index extends wepy.page {
   height:250px;
   .bannerBox{
     height: 190px;
-    padding:20px;
+    padding:20px 0;
   }
   .item-box{
   }
@@ -305,12 +356,12 @@ export default class Index extends wepy.page {
   box-shadow:0px 2px 10px 0px rgba(40, 40, 40, 0.35);
   border-radius:10px;
   .noti {
-  padding: 20rpx;
-  margin-bottom: 20rpx;
-  display: flex;
-  align-items: center;
-  border-bottom: #EFEFF4 1px solid;
-  // background: #fff;
+    padding: 20rpx;
+    margin-bottom: 20rpx;
+    display: flex;
+    align-items: center;
+    border-bottom: #EFEFF4 1px solid;
+    // background: #fff;
     image {
       width: 50rpx;
       height: 40rpx;
@@ -321,32 +372,55 @@ export default class Index extends wepy.page {
       font-size: 13px;  
     }
   }
-  .icon {
-    display: inline-block;
-    width: 25%;
-    margin: 20rpx 0;
-    text-align: center;
-    box-sizing: border-box;
-    button {
-      display: inline;
-      margin: 0;
-      padding: 0;
-      border: 0;
-      background: none;
-      line-height: inherit;
-      font-size: inherit;
-      color: inherit;
+  .scrollbigbox{
+    width:100%;
+    white-space: nowrap;
+    .scrollbox{
+      .icon {
+        display: inline-block;
+        width: 25%;
+        margin: 20rpx 0;
+        text-align: center;
+        box-sizing: border-box;
+        button {
+          display: inline;
+          margin: 0;
+          padding: 0;
+          border: 0;
+          background: none;
+          line-height: inherit;
+          font-size: inherit;
+          color: inherit;
+        }
+        image {
+          width: 60rpx;
+          height: 60rpx;
+          margin-bottom:10rpx;
+        }
+        .icon-txt{
+          font-size:14px;
+          color:#333;
+        }
+      }
     }
-    image {
-      width: 40rpx;
-      height: 40rpx;
-      margin-bottom:10rpx;
-    }
-    .icon-txt{
-      font-size:14px;
-      color:#333;
-    }
-  }
+   }
+   .scrollline{
+     display: flex;
+     width:60px;
+     margin:20rpx auto;
+     .linebox{
+       width: 30px;
+       height:1px;
+       background: #EFEFF4;
+     }
+     .colorline{
+       width: 30px;
+       height:1px;
+       background: #01CC63;
+     }
+
+   }
+  
 }
 .notice {
   background:rgba(1,204,99,1);

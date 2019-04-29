@@ -1,0 +1,32 @@
+<template>
+  <view>
+    <button>这里显示的是代驾页面信息</button>
+  </view>
+</template>
+
+<script>
+import wepy from "wepy";
+import base from "@/mixins/base.js";
+
+export default class driver extends wepy.page {
+  config = {
+    navigationBarTitleText: "代驾服务"
+  };
+  components = {};
+
+  mixins = [base];
+
+  data = {};
+
+  computed = {};
+
+  methods = {};
+
+  events = {};
+
+  onLoad() {}
+}
+</script>
+
+<style lang="less">
+</style>

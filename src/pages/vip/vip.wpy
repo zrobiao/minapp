@@ -1,6 +1,57 @@
 <template>
-  <view>
-    <button>这里显示的是VIP信息</button>
+  <view class="vipcontainer">
+    <view class="vipbox">
+      <view class="vipbanner">
+        <image src="">
+      </view>
+      <view class="vipcontent">
+        <view class="viplist">
+          <image src="">
+          <view class="viptext">
+            <view class="viph">到店服务，美容装饰</view>
+            <view class="vipp">各种折扣享不停</view>
+          </view>
+        </view>
+        <view class="viplist">
+          <image src="">
+          <view class="viptext">
+            <view class="viph">代驾返1~100元通行代金劵</view>
+            <view class="vipp">可抵扣高速通行费</view>
+          </view>
+        </view>
+        <view class="viplist">
+          <image src="">
+          <view class="viptext">
+            <view class="viph">全国洗车5~8折</view>
+            <view class="vipp">1万多家合作洗车店</view>
+          </view>
+        </view>
+        <view class="viplist">
+          <image src="">
+          <view class="viptext">
+            <view class="viph">VIP视频权益</view>
+            <view class="vipp">优酷、腾讯、爱奇艺、芒果优惠购</view>
+          </view>
+        </view>
+        <view class="viplist">
+          <image src="">
+          <view class="viptext">
+            <view class="viph">违章通知权益</view>
+            <view class="vipp">贵州省内车辆，免费获取违章通知</view>
+          </view>
+        </view>
+        <view class="viplist">
+          <image src="">
+          <view class="viptext">
+            <view class="viph">VIP加油权益</view>
+            <view class="vipp">贵州省内中石化加油享优惠</view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="vipbtn">
+      <button @tap="openVip">立即开通</button>
+    </view>
   </view>
 </template>
 
@@ -20,7 +71,13 @@ export default class Index extends wepy.page {
 
   computed = {};
 
-  methods = {};
+  methods = {
+    openVip() {
+      wx.navigateTo({
+        url: "../addCar/cars_add"
+      });
+    }
+  };
 
   events = {};
 
@@ -28,5 +85,66 @@ export default class Index extends wepy.page {
 }
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
+.vipcontainer {
+  padding: 20px;
+  .vipbox {
+    background: #fff;
+    border-radius: 10rpx;
+    box-shadow:0px 8px 13px 0px rgba(51, 51, 51, 0.35);
+    .vipbanner {
+      width: 100%;
+      height: 220rpx;
+      background: #00af55;
+      image {
+        width: 100%;
+        height: 100%;
+      }
+    }
+      .vipcontent {
+        margin: 65rpx 0;
+        padding: 0 20px 65rpx;;
+        .viplist {
+          display: flex;
+          margin-bottom: 30px;
+          align-items: center;
+          image {
+            width: 40px;
+            height: 40px;
+            border-radius: 20px;
+            margin-right: 20px;
+            background: #00AF55;
+          }
+          .viptext {
+            display:block;
+            .viph {
+              font-size: 15px;
+              color: #333;
+            }
+            .vipp {
+              font-size: 12px;
+              color: #999;
+            }
+          }
+        }
+      }
+  }
+  .vipbtn{
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    button{
+      width: 100%;
+      height: 40px;
+      font-size: 18px;
+      color: #fff;
+      border-top-left-radius:10px;
+      border-top-right-radius:10px;
+      background: #00AF55;
+      line-height: 40px;
+      text-align: center; 
+    }
+  }
+}
 </style>

@@ -47,7 +47,10 @@ export default class extends wepy.app {
       "pages/qa/ask",
       "pages/vip/vip",
       "pages/washCar/list",
-      "pages/washCar/detail"
+      "pages/washCar/detail",
+      "pages/driver/driver",
+      "pages/addoil/addoil",
+      "pages/video/video"
     ],
     // tabBar: {
     //   color: "#999",
