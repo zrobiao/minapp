@@ -1,76 +1,59 @@
 <template>
   <view class="container">
-    <!-- <view class="vbox">
-      <view class="vbox-title">
-        <text class="t">示例</text>
-        <text class="tip">请确保行驶证拍摄完整、文字清晰</text>
-      </view>
-      <view class="vbox-list">
-        <image class="l" src="../../wximages/vl1.png" mode="scaleToFill">
-        <image class="l" src="../../wximages/vl2.png" mode="scaleToFill">
-        <image class="l" src="../../wximages/vl3.png" mode="scaleToFill">
-      </view>
-    </view> -->
-    <view class="vbox">
-      <view class="vbox-title">
-        <text class="t">请上传车辆信息</text>
-      </view>
-      <view class="type">
-        <text>车辆类型</text>
-        <view>
-          <text class="{{type === 0 ? 'selected':''}}" data-index="0" @tap="switchType">个人车辆</text>
-          <text class="{{type === 1 ? 'selected':''}}" data-index="1" @tap="switchType">企业车辆</text>
+    <view class="carsbox">
+      <view class="vbox">
+        <view class="vbox-title">
+          <text class="t">请上传车辆行驶证进行车辆认证</text>
+        </view>
+        <view class="type">
+          <text>车辆类型</text>
+          <view>
+            <text class="{{type === 0 ? 'selected':''}}" data-index="0" @tap="switchType">个人车辆</text>
+            <text class="{{type === 1 ? 'selected':''}}" data-index="1" @tap="switchType">企业车辆</text>
+          </view>
+        </view>
+        <view class="vbox-list">
+          <view @tap="chooseImage" class="uploadbox" data-id="drivingLicence" data-type="0">
+            <block wx:if="{{!drivingLicence}}">
+              <image class="camera" src="../../wximages/vl1.png" mode="scaleToFill">
+            </block>
+            <block wx:else>
+              <image class="l" src="{{drivingLicence}}" mode="scaleToFill">
+            </block>
+          </view>
+          <view @tap="chooseImage" class="uploadbox" data-id="vehicleLicence" data-type="1">
+            <block wx:if="{{!vehicleLicence}}">
+              <image class="camera" src="../../wximages/vl2.png" mode="scaleToFill">
+            </block>
+            <block wx:else>
+              <image class="l" src="{{vehicleLicence}}" mode="scaleToFill">
+            </block>
+          </view>
         </view>
       </view>
-      <view class="vbox-list">
-        <view @tap="chooseImage" class="uploadbox" data-id="drivingLicence">
-          <block wx:if="{{!drivingLicence}}">
-            <image class="camera" src="../../wximages/vt1.png" mode="scaleToFill">
-          </block>
-          <block wx:else>
-            <image class="l" src="{{drivingLicence}}" mode="scaleToFill">
-          </block>
+      <view class="vbox" wx:if="{{showCarsMsg}}">
+        <view class="input-wrapper">
+          <view class="input-item">
+            <text>车主姓名</text>
+            <input value="{{carName}}" bindinput="inputValueChange">
+            <!-- <textarea value="{{faceObj.owner}}" bindinput="inputValueChange" data-type="0" data-key="owner" placeholder-class="placeholder-class" auto-height/> -->
+          </view>
+          <view class="input-item iconfont {{personIndex === 0 ? 'error':''}}">
+            <text>核载人数</text>
+            <picker
+              bindchange="bindPersonsCapacityPickerChange"
+              value="{{personIndex}}"
+              range="{{personsArr}}"
+            >
+              <view class="persons">{{personsArr[personIndex]}}{{personIndex !== 0?'人':''}}</view>
+            </picker>
+          </view>
+          <!-- <view class="input-item">
+            <text>车牌号码</text>
+            <input value="{{faceObj.numberPlates}}" bindinput="inputValueChange" data-type="0" data-key="numberPlates" placeholder-class="placeholder-class"/>
+          </view> -->
+          <car-number :motors.sync="motors" :nweType.sync="nweType"></car-number>
         </view>
-        <view @tap="chooseImage" class="uploadbox" data-id="vehicleLicence">
-          <block wx:if="{{!vehicleLicence}}">
-            <image class="camera" src="../../wximages/vt2.png" mode="scaleToFill">
-          </block>
-          <block wx:else>
-            <image class="l" src="{{vehicleLicence}}" mode="scaleToFill">
-          </block>
-        </view>
-        <!-- <view @tap="chooseImage" class="uploadbox" data-id="vehiclePhotos">
-          <block wx:if="{{!vehiclePhotos}}">
-            <image class="camera" src="../../wximages/vt3.png" mode="scaleToFill">
-          </block>
-          <block wx:else>
-            <image class="l" src="{{vehiclePhotos}}" mode="scaleToFill">
-          </block>
-        </view> -->
-      </view>
-    </view>
-    <view class="vbox">
-      <view class="input-wrapper">
-        <view class="input-item">
-          <text>车主姓名</text>
-          <input value="{{carName}}" bindinput="inputValueChange">
-          <!-- <textarea value="{{faceObj.owner}}" bindinput="inputValueChange" data-type="0" data-key="owner" placeholder-class="placeholder-class" auto-height/> -->
-        </view>
-        <view class="input-item iconfont {{personIndex === 0 ? 'error':''}}">
-          <text>核载人数</text>
-          <picker
-            bindchange="bindPersonsCapacityPickerChange"
-            value="{{personIndex}}"
-            range="{{personsArr}}"
-          >
-            <view class="persons">{{personsArr[personIndex]}}{{personIndex !== 0?'人':''}}</view>
-          </picker>
-        </view>
-        <!-- <view class="input-item">
-          <text>车牌号码</text>
-          <input value="{{faceObj.numberPlates}}" bindinput="inputValueChange" data-type="0" data-key="numberPlates" placeholder-class="placeholder-class"/>
-        </view> -->
-        <car-number :motors.sync="motors" :nweType.sync="nweType"></car-number>
       </view>
     </view>
     <view class="btnbox">
@@ -106,12 +89,13 @@
       vehiclePhotos: '',
       vehicleLicence: '',
       drivingLicence: '',
-      carName:'新车',
+      carName: '新车',
       motors: '',
       nweType: 0,
       type: 0,
       personIndex: 3,
-      personsArr: ['请选择核载人数', 2, 4, 5, 6, 7]
+      personsArr: ['请选择核载人数', 2, 4, 5, 6, 7],
+      showCarsMsg: false
     }
 
     computed = {
@@ -174,12 +158,13 @@
         });
       },
       chooseImage(e) {
-        //let id = e.currentTarget.dataset.id
+        let type = e.currentTarget.dataset.type;
         wx.showActionSheet({
           itemList: ['拍照', '相册选择'],
           success: (res) => {
             if (res.tapIndex === 0) {
               console.log('选择了拍照！');
+              this.$goto(`/pages/addCar/cars_photo?type=${type}&title=${parseInt(type) === 0 ? '行驶证（印章页）' : '行驶证（条形页）'}`);
             } else {
               wx.chooseImage({
                 count: 1,
@@ -248,148 +233,151 @@
   }
 </script>
 
-<style lang="less">
-.vbox {
-  margin-top: 20rpx;
-  margin-bottom: 50rpx;
-  padding: 0 20rpx;
-  &-title {
-    color: #333;
-    font-size: 14px;
-    .tip {
-      margin-left: 20rpx;
-      color: #eb6f0f;
-      font-size: 12px;
-    }
-  }
-  &-list {
-    margin-top: 20rpx;
-    display: flex;
-    justify-content: space-between;
-    .l {
-      width: 340rpx;
-      height: 220rpx;
-    }
-    .uploadbox {
-      width: 340rpx;
-      height: 200rpx;
-      text-align: center;
-      .camera {
-        width: 100%;
-        height: 100%;
+<style lang="less" scoped>
+.container{
+  padding: 15px;
+  .carsbox{
+    background: #fff;
+    padding: 15px 20px 40px;
+    border-radius: 10px;
+    box-shadow:0px 2px 10px 0px rgba(40, 40, 40, 0.35);
+    .vbox{
+      &-title {
+        color: #333;
+        font-size: 14px;
+        .tip {
+          margin-left: 20rpx;
+          color: #eb6f0f;
+          font-size: 12px;
+        }
       }
+      &-list {
+        margin-top: 20rpx;
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        .uploadbox {
+          width: 49%;
+          height: 200rpx;
+          text-align: center;
+          .camera {
+            width: 100%;
+            height: 100%;
+          }
+        }
+      }
+      .type {
+      display: flex;
+      margin-top: 20rpx;
+      height: 97rpx;
+      align-items: center;
+      font-size: 30rpx;
+      border-bottom: 1rpx solid #f2f2f2;
+    }
+    .type > text {
+      flex: 1;
+    }
+    .type > view {
+      display: flex;
+    }
+    .type > view > text {
+      display: flex;
+      align-items: center;
+      margin-right: 42rpx;
+      color: #999;
+    }
+      .type > view > text.selected {
+        color: #333;
+      }
+      .type > view > text.selected::before {
+        border: none;
+        background: #1aad19;
+      }
+      .type > view > text::before {
+      display: inline-block;
+      margin-right: 20rpx;
+      content: '';
+      width: 40rpx;
+      height: 40rpx;
+      border-radius: 50%;
+      border: 1rpx solid #c5c5c5;
+      color: #ececec;
+    }
+    .type > view > text:last-of-type {
+      margin-right: 10rpx;
+    }
+    .input-wrapper {
+      margin-top: 20rpx;
+    }
+    .input-wrapper .input-item {
+      position: relative;
+      display: flex;
+      align-items: center;
+      padding: 0 6rpx;
+      min-height: 97rpx;
+      border-bottom: 1rpx solid #f6f6f6;
+      color: #333;
+      font-size: 28rpx;
+      box-sizing: border-box;
+    }
+    .input-wrapper .input-item.error > picker {
+      color: #f00;
+    }
+    .input-wrapper .input-item.error::after {
+      color: #f00 !important;
+    }
+    .input-wrapper .input-item.iconfont .persons {
+      margin-right: 50rpx;
+    }
+    .input-wrapper .input-item.iconfont::after {
+      position: absolute;
+      right: 0;
+      font-size: 32rpx;
+      content: '\e600';
+      padding-right: 10rpx;
+      color: #1aad19;
+      pointer-events: none;
+    }
+    .input-wrapper .input-item:last-of-type {
+      border-bottom: none;
+    }
+    .input-wrapper .input-item > input,
+    .input-wrapper .input-item > textarea,
+    .input-wrapper .input-item > picker,
+    .input-wrapper .input-item > view {
+      flex: 1;
+      text-align: right;
+    }
+    .input-wrapper .input-item > textarea {
+      vertical-align: center;
+    }
+    .input-wrapper .input-item > view {
+      display: flex;
+      justify-content: right;
+    }
+    .input-wrapper .input-item > view::before {
+      content: '';
+      flex: 1;
+    }
+    .input-wrapper .input-item > view > view {
+      width: 220rpx;
+      flex: 0 0 220rpx;
+      display: flex;
+      margin-left: 73rpx;
+      align-items: center;
+      justify-content: center;
+      height: 80rpx;
+      color: #fff;
+      border-radius: 10rpx;
+    }
+    .input-wrapper .input-item > view > view.blue {
+      background: #0c8ce6;
+    }
+    .input-wrapper .input-item > view > view.green {
+      background: linear-gradient(to bottom, #dcf8d1, #1ea958);
+    }
     }
   }
-  .type {
-  display: flex;
-  margin-top: 20rpx;
-  height: 97rpx;
-  align-items: center;
-  font-size: 30rpx;
-  border-bottom: 1rpx solid #f2f2f2;
-}
-.type > text {
-  flex: 1;
-}
-.type > view {
-  display: flex;
-}
-.type > view > text {
-  display: flex;
-  align-items: center;
-  margin-right: 42rpx;
-  color: #999;
-}
-  .type > view > text.selected {
-    color: #333;
-  }
-  .type > view > text.selected::before {
-    border: none;
-    background: #1aad19;
-  }
-  .type > view > text::before {
-  display: inline-block;
-  margin-right: 20rpx;
-  content: '';
-  width: 40rpx;
-  height: 40rpx;
-  border-radius: 50%;
-  border: 1rpx solid #c5c5c5;
-  color: #ececec;
-}
-.type > view > text:last-of-type {
-  margin-right: 10rpx;
-}
-.input-wrapper {
-  margin-top: 20rpx;
-}
-.input-wrapper .input-item {
-  position: relative;
-  display: flex;
-  align-items: center;
-  padding: 0 6rpx;
-  min-height: 97rpx;
-  border-bottom: 1rpx solid #f6f6f6;
-  color: #333;
-  font-size: 28rpx;
-  box-sizing: border-box;
-}
-.input-wrapper .input-item.error > picker {
-  color: #f00;
-}
-.input-wrapper .input-item.error::after {
-  color: #f00 !important;
-}
-.input-wrapper .input-item.iconfont .persons {
-  margin-right: 50rpx;
-}
-.input-wrapper .input-item.iconfont::after {
-  position: absolute;
-  right: 0;
-  font-size: 32rpx;
-  content: '\e600';
-  padding-right: 10rpx;
-  color: #1aad19;
-  pointer-events: none;
-}
-.input-wrapper .input-item:last-of-type {
-  border-bottom: none;
-}
-.input-wrapper .input-item > input,
-.input-wrapper .input-item > textarea,
-.input-wrapper .input-item > picker,
-.input-wrapper .input-item > view {
-  flex: 1;
-  text-align: right;
-}
-.input-wrapper .input-item > textarea {
-  vertical-align: center;
-}
-.input-wrapper .input-item > view {
-  display: flex;
-  justify-content: right;
-}
-.input-wrapper .input-item > view::before {
-  content: '';
-  flex: 1;
-}
-.input-wrapper .input-item > view > view {
-  width: 220rpx;
-  flex: 0 0 220rpx;
-  display: flex;
-  margin-left: 73rpx;
-  align-items: center;
-  justify-content: center;
-  height: 80rpx;
-  color: #fff;
-  border-radius: 10rpx;
-}
-.input-wrapper .input-item > view > view.blue {
-  background: #0c8ce6;
-}
-.input-wrapper .input-item > view > view.green {
-  background: linear-gradient(to bottom, #dcf8d1, #1ea958);
-}
 }
 .tips {
   margin-top: 150rpx;

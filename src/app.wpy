@@ -36,6 +36,7 @@ export default class extends wepy.app {
       "pages/vetc/vetc",
       "pages/usercenter/index",
       "pages/addCar/cars_add",
+      "pages/addCar/cars_photo",
       "pages/bill/bill",
       "pages/breakRules/breakRules",
       "pages/cardBag/cardBag",

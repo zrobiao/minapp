@@ -103,7 +103,9 @@ export default class baseMixin extends wepy.mixin {
    * @return {Boolean}      [description]
    */
   $json(item) {
-    let str = { type: Object.prototype.toString.call(item) };
+    let str = {
+      type: Object.prototype.toString.call(item)
+    };
     try {
       str = JSON.stringify(item);
     } catch (e) {
@@ -112,7 +114,9 @@ export default class baseMixin extends wepy.mixin {
     return this.isString(str) ? str : this.$json(str);
   }
   $parse(item) {
-    let obj = { type: Object.prototype.toString.call(item) };
+    let obj = {
+      type: Object.prototype.toString.call(item)
+    };
     try {
       obj = JSON.parse(item);
     } catch (e) {
@@ -134,32 +138,65 @@ export default class baseMixin extends wepy.mixin {
   $alert(item = '标题', item2) {
     const param = this.isObject(item) ? Object.assign({
       // 首参数为obj
-      title: 'title', content: 'content'
+      title: 'title',
+      content: 'content'
     }, item) : this.isString(item) ? this.isString(item2) ? {
       // 俩参数均为字符串
-      title: item, content: item2
+      title: item,
+      content: item2
     } : {
-        // 只有首参为字符串
-      title: '', content: item
+      // 只有首参为字符串
+      title: '',
+      content: item
     } : {
-          // 尝试转换字符串
-        title: item.toString ? item.toString() : '参数异常'
-      };
+      // 尝试转换字符串
+      title: item.toString ? item.toString() : '参数异常'
+    };
     wx.showModal(Object.assign({
       showCancel: false
     }, param));
   }
 
+  //警告框显示
+  $alerts({
+    title = '提示',
+    content = '描述信息',
+    showCancel = false,
+    confirmText = '我知道了',
+    cancelText = '取消',
+    confirmColor = '#1AAD19',
+    confirm = () => {},
+    cancel = () => {}
+  } = {}) {
+    wx.showModal({
+      title: title,
+      content: content,
+      showCancel: showCancel,
+      confirmText: confirmText,
+      cancelText: cancelText,
+      confirmColor: confirmColor,
+      success(res) {
+        if (res.confirm) {
+          confirm();
+        } else if (res.cancel) {
+          cancel();
+        }
+      }
+    });
+  }
+
   // 跳转链接
   $goto(url) {
-    wx.navigateTo({ url: url });
+    wx.navigateTo({
+      url: url
+    });
   }
 
   // 缓存当前页面
   $cache(title) {
-    var pages = getCurrentPages();    // 获取加载的页面
+    var pages = getCurrentPages(); // 获取加载的页面
 
-    var currentPage = pages[pages.length - 1];    // 获取当前页面的对象
+    var currentPage = pages[pages.length - 1]; // 获取当前页面的对象
 
     var options = currentPage.options;
     var url = '/' + currentPage.route;
