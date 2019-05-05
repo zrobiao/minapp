@@ -220,7 +220,21 @@ export default class CarNumber extends wepy.component {
   };
 }
 </script>
-<style type="less">
+<style type="less" scoped>
+.field-cell{
+  display: flex;
+  align-items: center;
+  padding: 0 6rpx;
+  min-height: 97rpx;
+  border-bottom: 1rpx solid #f6f6f6;
+  color: #333;
+  font-size: 28rpx;
+  box-sizing: border-box;
+}
+.field-input{
+  flex:1;
+  text-align: right; 
+}
 .top {
   height: 142rpx;
   width: 750rpx;

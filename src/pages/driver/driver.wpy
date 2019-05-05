@@ -24,7 +24,42 @@ export default class driver extends wepy.page {
 
   events = {};
 
-  onLoad() {}
+  onLoad() {
+    //获取代驾第三方页面跳转
+    // wx.request({
+    //   url: 'https://vip.cyzl.com/request2/ETCGetLoginByTp',
+    //   method: 'POST',
+    //   header: {
+    //     'content-type': 'application/x-www-form-urlencoded'
+    //   },
+    //   data: {
+    //     phoneNo: this.data.phoneNumber,
+    //     openId: this.$parent.globalData.openId,
+    //     token: 'etc'
+    //   },
+    //   success: (res) => {
+    //     let result = res.data.Result;
+    //     if (result.errcode === 0) {
+    //         if (result.errmsg === '操作太频繁啦，请稍后再试') {
+    //           util.showToastNoIcon(result.errmsg);
+    //         } else {
+    //           wx.setStorageSync('driving-url', result.data);
+    //           util.go('/pages/Web/Web?type=driving');
+    //         }
+    //     } else {
+    //       util.showToastNoIcon(result.errmsg);
+    //     }
+    //   },
+    //   fail: (res) => {
+    //     console.log(res);
+    //   },
+    //   complete: (res) => {
+    //     this.setData({
+    //       isRequest: false
+    //     });
+    //   }
+    // });
+  }
 }
 </script>
 

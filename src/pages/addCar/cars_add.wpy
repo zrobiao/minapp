@@ -95,7 +95,7 @@
       type: 0,
       personIndex: 3,
       personsArr: ['请选择核载人数', 2, 4, 5, 6, 7],
-      showCarsMsg: true
+      showCarsMsg: false
     }
 
     computed = {
