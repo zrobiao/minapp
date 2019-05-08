@@ -1,6 +1,23 @@
 <template>
-  <view>
-    <button>这里显示的是违章查询信息</button>
+  <view class="big-container">
+    <view class="list-box" @tap="jumpOtherPage" data-type="detail">
+      <view class="list-left">
+        <image src="">
+        <text>{{paleNumber}}</text>
+      </view>
+      <view class="list-right">
+        <text>详情</text>
+      </view>
+    </view>
+    <view class="add-btn" @tap="jumpOtherPage" data-type="addcar">
+      <view class="add-txt">添加车辆</view>
+      <view class="add-img">
+        <image src="">
+      </view>
+    </view>
+    <view class="open-btn">
+      <button>立即开通</button>
+    </view>
   </view>
 </template>
 
@@ -16,11 +33,22 @@ export default class Index extends wepy.page {
 
   mixins = [base];
 
-  data = {};
+  data = {
+    paleNumber: "贵A6WG56"
+  };
 
   computed = {};
 
-  methods = {};
+  methods = {
+    jumpOtherPage(e) {
+      let type = e.currentTarget.dataset.type;
+      if (type === 'addcar') {
+        this.$goto('../addCar/cars_add');
+      } else if (type === 'detail') {
+        this.$goto('./detail');
+      }
+    }
+  };
 
   events = {};
 
@@ -28,5 +56,84 @@ export default class Index extends wepy.page {
 }
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
+.big-container {
+  padding:15rpx 20rpx;
+  .list-box {
+    padding:15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #fff;
+    box-shadow:0px 2px 10px 0px rgba(40, 40, 40, 0.35);
+    border-radius:10px;
+    .list-left {
+      display: flex;
+      align-items: center;
+      image {
+        width: 50px;
+        height: 50px;
+        background: #68d69d;
+        margin-right: 25px;
+      }
+      text {
+        color: #333;
+        font-size: 15px;
+      }
+    }
+    .list-right {
+      color: #68d69d;
+    }
+  }
+  .add-btn {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 50%;
+    height: auto;
+    margin: -60px 0 0 -25%;
+    background: #68d69d;
+    box-shadow: 0px 2px 10px 0px rgba(40, 40, 40, 0.35);
+    border-radius: 10px;
+    padding: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    .add-txt {
+      color: #fff;
+      font-size: 15px;
+      text-align: center;
+      padding-top: 10px;
+      width: 100%;
+    }
+    .add-img {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      margin-top:10px;
+      image {
+        width: 105px;
+        height: 92px;
+        background: #fff;
+      }
+    }
+  }
+  .open-btn{
+    position: fixed;
+    bottom: 20px;
+    left: 0;
+    width: 100%;
+    button{
+      width: 80%;
+      margin: 0 auto;
+      background:rgba(1,204,99,1);
+      border-radius:35px;
+      color: #fff;
+      font-size: 15px;
+      text-align: center;
+      padding: 6rpx;
+    }
+  }
+}
 </style>

@@ -33,12 +33,13 @@ export default class extends wepy.app {
   config = {
     pages: [
       "pages/index/index",
-      "pages/usercenter/index",
       "pages/vetc/vetc",
+      "pages/usercenter/index",
       "pages/addCar/cars_add",
       "pages/addCar/cars_photo",
       "pages/bill/bill",
       "pages/breakRules/breakRules",
+      "pages/breakRules/detail",
       "pages/cardBag/cardBag",
       "pages/faq/FAQ",
       "pages/feedback/feedback",

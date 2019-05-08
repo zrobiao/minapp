@@ -1,0 +1,32 @@
+<template>
+  <view>
+    <button>这里显示的是违章详情信息</button>
+  </view>
+</template>
+
+<script>
+import wepy from "wepy";
+import base from "@/mixins/base.js";
+
+export default class detail extends wepy.page {
+  config = {
+    navigationBarTitleText: "车辆详情"
+  };
+  components = {};
+
+  mixins = [base];
+
+  data = {};
+
+  computed = {};
+
+  methods = {};
+
+  events = {};
+
+  onLoad() {}
+}
+</script>
+
+<style lang="less" scoped>
+</style>
